@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import frc.robot.constants.DriveConstants;
+import frc.robot.constants.PortConstants;
 import frc.robot.subsystems.DriveTrain;
 
 import java.io.IOException;
@@ -52,6 +53,8 @@ public class RobotContainer {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJson, e.getStackTrace());
       threeBallTrajectory = null;
     }
+
+    drive = new DriveTrain(PortConstants.LEFT_DRIVE, PortConstants.RIGHT_DRIVE);
   }
 
   /**
