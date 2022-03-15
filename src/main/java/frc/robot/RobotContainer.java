@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.constants.DriveConstants;
 import frc.robot.constants.PortConstants;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.Index;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -40,6 +41,8 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final DriveTrain drive;
+  private final Index index;
+  private final Shooter shooter;
 
   public final String trajectoryJson = "pathweaver/output/3ball.wpilib.json";
   private Trajectory threeBallTrajectory;
@@ -54,7 +57,7 @@ public class RobotContainer {
       threeBallTrajectory = null;
     }
 
-    drive = new DriveTrain(PortConstants.LEFT_DRIVE, PortConstants.RIGHT_DRIVE);
+    drive = new DriveTrain();
   }
 
   /**
@@ -86,6 +89,9 @@ public class RobotContainer {
     Command powerShooterCommand = new RunCommand(() -> shooter.hoodPower(1), shooter);
     Command powerIndexCommand = new RunCommand(() -> index.power(.6), index);
 
+    index = new Index();
+    shooter = new Shooter();
+    
     // Command forwardDrive = new RunCommand(() -> drive.tankDrive(.4, .4), drive);
 
     // Command holdCom = new WaitCommand(0);
