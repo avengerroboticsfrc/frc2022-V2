@@ -8,14 +8,23 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+
 import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.ExampleSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
+
+import java.io.IOException;
+import java.nio.file.Path;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -23,14 +32,26 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
+
+
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   // The robot's subsystems and commands are defined here...
   private final DriveTrain drive;
 
+  public final String trajectoryJson = "pathweaver/output/3ball.wpilib.json";
+  private Trajectory threeBallTrajectory;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    try {
+      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJson);
+      threeBallTrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    } catch (IOException e) {
+      DriverStation.reportError("Unable to open trajectory: " + trajectoryJson, e.getStackTrace());
+      threeBallTrajectory = null;
+    }
   }
 
   /**
@@ -40,7 +61,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     RamseteCommand reverseCommand = new RamseteCommand(
-        reverseTrajectory,
+        threeBallTrajectory,
         drive::getPose,
         new RamseteController(DriveConstants.kRamsete, DriveConstants.kRamseteZeta),
         new SimpleMotorFeedforward(
@@ -56,7 +77,7 @@ public class RobotContainer {
         drive);
 
     // Reset odometry to the starting pose of the trajectory.
-    drive.resetOdometry(reverseTrajectory.getInitialPose());
+    drive.resetOdometry(threeBallTrajectory.getInitialPose());
 
     Command stopDriveCommand = new RunCommand(() -> drive.tankDriveVolts(0, 0), drive);
     Command powerShooterCommand = new RunCommand(() -> shooter.hoodPower(1), shooter);
@@ -76,8 +97,9 @@ public class RobotContainer {
                 powerShooterCommand,
                 powerIndexCommand))
         .andThen(reverseCommand).andThen(new ParallelCommandGroup(
-            stopDriveCommand,
-            new RunCommand(() -> shooter.hoodPower(0), shooter),
-            new RunCommand(() -> index.power(0), index)));
+          stopDriveCommand,
+          new RunCommand(() -> shooter.hoodPower(0), shooter),
+          new RunCommand(() -> index.power(0), index)
+        ));
   }
 }
