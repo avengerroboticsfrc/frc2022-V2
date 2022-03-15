@@ -12,8 +12,9 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.PortConstants;
 
-public abstract class DriveTrain extends SubsystemBase {
+public class DriveTrain extends SubsystemBase {
   protected final WPI_TalonFX[] leftMotors;
   protected final WPI_TalonFX[] rightMotors;
 
@@ -27,16 +28,16 @@ public abstract class DriveTrain extends SubsystemBase {
   /**
    * this method is called when the DriveTrainSubsystem class is initialized.
    */
-  public DriveTrain(int[] left, int[] right) {
+  public DriveTrain() {
     super();
 
     this.leftMotors = new WPI_TalonFX[] {
-        new WPI_TalonFX(left[0]),
-        new WPI_TalonFX(left[1])
+        new WPI_TalonFX(PortConstants.LEFT_DRIVE[0]),
+        new WPI_TalonFX(PortConstants.RIGHT_DRIVE[1])
     };
     this.rightMotors = new WPI_TalonFX[] {
-        new WPI_TalonFX(right[0]),
-        new WPI_TalonFX(right[1])
+        new WPI_TalonFX(PortConstants.RIGHT_DRIVE[0]),
+        new WPI_TalonFX(PortConstants.RIGHT_DRIVE[1])
     };
 
     driveTrain = new DifferentialDrive(
