@@ -11,7 +11,7 @@ CAMERA_HEIGHT = 480
 
 
 def load_labels(label_path):
-    r"""Returns a list of labels"""
+    """Returns a list of labels"""
     with open(label_path) as f:
         labels = {}
         for line in f.readlines():
@@ -21,14 +21,14 @@ def load_labels(label_path):
 
 
 def load_model(model_path):
-    r"""Load TFLite model, returns a Interpreter instance."""
+    """Load TFLite model, returns a Interpreter instance."""
     interpreter = tflite.Interpreter(model_path=model_path)
     interpreter.allocate_tensors()
     return interpreter
 
 
 def process_image(interpreter, image, input_index):
-    r"""Process an image, Return a list of detected class ids and positions"""
+    """Process an image, Return a list of detected class ids and positions"""
     input_data = np.expand_dims(image, axis=0)  # expand to 4-dim
 
     # Process
@@ -55,7 +55,7 @@ def process_image(interpreter, image, input_index):
 
 
 def display_result(result, frame, labels):
-    r"""Display Detected Objects"""
+    """Display Detected Objects"""
     font = cv2.FONT_HERSHEY_SIMPLEX
     size = 0.6
     color = (255, 0, 0)
@@ -81,8 +81,9 @@ def display_result(result, frame, labels):
 
 if __name__ == "__main__":
 
-    model_path = 'data/detect.tflite'
-    label_path = 'data/coco_labels.txt'
+    # The only variables that should need to be changed
+    model_path = './data/detect.tflite'
+    label_path = './data/coco_labels.txt'
 
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, CAMERA_WIDTH)
