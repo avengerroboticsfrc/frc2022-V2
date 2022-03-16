@@ -4,23 +4,22 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 
 public class DriveConstants {
   // Voltage
-  public static final double ksVolts = 0.72613;
-  public static final double kvVoltSecondsPerMeter = 2.541;
-  public static final double kaVoltSecondsSquaredPerMeter = 0.45123;
+  public static final double KS_VOLTS = 0.72613;
+  public static final double KV_VOLT_SECONDS_PER_METER = 2.541;
+  public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0.45123;
 
-  public static final double kPDriveVel = 2.457;
+  public static final double KP_DRIVE_VELOCITY = 2.457;
 
   // Differential Drive Kinematics
-  public static final double kTrackwidthMeters = 0.53;
-  public static final DifferentialDriveKinematics kDriveKinematics =
-      new DifferentialDriveKinematics(kTrackwidthMeters);
+  public static final double K_TRACK_WIDTH_METERS = 0.53;
+  public static final DifferentialDriveKinematics K_DRIVE_KINEMATICS =
+      new DifferentialDriveKinematics(K_TRACK_WIDTH_METERS);
 
   // Max Velocity/Acceleration
-  public static final double kMaxSpeedMeterPerSecond = .5;
-  public static final double kMaxAccelerationMetersPerSecondSquared = .2;
+  public static final double K_MAX_SPEED_METER_PER_SECOND = .5;
+  public static final double K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED = .2;
 
   // RAMSETE Parameters
-  public static final double kRamsete = 2;
-  public static final double kRamseteZeta = 0.7;
-
+  public static final double K_RAMSETE = 2;
+  public static final double K_RAMSETE_ZETA = 0.7;
 }

@@ -1,28 +1,27 @@
-//Package
-
 package frc.robot.subsystems;
 
-//Imports
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-//More Imports
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.*;
+
+import frc.robot.constants.PortConstants;
 
 //Creates index class 
 public class Index extends SubsystemBase {
   // Creates the index motor
-  private final WPI_VictorSPX[] indexMotors = {
-    new WPI_VictorSPX(PortConstants.INDEX_MOTOR) 
-  };
+  private final WPI_VictorSPX indexMotor;
 
   // Index Container
   public Index() {
     super();
+
+    indexMotor = new WPI_VictorSPX(PortConstants.INDEX_MOTOR);
   }
 
-  //Method that lifts the balls to the shooter
+  /**
+   * set the index to a certain power.
+   */
   public void power(double speed) {
-    indexMotors[0].set(speed);
+    indexMotor.set(speed);
   }
 }

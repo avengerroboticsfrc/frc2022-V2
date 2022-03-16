@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.FRIDAYRamseteCommand;
+import frc.robot.commands.FridayRamseteCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Shooter;
@@ -23,13 +23,12 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a "declarative" paradigm, very little robot logic should
+ * actually be handled in the {@link Robot} periodic methods (other than the
+ * scheduler calls). Instead, the structure of the robot (including subsystems,
+ * commands, and button mappings) should be declared here.
  */
-
-
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrain drive;
@@ -39,7 +38,9 @@ public class RobotContainer {
   public final String trajectoryJson = "pathweaver/output/3ball.wpilib.json";
   private Trajectory threeBallTrajectory;
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
   public RobotContainer() {
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJson);
@@ -60,7 +61,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    RamseteCommand reverseCommand = new FRIDAYRamseteCommand(threeBallTrajectory, drive);
+    RamseteCommand reverseCommand = new FridayRamseteCommand(threeBallTrajectory, drive);
 
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(threeBallTrajectory.getInitialPose());
@@ -83,9 +84,12 @@ public class RobotContainer {
                 powerShooterCommand,
                 powerIndexCommand))
         .andThen(reverseCommand).andThen(new ParallelCommandGroup(
-          stopDriveCommand,
-          new RunCommand(() -> shooter.runFlywheel(0), shooter),
-          new RunCommand(() -> index.power(0), index)
-        ));
+            stopDriveCommand,
+            new RunCommand(() -> shooter.runFlywheel(0), shooter),
+            new RunCommand(() -> index.power(0), index)));
+  }
+
+  public Command getTeleCommand() {
+    return drive.getDefaultCommand();
   }
 }

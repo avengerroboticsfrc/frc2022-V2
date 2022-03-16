@@ -8,19 +8,21 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Limelight extends SubsystemBase {
   private final NetworkTable table;
   // how many degrees back is your limelight rotated from perfectly vertical?
-  private final double limelightMountAngleDegrees = 20.00;
-
+  private static final double LIMELIGHT_MOUNT_ANGLE_DEGREES = 17.00;
   // distance from the center of the Limelight lens to the floor
-  private final double limelightLensHeightInches = 26.375;
-
+  private static final double LIMELIGHT_LENS_HEIGHT_INCHES = 26.375;
   // distance from the target to the floor
-  private final double goalHeightInches = 104;
+  private static final double GOAL_HEIGHT_INCHES = 104;
 
-  private final double kp = -0.1; // Proportional control constant
-  private final double minCommand = 0.05; // Minimum amount to slightly move
-  // the robot
+  private static final double KP = -0.1; // Proportional control constant
+  private static final double MIN_COMMAND = 0.05; // Minimum amount to slightly move
 
+  /**
+   * creates a new limelight class.
+   */
   public Limelight() {
+    super();
+
     table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
@@ -42,8 +44,8 @@ public class Limelight extends SubsystemBase {
     double targetX = getTargetXOffset();
 
     steeringAdjust = (targetX > 1.0)
-        ? kp * -1 * targetX - minCommand
-        : kp * -1 * targetX + minCommand;
+        ? KP * -1 * targetX - MIN_COMMAND
+        : KP * -1 * targetX + MIN_COMMAND;
 
     return steeringAdjust;
   }
