@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.*;
 
 //Creating Intake Class with SubsystemBase as an extension
 public class Intake extends SubsystemBase {
@@ -50,17 +49,27 @@ public class Intake extends SubsystemBase {
   // Method Extending Intake with Solenoids & Pneumatic System
   public void extend() {
     intakeSolenoid.set(Value.kForward);
+    isExtended = true;
   }
 
   // Method Retracting Intake with Solenoids & Pneumatic System
   public void retract() {
     intakeSolenoid.set(Value.kReverse);
+    isExtended = false;
+  }
+
+  public void toggle() {
+    if (isExtended) {
+      retract();
+    } else {
+      extend();
+    }
   }
 
   /**
    * set the power of the intake.
    */
-  public void intakePower(double speed) {
+  public void power(double speed) {
     intakeMotor.set(speed);
   }
 
