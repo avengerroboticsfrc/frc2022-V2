@@ -4,6 +4,8 @@ public class ButtonConstants {
   public static final int CONTROLLER_PORT = 0;
   public static final int BUTTON_PANEL_PORT = 1;
 
+  public static final ControllerType CONTROLLER_TYPE = ControllerType.Xbox;
+
   /*
    * Button Panel Mapping
    * -------------------
@@ -32,4 +34,9 @@ public class ButtonConstants {
   public static final int LIFT_DOWN = -1;
   public static final int LIFT_FORWARD = -1;
   public static final int LIFT_BACK = -1;
+
+  public static enum ControllerType {
+    PS4,
+    Xbox
+  }
 }

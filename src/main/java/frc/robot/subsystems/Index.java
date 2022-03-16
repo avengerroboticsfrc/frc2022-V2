@@ -11,7 +11,9 @@ public class Index extends SubsystemBase {
   // Creates the index motor
   private final WPI_VictorSPX indexMotor;
 
-  // Index Container
+  /**
+   * creates a new index subsystem.
+   */
   public Index() {
     super();
 

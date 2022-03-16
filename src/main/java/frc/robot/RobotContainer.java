@@ -8,13 +8,19 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.FridayRamseteCommand;
+import frc.robot.constants.ButtonConstants;
+import frc.robot.constants.ButtonConstants.ControllerType;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Shooter;
@@ -35,6 +41,8 @@ public class RobotContainer {
   private final Index index;
   private final Shooter shooter;
 
+  private final GenericHID controller;
+
   public final String trajectoryJson = "pathweaver/output/3ball.wpilib.json";
   private Trajectory threeBallTrajectory;
 
@@ -49,10 +57,27 @@ public class RobotContainer {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJson, e.getStackTrace());
       threeBallTrajectory = null;
     }
-
+    
+    
     drive = new DriveTrain();
     index = new Index();
     shooter = new Shooter();
+    
+    if (ButtonConstants.CONTROLLER_TYPE == ControllerType.PS4) {
+      PS4Controller p = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
+      drive.setDefaultCommand(
+        new DefaultDrive(drive, p::getLeftY, p::getRightX, () -> p.getR2Axis() > 0)
+      );
+
+      controller = p;
+    } else {
+      XboxController x = new XboxController(ButtonConstants.CONTROLLER_PORT);
+      drive.setDefaultCommand(
+        new DefaultDrive(drive, x::getLeftY, x::getRightX, () -> x.getRightTriggerAxis() > 0)
+      );
+
+      controller = x;
+    }
   }
 
   /**
