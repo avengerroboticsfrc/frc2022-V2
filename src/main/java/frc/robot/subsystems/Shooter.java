@@ -77,6 +77,6 @@ public class Shooter extends SubsystemBase {
    * the angle that the hood is targeting at.
    */
   public double getHoodTarget() {
-    return targetPosition;
+    return targetPosition / ROTATIONS_PER_HOOD_DEGREE;
   }
 }

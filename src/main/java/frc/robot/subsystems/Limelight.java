@@ -15,6 +15,7 @@ public class Limelight extends SubsystemBase {
 
   // distance from the target to the floor
   private final double goalHeightInches = 104;
+
   private final double kp = -0.1; // Proportional control constant
   private final double minCommand = 0.05; // Minimum amount to slightly move
   // the robot
