@@ -81,8 +81,9 @@ def display_result(result, frame, labels):
 
 if __name__ == "__main__":
 
-    model_path = 'data/detect.tflite'
-    label_path = 'data/coco_labels.txt'
+    # The only variables that should need to be changed
+    model_path = './data/detect.tflite'
+    label_path = './data/coco_labels.txt'
 
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, CAMERA_WIDTH)
