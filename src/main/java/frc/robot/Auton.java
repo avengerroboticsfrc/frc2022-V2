@@ -13,5 +13,6 @@ public class Auton extends SequentialCommandGroup {
         addCommands(
             new FridayRamseteCommand(sixBallPath, drive)
         );
-    }
+    
+}
 }
