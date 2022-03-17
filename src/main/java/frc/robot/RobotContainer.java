@@ -58,12 +58,11 @@ public class RobotContainer {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJson, e.getStackTrace());
       threeBallTrajectory = null;
     }
-    
-    
+
     drive = new DriveTrain();
     index = new Index();
     shooter = new Shooter();
-    
+
     if (ButtonConstants.CONTROLLER_TYPE == ControllerType.PS4) {
       PS4Controller PSController = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
       drive.setDefaultCommand(
