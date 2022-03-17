@@ -92,7 +92,7 @@ public class RobotContainer {
     drive.resetOdometry(threeBallTrajectory.getInitialPose());
 
     Command stopDriveCommand = new RunCommand(() -> drive.tankDriveVolts(0, 0), drive);
-    Command powerShooterCommand = new RunCommand(() -> shooter.runFlywheel(1), shooter);
+    Command powerShooterCommand = new RunCommand(() -> shooter.spin(1), shooter);
     Command powerIndexCommand = new RunCommand(() -> index.power(.6), index);
 
     // Command forwardDrive = new RunCommand(() -> drive.tankDrive(.4, .4), drive);
@@ -110,7 +110,7 @@ public class RobotContainer {
                 powerIndexCommand))
         .andThen(reverseCommand).andThen(new ParallelCommandGroup(
             stopDriveCommand,
-            new RunCommand(() -> shooter.runFlywheel(0), shooter),
+            new RunCommand(() -> shooter.spin(0), shooter),
             new RunCommand(() -> index.power(0), index)));
   }
 

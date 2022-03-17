@@ -22,7 +22,6 @@ public class Limelight extends SubsystemBase {
    */
   public Limelight() {
     super();
-
     table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
@@ -37,17 +36,17 @@ public class Limelight extends SubsystemBase {
   }
 
   /**
-   * uses the targetXOffset value to calculate the steeringAdjust value.
+   * uses the targetXOffset value to calculate the rotationAdjust value.
    */
-  public double getSteeringAdjust() {
-    double steeringAdjust = 0.0;
+  public double getRotationAdjust() {
+    double rotationAdjust = 0.0;
     double targetX = getTargetXOffset();
 
-    steeringAdjust = (targetX > 1.0)
+    rotationAdjust = (targetX > 1.0)
         ? KP * -1 * targetX - MIN_COMMAND
         : KP * -1 * targetX + MIN_COMMAND;
 
-    return steeringAdjust;
+    return rotationAdjust;
   }
 
   private double getTargetXOffset() {
@@ -61,5 +60,13 @@ public class Limelight extends SubsystemBase {
 
   private double getTargetArea() {
     return table.getEntry("ta").getDouble(0);
+  }
+  
+  public void disableLights() {
+    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(0);
+  }
+
+  public void enableLights() {
+    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(3);
   }
 }
