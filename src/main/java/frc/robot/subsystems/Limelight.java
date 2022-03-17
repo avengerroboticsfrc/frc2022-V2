@@ -22,32 +22,48 @@ public class Limelight extends SubsystemBase {
    */
   public Limelight() {
     super();
-
     table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
   }
 
+  /*
+  Updates the NetworkTables values every 20ms.
+  */
   @Override
   public void periodic() {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
     SmartDashboard.putNumber("LimelightX", getTargetXOffset());
     SmartDashboard.putNumber("LimelightY", getTargetYOffset());
     SmartDashboard.putNumber("LimelightArea", getTargetArea());
   }
 
   /**
-   * uses the targetXOffset value to calculate the steeringAdjust value.
+   * uses the targetXOffset value to calculate the rotationAdjust value.
    */
-  public double getSteeringAdjust() {
-    double steeringAdjust = 0.0;
+  public double getRotationAdjust() {
+    double rotationAdjust = 0.0;
     double targetX = getTargetXOffset();
 
-    steeringAdjust = (targetX > 1.0)
+    rotationAdjust = (targetX > 1.0)
         ? KP * -1 * targetX - MIN_COMMAND
         : KP * -1 * targetX + MIN_COMMAND;
 
-    return steeringAdjust;
+    return rotationAdjust;
+  }
+
+  /*
+  Calculates the distance to the hub using the targetYOffset.
+  */
+  public double getDistance() {
+    double targetOffsetAngle_Vertical = getTargetYOffset();
+
+    double angleToGoalDegrees = LIMELIGHT_MOUNT_ANGLE_DEGREES + targetOffsetAngle_Vertical;
+    double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+  
+    //calculates distance
+    double distanceFromLimelightToGoalInches = (GOAL_HEIGHT_INCHES - LIMELIGHT_LENS_HEIGHT_INCHES)/Math.tan(angleToGoalRadians);
+  
+    return distanceFromLimelightToGoalInches;
   }
 
   private double getTargetXOffset() {
@@ -56,10 +72,22 @@ public class Limelight extends SubsystemBase {
   }
 
   private double getTargetYOffset() {
+    // returns 0 if no target  
     return table.getEntry("ty").getDouble(0);
   }
 
   private double getTargetArea() {
+    // returns 0 if no target
     return table.getEntry("ta").getDouble(0);
+  }
+  
+  public void disableLights() {
+    //Disables LEDs
+    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(0);
+  }
+
+  public void enableLights() {
+    //Enables LEDs
+    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(3);
   }
 }

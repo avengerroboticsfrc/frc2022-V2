@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DefaultDrive;
-import frc.robot.commands.FridayRamseteCommand;
+import frc.robot.commands.RobotRamseteCommand;
 import frc.robot.constants.ButtonConstants;
 import frc.robot.constants.ButtonConstants.ControllerType;
 import frc.robot.subsystems.DriveTrain;
@@ -50,6 +50,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    System.out.println("Hello, Driver");
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJson);
       threeBallTrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
@@ -63,17 +64,21 @@ public class RobotContainer {
     shooter = new Shooter();
 
     if (ButtonConstants.CONTROLLER_TYPE == ControllerType.PS4) {
-      PS4Controller p = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
+      PS4Controller PSController = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
       drive.setDefaultCommand(
-          new DefaultDrive(drive, p::getLeftY, p::getRightX, () -> p.getR2Axis() > 0));
+        new DefaultDrive(drive, PSController::getLeftY, PSController::getRightX, () -> PSController.getR2Axis() > 0)
+      );
 
-      controller = p;
+      controller = PSController;
     } else {
-      XboxController x = new XboxController(ButtonConstants.CONTROLLER_PORT);
+      XboxController XBController = new XboxController(ButtonConstants.CONTROLLER_PORT);
       drive.setDefaultCommand(
-          new DefaultDrive(drive, x::getLeftY, x::getRightX, () -> x.getRightTriggerAxis() > 0));
+        new DefaultDrive(drive, XBController::getLeftY, XBController::getRightX, () -> XBController.getRightTriggerAxis() > 0)
+      );
 
-      controller = x;
+      controller = XBController;
+      String name = controller.getName();
+      System.out.println(name + " selected");
     }
   }
 
@@ -83,18 +88,14 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    RamseteCommand reverseCommand = new FridayRamseteCommand(threeBallTrajectory, drive);
+    RamseteCommand reverseCommand = new RobotRamseteCommand(threeBallTrajectory, drive);
 
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(threeBallTrajectory.getInitialPose());
 
     Command stopDriveCommand = new RunCommand(() -> drive.tankDriveVolts(0, 0), drive);
-    Command powerShooterCommand = new RunCommand(() -> shooter.runFlywheel(1), shooter);
+    Command powerShooterCommand = new RunCommand(() -> shooter.spin(1), shooter);
     Command powerIndexCommand = new RunCommand(() -> index.power(.6), index);
-
-    // Command forwardDrive = new RunCommand(() -> drive.tankDrive(.4, .4), drive);
-
-    // Command holdCom = new WaitCommand(0);
 
     return new ParallelDeadlineGroup(
         new WaitCommand(3),
@@ -107,7 +108,7 @@ public class RobotContainer {
                 powerIndexCommand))
         .andThen(reverseCommand).andThen(new ParallelCommandGroup(
             stopDriveCommand,
-            new RunCommand(() -> shooter.runFlywheel(0), shooter),
+            new RunCommand(() -> shooter.spin(0), shooter),
             new RunCommand(() -> index.power(0), index)));
   }
 

@@ -53,23 +53,23 @@ public class Shooter extends SubsystemBase {
   }
 
   /**
-   * turn the shooter by a certain number of ticks.
+   * turn the shooter by a certain number of counts.
    */
-  public void turn(int ticks) {
-    turretTurnMotor.set(TalonSRXControlMode.Position, ticks);
+  public void turn(double counts) {
+    turretTurnMotor.set(TalonSRXControlMode.Position, counts);
   }
 
   /**
    * Run the flywheel at a power.
    */
-  public void runFlywheel(double power) {
+  public void spin(double power) {
     flywheelMotor.set(TalonFXControlMode.PercentOutput, power);
   }
 
   /**
    * Set the hood's target angle in degrees.
    */
-  public void turnHood(double degrees) {
+  public void angle(double degrees) {
     int turns = (int) (ROTATIONS_PER_HOOD_DEGREE * degrees);
     targetPosition = turns;
   }
