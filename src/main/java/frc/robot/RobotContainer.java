@@ -58,18 +58,19 @@ public class RobotContainer {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJson, e.getStackTrace());
       threeBallTrajectory = null;
     }
-
+    
+    
     drive = new DriveTrain();
     index = new Index();
     shooter = new Shooter();
-
+    
     if (ButtonConstants.CONTROLLER_TYPE == ControllerType.PS4) {
       PS4Controller PSController = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
       drive.setDefaultCommand(
         new DefaultDrive(drive, PSController::getLeftY, PSController::getRightX, () -> PSController.getR2Axis() > 0)
       );
-
       controller = PSController;
+
     } else {
       XboxController XBController = new XboxController(ButtonConstants.CONTROLLER_PORT);
       drive.setDefaultCommand(
@@ -88,8 +89,29 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new Auton(drive);
-  } 
+    RamseteCommand reverseCommand = new FridayRamseteCommand(threeBallTrajectory, drive);
+
+    // Reset odometry to the starting pose of the trajectory.
+    drive.resetOdometry(threeBallTrajectory.getInitialPose());
+
+    Command stopDriveCommand = new RunCommand(() -> drive.tankDriveVolts(0, 0), drive);
+    Command powerShooterCommand = new RunCommand(() -> shooter.spin(1), shooter);
+    Command powerIndexCommand = new RunCommand(() -> index.power(.6), index);
+
+    return new ParallelDeadlineGroup(
+        new WaitCommand(3),
+        stopDriveCommand,
+        powerShooterCommand).andThen(
+            new ParallelDeadlineGroup(
+                new WaitCommand(3),
+                stopDriveCommand,
+                powerShooterCommand,
+                powerIndexCommand))
+        .andThen(reverseCommand).andThen(new ParallelCommandGroup(
+            stopDriveCommand,
+            new RunCommand(() -> shooter.spin(0), shooter),
+            new RunCommand(() -> index.power(0), index)));
+  }
 
   public Command getTeleCommand() {
     return drive.getDefaultCommand();

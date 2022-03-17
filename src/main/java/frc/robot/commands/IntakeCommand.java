@@ -12,9 +12,9 @@ public IntakeCommand(Intake intake, int power){
     currentPower = power;
     addRequirements(intake);
 }
-@Override
-public void initalize() {
 
+@Override
+public void initialize() {
  }
 
  @Override
