@@ -78,6 +78,8 @@ public class RobotContainer {
       );
 
       controller = XBController;
+      String name = controller.getName();
+      System.out.println(name + " selected");
     }
   }
 
@@ -95,10 +97,6 @@ public class RobotContainer {
     Command stopDriveCommand = new RunCommand(() -> drive.tankDriveVolts(0, 0), drive);
     Command powerShooterCommand = new RunCommand(() -> shooter.spin(1), shooter);
     Command powerIndexCommand = new RunCommand(() -> index.power(.6), index);
-
-    // Command forwardDrive = new RunCommand(() -> drive.tankDrive(.4, .4), drive);
-
-    // Command holdCom = new WaitCommand(0);
 
     return new ParallelDeadlineGroup(
         new WaitCommand(3),
