@@ -13,28 +13,36 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.*;
+import frc.robot.constants.PortConstants;
 
 //Creating Intake Class with SubsystemBase as an extension
 public class Intake extends SubsystemBase {
   private static boolean isExtended;
 
   // Creating Compressor and Solenoid Classes
-  private final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-  private final DoubleSolenoid intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
+  private final Compressor compressor;
+  private final DoubleSolenoid intakeSolenoid;
 
   // Creating Intake Motors
-  private final CANSparkMax intakeMotor = new CANSparkMax(12, MotorType.kBrushless);
+  private final CANSparkMax intakeMotor;
 
   /**
-   * Constructor.
+   * creates a new intake class.
    */
   public Intake() {
     // init subsystem class
     super();
+
+    compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+    intakeSolenoid = new DoubleSolenoid(
+      PneumaticsModuleType.CTREPCM,
+      PortConstants.INTAKE_PNEUMATICS_PORTS[0],
+      PortConstants.INTAKE_PNEUMATICS_PORTS[1]
+    );
+    intakeMotor = new CANSparkMax(12, MotorType.kBrushless);
+
     intakeMotor.setIdleMode(IdleMode.kCoast);
     start();
-    compressor.enableDigital();
   }
 
   // Method Stoping Pneumatics System
@@ -50,18 +58,35 @@ public class Intake extends SubsystemBase {
   // Method Extending Intake with Solenoids & Pneumatic System
   public void extend() {
     intakeSolenoid.set(Value.kForward);
+    isExtended = true;
   }
 
   // Method Retracting Intake with Solenoids & Pneumatic System
   public void retract() {
     intakeSolenoid.set(Value.kReverse);
+    isExtended = false;
+  }
+
+  /**
+   * If extended, retract.
+   */
+  public void toggle() {
+    if (isExtended) {
+      retract();
+    } else {
+      extend();
+    }
   }
 
   /**
    * set the power of the intake.
    */
-  public void intakePower(double speed) {
-    intakeMotor.set(speed);
+  public void power(double speed) {
+    if (isExtended) {
+      intakeMotor.set(speed);
+    } else {
+      intakeMotor.set(0);
+    }
   }
 
 }

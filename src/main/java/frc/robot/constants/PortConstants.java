@@ -16,9 +16,9 @@ public final class PortConstants {
   public static final int[] LEFT_DRIVE = { 2, 3 };
   public static final int[] RIGHT_DRIVE = { 4, 5 };
 
-  public static final int SHOOTER_PORT = 40;
+  public static final int FLYWHEEL_MOTOR = 40;
   public static final int HOOD_MOTOR = 41;
-  public static final int TURRET_MOTOR = 5;
+  public static final int TURRET_TURN_MOTOR = 5;
 
   public static final int[] LIFT_MOTORS = { 8, 9 };
   public static final int[] ARM_MOTORS = { 7, 11 };
