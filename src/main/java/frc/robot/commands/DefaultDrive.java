@@ -36,6 +36,11 @@ public class DefaultDrive extends CommandBase {
   }
 
   @Override
+  public void initialize() {
+    System.out.println("Ready to Drive!");
+  }
+
+  @Override
   public void execute() {
     double scalar = turbo.getAsBoolean() ? 0.8 : 0.4;
     drive.arcadeDrive(left.getAsDouble() * scalar, right.getAsDouble() * scalar);

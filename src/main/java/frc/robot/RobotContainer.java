@@ -50,6 +50,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+    System.out.println("Hello, Driver");
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJson);
       threeBallTrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
@@ -64,19 +65,19 @@ public class RobotContainer {
     shooter = new Shooter();
     
     if (ButtonConstants.CONTROLLER_TYPE == ControllerType.PS4) {
-      PS4Controller p = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
+      PS4Controller PSController = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
       drive.setDefaultCommand(
-        new DefaultDrive(drive, p::getLeftY, p::getRightX, () -> p.getR2Axis() > 0)
+        new DefaultDrive(drive, PSController::getLeftY, PSController::getRightX, () -> PSController.getR2Axis() > 0)
       );
 
-      controller = p;
+      controller = PSController;
     } else {
-      XboxController x = new XboxController(ButtonConstants.CONTROLLER_PORT);
+      XboxController XBController = new XboxController(ButtonConstants.CONTROLLER_PORT);
       drive.setDefaultCommand(
-        new DefaultDrive(drive, x::getLeftY, x::getRightX, () -> x.getRightTriggerAxis() > 0)
+        new DefaultDrive(drive, XBController::getLeftY, XBController::getRightX, () -> XBController.getRightTriggerAxis() > 0)
       );
 
-      controller = x;
+      controller = XBController;
     }
   }
 
