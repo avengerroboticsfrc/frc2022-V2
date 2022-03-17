@@ -6,8 +6,8 @@ import tensorflow.lite as tflite
 
 from PIL import Image
 
-CAMERA_WIDTH = 640
-CAMERA_HEIGHT = 480
+CAMERA_WIDTH = 16
+CAMERA_HEIGHT = 12
 
 
 def load_labels(label_path):
@@ -82,13 +82,13 @@ def display_result(result, frame, labels):
 if __name__ == "__main__":
 
     # The only variables that should need to be changed
-    model_path = './data/detect.tflite'
-    label_path = './data/coco_labels.txt'
+    model_path = r'C:\Users\anike\OneDrive\Documents\Programming\Projects\frc2022-V2\tensorflow\testing\data\sample.tflite'
+    label_path = r'C:\Users\anike\OneDrive\Documents\Programming\Projects\frc2022-V2\tensorflow\testing\data\sample.txt'
 
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, CAMERA_WIDTH)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, CAMERA_HEIGHT)
-    cap.set(cv2.CAP_PROP_FPS, 15)
+    # cap.set(cv2.CAP_PROP_FPS, 15)
 
     interpreter = load_model(model_path)
     labels = load_labels(label_path)

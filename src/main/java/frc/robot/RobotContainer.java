@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DefaultDrive;
-import frc.robot.commands.RobotRamseteCommand;
+import frc.robot.commands.FridayRamseteCommand;
 import frc.robot.constants.ButtonConstants;
 import frc.robot.constants.ButtonConstants.ControllerType;
 import frc.robot.subsystems.DriveTrain;
@@ -58,12 +58,11 @@ public class RobotContainer {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJson, e.getStackTrace());
       threeBallTrajectory = null;
     }
-    
-    
+
     drive = new DriveTrain();
     index = new Index();
     shooter = new Shooter();
-    
+
     if (ButtonConstants.CONTROLLER_TYPE == ControllerType.PS4) {
       PS4Controller PSController = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
       drive.setDefaultCommand(
@@ -89,7 +88,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    RamseteCommand reverseCommand = new RobotRamseteCommand(threeBallTrajectory, drive);
+    RamseteCommand reverseCommand = new FridayRamseteCommand(threeBallTrajectory, drive);
 
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(threeBallTrajectory.getInitialPose());
