@@ -57,24 +57,21 @@ public class RobotContainer {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJson, e.getStackTrace());
       threeBallTrajectory = null;
     }
-    
-    
+
     drive = new DriveTrain();
     index = new Index();
     shooter = new Shooter();
-    
+
     if (ButtonConstants.CONTROLLER_TYPE == ControllerType.PS4) {
       PS4Controller p = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
       drive.setDefaultCommand(
-        new DefaultDrive(drive, p::getLeftY, p::getRightX, () -> p.getR2Axis() > 0)
-      );
+          new DefaultDrive(drive, p::getLeftY, p::getRightX, () -> p.getR2Axis() > 0));
 
       controller = p;
     } else {
       XboxController x = new XboxController(ButtonConstants.CONTROLLER_PORT);
       drive.setDefaultCommand(
-        new DefaultDrive(drive, x::getLeftY, x::getRightX, () -> x.getRightTriggerAxis() > 0)
-      );
+          new DefaultDrive(drive, x::getLeftY, x::getRightX, () -> x.getRightTriggerAxis() > 0));
 
       controller = x;
     }
