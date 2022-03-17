@@ -27,9 +27,11 @@ public class Limelight extends SubsystemBase {
     NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
   }
 
+  /*
+  Updates the NetworkTables values every 20ms.
+  */
   @Override
   public void periodic() {
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
     SmartDashboard.putNumber("LimelightX", getTargetXOffset());
     SmartDashboard.putNumber("LimelightY", getTargetYOffset());
     SmartDashboard.putNumber("LimelightArea", getTargetArea());
@@ -49,24 +51,43 @@ public class Limelight extends SubsystemBase {
     return rotationAdjust;
   }
 
+  /*
+  Calculates the distance to the hub using the targetYOffset.
+  */
+  public double getDistance() {
+    double targetOffsetAngle_Vertical = getTargetYOffset();
+
+    double angleToGoalDegrees = LIMELIGHT_MOUNT_ANGLE_DEGREES + targetOffsetAngle_Vertical;
+    double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+  
+    //calculates distance
+    double distanceFromLimelightToGoalInches = (GOAL_HEIGHT_INCHES - LIMELIGHT_LENS_HEIGHT_INCHES)/Math.tan(angleToGoalRadians);
+  
+    return distanceFromLimelightToGoalInches;
+  }
+
   private double getTargetXOffset() {
     // returns 0 if no target
     return table.getEntry("tx").getDouble(0);
   }
 
   private double getTargetYOffset() {
+    // returns 0 if no target  
     return table.getEntry("ty").getDouble(0);
   }
 
   private double getTargetArea() {
+    // returns 0 if no target
     return table.getEntry("ta").getDouble(0);
   }
   
   public void disableLights() {
+    //Disables LEDs
     NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(0);
   }
 
   public void enableLights() {
+    //Enables LEDs
     NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(3);
   }
 }
