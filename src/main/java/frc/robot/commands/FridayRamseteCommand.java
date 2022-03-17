@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.DriveTrain;
 
-public class RobotRamseteCommand extends RamseteCommand {
+public class FridayRamseteCommand extends RamseteCommand {
   /**
    * creates a Ramsete Command with a given trajectory using the settings for our
    * robot (F.R.I.D.A.Y.)
    */
-  public RobotRamseteCommand(Trajectory trajectory, DriveTrain drive) {
+  public FridayRamseteCommand(Trajectory trajectory, DriveTrain drive) {
     super(
         trajectory,
         drive::getPose,

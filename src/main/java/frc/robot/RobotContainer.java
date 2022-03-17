@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DefaultDrive;
-import frc.robot.commands.RobotRamseteCommand;
+import frc.robot.commands.FridayRamseteCommand;
 import frc.robot.constants.ButtonConstants;
 import frc.robot.constants.ButtonConstants.ControllerType;
 import frc.robot.subsystems.DriveTrain;
