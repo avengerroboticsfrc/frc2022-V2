@@ -88,29 +88,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    RamseteCommand reverseCommand = new FridayRamseteCommand(threeBallTrajectory, drive);
-
-    // Reset odometry to the starting pose of the trajectory.
-    drive.resetOdometry(threeBallTrajectory.getInitialPose());
-
-    Command stopDriveCommand = new RunCommand(() -> drive.tankDriveVolts(0, 0), drive);
-    Command powerShooterCommand = new RunCommand(() -> shooter.spin(1), shooter);
-    Command powerIndexCommand = new RunCommand(() -> index.power(.6), index);
-
-    return new ParallelDeadlineGroup(
-        new WaitCommand(3),
-        stopDriveCommand,
-        powerShooterCommand).andThen(
-            new ParallelDeadlineGroup(
-                new WaitCommand(3),
-                stopDriveCommand,
-                powerShooterCommand,
-                powerIndexCommand))
-        .andThen(reverseCommand).andThen(new ParallelCommandGroup(
-            stopDriveCommand,
-            new RunCommand(() -> shooter.spin(0), shooter),
-            new RunCommand(() -> index.power(0), index)));
-  }
+    return new Auton(drive);
+  } 
 
   public Command getTeleCommand() {
     return drive.getDefaultCommand();
