@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -26,7 +27,6 @@ public class DriveTrain extends SubsystemBase {
 
   protected final DifferentialDriveOdometry odometry =
       new DifferentialDriveOdometry(gyro.getRotation2d());
-
   /**
    * this method is called when the DriveTrainSubsystem class is initialized.
    */
@@ -95,7 +95,6 @@ public class DriveTrain extends SubsystemBase {
   public Pose2d getPose() {
     return odometry.getPoseMeters();
   }
-
 
   /**
    * Returns the current wheel speeds of the robot.
