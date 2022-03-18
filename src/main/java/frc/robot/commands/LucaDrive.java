@@ -64,7 +64,7 @@ public class LucaDrive extends CommandBase {
     double voltage = speed * 12.0;
     var motor = DCMotor.getFalcon500(2);
     // IF SOMETHING DOESNT WORK ITS PROBABLY THIS LINE BELOW
-    double encoderSpeedLeft = drive.getWheelSpeeds().leftMetersPerSecond * wheelRadiusInMeters;
+    double encoderSpeedLeft = drive.getWheelSpeeds().leftMetersPerSecond / wheelRadiusInMeters;
     // double encoderSpeedRight = drive.getWheelSpeeds().rightMetersPerSecond * wheelRadiusInMeters;
     double torqueLeft = motor.KtNMPerAmp * motor.getCurrent(encoderSpeedLeft, voltage);
     // double torqueRight = motor.KtNMPerAmp * motor.getCurrent(encoderSpeedLeft, voltageLeft);
