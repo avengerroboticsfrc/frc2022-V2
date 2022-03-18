@@ -32,5 +32,6 @@
     "pathweaver",
     "Ramsete",
     "Tele"
-  ]
+  ],
+  "java.checkstyle.configuration": "${workspaceFolder}/google_checks.xml"
 }

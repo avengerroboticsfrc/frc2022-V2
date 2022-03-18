@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.commands.autons;
 
 import com.pathplanner.lib.PathPlanner;
 
@@ -8,10 +8,10 @@ import frc.robot.commands.FridayRamseteCommand;
 import frc.robot.subsystems.DriveTrain;
 
 public class Auton extends SequentialCommandGroup {
-    public Auton(DriveTrain drive) {
-        Trajectory sixBallPath = PathPlanner.loadPath("New Path", 3, 5); 
-        addCommands(
-            new FridayRamseteCommand(sixBallPath, drive)
-        );
-    }
+  public Auton(DriveTrain drive) {
+    Trajectory sixBallPath = PathPlanner.loadPath("4-Ball", 3, 5);
+    addCommands(
+        new FridayRamseteCommand(sixBallPath, drive) // this will fail since it needs 3 commands.
+    );
+  }
 }

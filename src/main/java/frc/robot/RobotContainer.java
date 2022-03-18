@@ -12,13 +12,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DefaultDrive;
-import frc.robot.commands.FridayRamseteCommand;
+import frc.robot.commands.autons.Auton;
 import frc.robot.constants.ButtonConstants;
 import frc.robot.constants.ButtonConstants.ControllerType;
 import frc.robot.subsystems.DriveTrain;
@@ -43,21 +38,11 @@ public class RobotContainer {
 
   private final GenericHID controller;
 
-  public final String trajectoryJson = "pathweaver/output/3ball.wpilib.json";
-  private Trajectory threeBallTrajectory;
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     System.out.println("Hello, Driver");
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJson);
-      threeBallTrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    } catch (IOException e) {
-      DriverStation.reportError("Unable to open trajectory: " + trajectoryJson, e.getStackTrace());
-      threeBallTrajectory = null;
-    }
 
     drive = new DriveTrain();
     index = new Index();
