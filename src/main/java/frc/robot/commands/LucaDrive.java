@@ -17,7 +17,7 @@ public class LucaDrive extends CommandBase {
 
   // kMaxTorque = 4.69 newton meters for one
   double kMaxTorque = 4.69 * 2;
-  double wheelRadiusInMeters = 0.5; // @Truender find this please I don't know the wheels
+  double wheelRadiusInMeters = 0.0762; // @Truender find this please I don't know the wheels
   /**
    * Creates a new LucaDrive.
    *
@@ -73,7 +73,7 @@ public class LucaDrive extends CommandBase {
     if (Math.abs(torqueLeft) > kMaxTorque) {
       voltage = kMaxTorque * Math.signum(torqueLeft) / motor.KtNMPerAmp * motor.rOhms +
         encoderSpeedLeft / motor.KvRadPerSecPerVolt;
-      // drive.tankDriveVolts(voltage, voltage); should work
+      // drive.tankDriveVolts(voltage, voltage); // should work
       // if you do drive.curvatureDriveVolts(voltage * 2); if controlling all 4 motor voltages at once
       // I can't figure out how to limit voltages for curvatureDrive, I think you can take over
     }
