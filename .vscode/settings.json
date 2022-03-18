@@ -28,6 +28,7 @@
   "java.test.defaultConfig": "WPIlibUnitTests",
   "cSpell.words": [
     "ADXRS",
+    "Auton",
     "odometry",
     "pathweaver",
     "Ramsete",
