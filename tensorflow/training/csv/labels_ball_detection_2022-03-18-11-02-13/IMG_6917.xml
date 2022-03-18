@@ -1,0 +1,37 @@
+<annotation>
+	<folder>ball_detection</folder>
+	<filename>IMG_6917.jpg</filename>
+	<path>/ball_detection/IMG_6917.jpg</path>
+	<source>
+		<database>Unspecified</database>
+	</source>
+	<size>
+		<width>500</width>
+		<height>375</height>
+		<depth>3</depth>
+	</size>
+	<object>
+		<name>blue</name>
+		<pose>Unspecified</pose>
+		<truncated>Unspecified</truncated>
+		<difficult>Unspecified</difficult>
+		<bndbox>
+			<xmin>332</xmin>
+			<ymin>178</ymin>
+			<xmax>356</xmax>
+			<ymax>202</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>red</name>
+		<pose>Unspecified</pose>
+		<truncated>Unspecified</truncated>
+		<difficult>Unspecified</difficult>
+		<bndbox>
+			<xmin>173</xmin>
+			<ymin>154</ymin>
+			<xmax>190</xmax>
+			<ymax>171</ymax>
+		</bndbox>
+	</object>
+</annotation>
