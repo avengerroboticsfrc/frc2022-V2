@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DefaultDrive;
-import frc.robot.commands.RobotRamseteCommand;
+import frc.robot.commands.FridayRamseteCommand;
 import frc.robot.constants.ButtonConstants;
 import frc.robot.constants.ButtonConstants.ControllerType;
 import frc.robot.subsystems.DriveTrain;
@@ -58,12 +58,11 @@ public class RobotContainer {
       DriverStation.reportError("Unable to open trajectory: " + trajectoryJson, e.getStackTrace());
       threeBallTrajectory = null;
     }
-    
-    
+
     drive = new DriveTrain();
     index = new Index();
     shooter = new Shooter();
-    
+
     if (ButtonConstants.CONTROLLER_TYPE == ControllerType.PS4) {
       PS4Controller PSController = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
       drive.setDefaultCommand(
@@ -89,29 +88,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    RamseteCommand reverseCommand = new RobotRamseteCommand(threeBallTrajectory, drive);
-
-    // Reset odometry to the starting pose of the trajectory.
-    drive.resetOdometry(threeBallTrajectory.getInitialPose());
-
-    Command stopDriveCommand = new RunCommand(() -> drive.tankDriveVolts(0, 0), drive);
-    Command powerShooterCommand = new RunCommand(() -> shooter.spin(1), shooter);
-    Command powerIndexCommand = new RunCommand(() -> index.power(.6), index);
-
-    return new ParallelDeadlineGroup(
-        new WaitCommand(3),
-        stopDriveCommand,
-        powerShooterCommand).andThen(
-            new ParallelDeadlineGroup(
-                new WaitCommand(3),
-                stopDriveCommand,
-                powerShooterCommand,
-                powerIndexCommand))
-        .andThen(reverseCommand).andThen(new ParallelCommandGroup(
-            stopDriveCommand,
-            new RunCommand(() -> shooter.spin(0), shooter),
-            new RunCommand(() -> index.power(0), index)));
-  }
+    return new Auton(drive);
+  } 
 
   public Command getTeleCommand() {
     return drive.getDefaultCommand();
