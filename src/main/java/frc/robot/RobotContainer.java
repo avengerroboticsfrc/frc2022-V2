@@ -12,13 +12,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.DefaultDrive;
-import frc.robot.commands.RobotRamseteCommand;
+import frc.robot.commands.autons.Auton;
 import frc.robot.constants.ButtonConstants;
 import frc.robot.constants.ButtonConstants.ControllerType;
 import frc.robot.subsystems.DriveTrain;
@@ -43,21 +38,11 @@ public class RobotContainer {
 
   private final GenericHID controller;
 
-  public final String trajectoryJson = "pathweaver/output/3ball.wpilib.json";
-  private Trajectory threeBallTrajectory;
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     System.out.println("Hello, Driver");
-    try {
-      Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJson);
-      threeBallTrajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    } catch (IOException e) {
-      DriverStation.reportError("Unable to open trajectory: " + trajectoryJson, e.getStackTrace());
-      threeBallTrajectory = null;
-    }
 
     drive = new DriveTrain();
     index = new Index();
@@ -88,29 +73,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    RamseteCommand reverseCommand = new RobotRamseteCommand(threeBallTrajectory, drive);
-
-    // Reset odometry to the starting pose of the trajectory.
-    drive.resetOdometry(threeBallTrajectory.getInitialPose());
-
-    Command stopDriveCommand = new RunCommand(() -> drive.tankDriveVolts(0, 0), drive);
-    Command powerShooterCommand = new RunCommand(() -> shooter.spin(1), shooter);
-    Command powerIndexCommand = new RunCommand(() -> index.power(.6), index);
-
-    return new ParallelDeadlineGroup(
-        new WaitCommand(3),
-        stopDriveCommand,
-        powerShooterCommand).andThen(
-            new ParallelDeadlineGroup(
-                new WaitCommand(3),
-                stopDriveCommand,
-                powerShooterCommand,
-                powerIndexCommand))
-        .andThen(reverseCommand).andThen(new ParallelCommandGroup(
-            stopDriveCommand,
-            new RunCommand(() -> shooter.spin(0), shooter),
-            new RunCommand(() -> index.power(0), index)));
-  }
+    return new Auton(drive);
+  } 
 
   public Command getTeleCommand() {
     return drive.getDefaultCommand();

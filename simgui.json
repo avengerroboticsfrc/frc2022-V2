@@ -11,5 +11,22 @@
       "/LiveWindow/Ungrouped/Talon FX [5]": "Motor Controller",
       "/LiveWindow/Ungrouped/Victor SPX [6]": "Motor Controller"
     }
+  },
+  "NetworkTables": {
+    "LiveWindow": {
+      ".status": {
+        "open": true
+      },
+      "open": true
+    },
+    "Usage": {
+      "Client": {
+        "Dashboard": {
+          "open": true
+        },
+        "open": true
+      },
+      "open": true
+    }
   }
 }
