@@ -10,16 +10,27 @@ import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.FridayRamseteCommand;
+import frc.robot.commands.IndexCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.Auton;
 import frc.robot.constants.ButtonConstants;
 import frc.robot.constants.ButtonConstants.ControllerType;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
 import java.io.IOException;
@@ -39,6 +50,8 @@ public class RobotContainer {
   private final Shooter shooter;
   private final PS4Controller controller;
   private final Trajectory trajectory;
+  private final Limelight limelight;
+  private final Intake intake;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -50,16 +63,20 @@ public class RobotContainer {
     index = new Index();
     shooter = new Shooter();
     trajectory = new Trajectory();
+    limelight = new Limelight();
+    intake = new Intake();
 
-      drive.setDefaultCommand(
-        new LucaDrive( 
-          drive,
-          controller::getL2Axis,
-          controller::getR2Axis,
-          controller::getLeftX,
-          controller::getCircleButton
-      ));
+    // Config Buttons
+
+    drive.setDefaultCommand(
+        new LucaDrive(
+            drive,
+            controller::getL2Axis,
+            controller::getR2Axis,
+            controller::getLeftX,
+            controller::getCircleButton));
   }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -71,9 +88,9 @@ public class RobotContainer {
 
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(trajectory.getInitialPose());
-    return reverseCommand;
+    return new Auton(drive, shooter, limelight, shooter, 0.3, intake, index);
   }
-  
+
   public Command getTeleCommand() {
     return drive.getDefaultCommand();
   }
