@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.PortConstants;
 
 public class Shooter extends SubsystemBase {
+  private final WPI_VictorSPX shooterInMotor;
   private final TalonFX flywheelMotor;
   public final TalonSRX turretTurnMotor;
   private final CANSparkMax hoodMotor;
@@ -31,7 +33,7 @@ public class Shooter extends SubsystemBase {
    */
   public Shooter() {
     super();
-
+    shooterInMotor = new WPI_VictorSPX(PortConstants.SHOOTER_IN_MOTOR);
     flywheelMotor = new TalonFX(PortConstants.FLYWHEEL_MOTOR);
     turretTurnMotor = new TalonSRX(PortConstants.TURRET_TURN_MOTOR);
     hoodMotor = new CANSparkMax(PortConstants.HOOD_MOTOR, MotorType.kBrushless);
@@ -72,6 +74,10 @@ public class Shooter extends SubsystemBase {
   public void angle(double degrees) {
     int turns = (int) (ROTATIONS_PER_HOOD_DEGREE * degrees);
     targetPosition = turns;
+  }
+
+  public void intakeBall(double speed) {
+    shooterInMotor.set(1);
   }
 
   /**

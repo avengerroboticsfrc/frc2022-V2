@@ -9,8 +9,7 @@ import frc.robot.constants.PortConstants;
 //Creates index class 
 public class Index extends SubsystemBase {
   // Creates the index motor
-  private final WPI_VictorSPX indexInMotor;
-  private final WPI_VictorSPX indexUpMotor;
+  private final WPI_VictorSPX indexMotor;
 
   /**
    * creates a new index subsystem.
@@ -18,19 +17,13 @@ public class Index extends SubsystemBase {
   public Index() {
     super();
 
-    indexInMotor = new WPI_VictorSPX(PortConstants.INDEX_IN_MOTOR);
-    indexUpMotor = new WPI_VictorSPX(PortConstants.INDEX_UP_MOTOR);
+    indexMotor = new WPI_VictorSPX(PortConstants.INDEX_MOTOR);
   }
 
   /**
    * set the index to a certain power.
    */
-  public void powerIn(double speed) {
-    indexInMotor.set(speed);
+  public void power(double speed) {
+    indexMotor.set(speed);
   }
-
-  public void powerUp(double speed) {
-    indexUpMotor.set(speed);
-  }
-
 }
