@@ -49,7 +49,7 @@ public class Shooter extends SubsystemBase {
       // can make this slower or faster if needed
       power = getHoodPosition() > targetPosition ? -0.3 : 0.3;
     }
-    hoodMotor.set(power);
+    //hoodMotor.set(power);
   }
 
   /**

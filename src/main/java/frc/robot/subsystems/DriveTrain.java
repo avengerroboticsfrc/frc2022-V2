@@ -50,10 +50,10 @@ public class DriveTrain extends SubsystemBase {
     rightMotors[0].configFactoryDefault();
     rightMotors[1].configFactoryDefault();
 
-    leftMotors[0].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-    leftMotors[1].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-    rightMotors[0].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-    rightMotors[1].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    leftMotors[0].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    leftMotors[1].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    rightMotors[0].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    rightMotors[1].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
     leftMotors[0].configOpenloopRamp(.5);
     leftMotors[1].configOpenloopRamp(.5);
@@ -66,11 +66,10 @@ public class DriveTrain extends SubsystemBase {
     rightMotors[0].setInverted(true);
     rightMotors[1].setInverted(InvertType.FollowMaster);
 
-    leftMotors[0].setNeutralMode(NeutralMode.Coast);
-    leftMotors[1].setNeutralMode(NeutralMode.Coast);
-    rightMotors[0].setNeutralMode(NeutralMode.Coast);
-    rightMotors[1].setNeutralMode(NeutralMode.Coast);
-
+    leftMotors[0].setNeutralMode(NeutralMode.Brake);
+    leftMotors[1].setNeutralMode(NeutralMode.Brake);
+    rightMotors[0].setNeutralMode(NeutralMode.Brake);
+    rightMotors[1].setNeutralMode(NeutralMode.Brake);
 
     resetEncoders();
   }
@@ -176,5 +175,37 @@ public class DriveTrain extends SubsystemBase {
 
   public void gyroCalibrate() {
     gyro.calibrate();
+  }
+
+  public void ConfigPid() {
+    int pidIdx = 0;
+    int slotIdx = 0;
+    double pos = 0;
+    leftMotors[0].setSensorPhase(true);
+    leftMotors[1].setSensorPhase(true);
+    leftMotors[0].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, pidIdx, 100);
+    leftMotors[1].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, pidIdx, 100);
+    rightMotors[0].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, pidIdx, 100);
+    rightMotors[1].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, pidIdx, 100);
+    leftMotors[0].config_kP(slotIdx, 0);
+    leftMotors[1].config_kP(slotIdx, 0);
+    rightMotors[0].config_kP(slotIdx, 0);
+    rightMotors[1].config_kP(slotIdx, 0);
+    leftMotors[0].config_kI(slotIdx, 0);
+    leftMotors[1].config_kI(slotIdx, 0);
+    rightMotors[0].config_kI(slotIdx, 0);
+    rightMotors[1].config_kI(slotIdx, 0);
+    leftMotors[0].config_kD(slotIdx, 0);
+    leftMotors[1].config_kD(slotIdx, 0);
+    rightMotors[0].config_kD(slotIdx, 0);
+    rightMotors[1].config_kD(slotIdx, 0);
+    leftMotors[0].config_kF(slotIdx, 0);
+    leftMotors[1].config_kF(slotIdx, 0);
+    rightMotors[0].config_kF(slotIdx, 0);
+    rightMotors[1].config_kF(slotIdx, 0);
+    leftMotors[0].setSelectedSensorPosition(pos, pidIdx, 100);
+    leftMotors[1].setSelectedSensorPosition(pos, pidIdx, 100);
+    rightMotors[0].setSelectedSensorPosition(pos, pidIdx, 100);
+    rightMotors[1].setSelectedSensorPosition(pos, pidIdx, 100);
   }
 }

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.commands.LucaDrive;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -36,35 +37,27 @@ public class RobotContainer {
   private final DriveTrain drive;
   private final Index index;
   private final Shooter shooter;
-
-  private final GenericHID controller;
+  private final Auton auto;
+  private final PS4Controller controller;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     System.out.println("Hello, Driver");
+    controller = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
     drive = new DriveTrain();
     index = new Index();
     shooter = new Shooter();
-    
-    if (ButtonConstants.CONTROLLER_TYPE == ControllerType.PS4) {
-      PS4Controller PSController = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
-      drive.setDefaultCommand(
-        new DefaultDrive(drive, PSController::getLeftY, PSController::getRightX, () -> PSController.getR2Axis() > 0)
-      );
-      controller = PSController;
 
-    } else {
-      XboxController XBController = new XboxController(ButtonConstants.CONTROLLER_PORT);
       drive.setDefaultCommand(
-        new DefaultDrive(drive, XBController::getLeftY, XBController::getRightX, () -> XBController.getRightTriggerAxis() > 0)
-      );
-
-      controller = XBController;
-      String name = controller.getName();
-      System.out.println(name + " selected");
-    }
+        new LucaDrive( 
+          drive,
+          controller::getL2Axis,
+          controller::getR2Axis,
+          controller::getLeftX,
+          controller::getCircleButton
+      ));
   }
 
   /**
@@ -77,7 +70,8 @@ public class RobotContainer {
 
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(sixBallPath.getInitialPose());
-
+  }
+  
   public Command getTeleCommand() {
     return drive.getDefaultCommand();
   }

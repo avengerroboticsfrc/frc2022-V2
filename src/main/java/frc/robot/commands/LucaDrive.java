@@ -43,16 +43,38 @@ public class LucaDrive extends CommandBase {
   @Override
   public void execute() {
     double percentOutput = (forward.getAsDouble() - reverse.getAsDouble());
-    // if percent out is negative, multiply it by -1
+    // // if percent out is negative, multiply it by -1
     double speed = percentOutput > 0 ? Math.pow(percentOutput, 2) : -Math.pow(percentOutput, 2);
 
-    // slow down the drivetrain if turnInPlace is pressed
-    double speedMultiplier = turnInPlace.getAsBoolean() ? .35 : 1;
+    // // slow down the drivetrain if turnInPlace is pressed
+    // double speedMultiplier = turnInPlace.getAsBoolean() ? .35 : 1;
 
-    drive.curvatureDrive(
-        (speed * .6),
-        (rotation.getAsDouble() * speedMultiplier),
-        turnInPlace.getAsBoolean());
+    // drive.curvatureDrive(
+    //     (speed * .6),
+    //     (rotation.getAsDouble() * speedMultiplier),
+    //     turnInPlace.getAsBoolean());
+   
+    // Theory is that since the left side acts like the right one
+    // I can just mirror to other side
+    // Honestly have 0 clue if this works lol
+    double voltage = speed * 12.0;
+    var motor = DCMotor.getFalcon500(2);
+    // IF SOMETHING DOESNT WORK ITS PROBABLY THIS LINE BELOW
+    double encoderSpeedLeft = drive.getWheelSpeeds().leftMetersPerSecond / wheelRadiusInMeters;
+    // double encoderSpeedRight = drive.getWheelSpeeds().rightMetersPerSecond * wheelRadiusInMeters;
+    double torqueLeft = motor.KtNMPerAmp * motor.getCurrent(encoderSpeedLeft, voltage);
+    // double torqueRight = motor.KtNMPerAmp * motor.getCurrent(encoderSpeedLeft, voltageLeft);
+    
+    // Find voltage that limits torque
+    if (Math.abs(torqueLeft) > kMaxTorque) {
+      voltage = kMaxTorque * Math.signum(torqueLeft) / motor.KtNMPerAmp * motor.rOhms +
+        encoderSpeedLeft / motor.KvRadPerSecPerVolt;
+      drive.curvatureDrive(voltage, rotation.getAsDouble(), turnInPlace.getAsBoolean());// should work
+      // if you do drive.curvatureDriveVolts(voltage * 2); if controlling all 4 motor voltages at once
+      // I can't figure out how to limit voltages for curvatureDrive, I think you can take over
+    }
+
+    
   }
 
   public void forwardAuto() {
