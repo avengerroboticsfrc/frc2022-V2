@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -183,10 +184,12 @@ public class DriveTrain extends SubsystemBase {
     double pos = 0;
     leftMotors[0].setSensorPhase(true);
     leftMotors[1].setSensorPhase(true);
-    leftMotors[0].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, pidIdx, 100);
-    leftMotors[1].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, pidIdx, 100);
-    rightMotors[0].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, pidIdx, 100);
-    rightMotors[1].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, pidIdx, 100);
+    rightMotors[0].setSensorPhase(true);
+    rightMotors[1].setSensorPhase(true);
+    leftMotors[0].configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, pidIdx, 100);
+    leftMotors[1].configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, pidIdx, 100);
+    rightMotors[0].configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, pidIdx, 100);
+    rightMotors[1].configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, pidIdx, 100);
     leftMotors[0].config_kP(slotIdx, 0);
     leftMotors[1].config_kP(slotIdx, 0);
     rightMotors[0].config_kP(slotIdx, 0);
@@ -207,5 +210,7 @@ public class DriveTrain extends SubsystemBase {
     leftMotors[1].setSelectedSensorPosition(pos, pidIdx, 100);
     rightMotors[0].setSelectedSensorPosition(pos, pidIdx, 100);
     rightMotors[1].setSelectedSensorPosition(pos, pidIdx, 100);
+
+
   }
 }
