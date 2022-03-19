@@ -32,9 +32,6 @@
     "odometry",
     "pathweaver",
     "Ramsete",
-    "SRXPID",
-    "Tele",
-    "teleop",
-    "teleoperated"
+    "Tele"
   ]
 }

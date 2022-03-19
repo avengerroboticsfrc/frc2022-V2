@@ -43,18 +43,17 @@ public class RobotContainer {
    */
   public RobotContainer() {
     System.out.println("Hello, Driver");
-
     drive = new DriveTrain();
     index = new Index();
     shooter = new Shooter();
-
+    
     if (ButtonConstants.CONTROLLER_TYPE == ControllerType.PS4) {
       PS4Controller PSController = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
       drive.setDefaultCommand(
         new DefaultDrive(drive, PSController::getLeftY, PSController::getRightX, () -> PSController.getR2Axis() > 0)
       );
-
       controller = PSController;
+
     } else {
       XboxController XBController = new XboxController(ButtonConstants.CONTROLLER_PORT);
       drive.setDefaultCommand(
@@ -73,8 +72,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new Auton(drive);
-  } 
+    RamseteCommand reverseCommand = new FridayRamseteCommand(threeBallTrajectory, drive);
+
+    // Reset odometry to the starting pose of the trajectory.
+    drive.resetOdometry(threeBallTrajectory.getInitialPose());
 
   public Command getTeleCommand() {
     return drive.getDefaultCommand();
