@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DefaultDrive;
+import frc.robot.commands.LucaDrive;
 import frc.robot.commands.autons.Auton;
 import frc.robot.constants.ButtonConstants;
 import frc.robot.constants.ButtonConstants.ControllerType;
@@ -36,35 +37,26 @@ public class RobotContainer {
   private final Index index;
   private final Shooter shooter;
 
-  private final GenericHID controller;
+  private final PS4Controller controller;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     System.out.println("Hello, Driver");
-
+    controller = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
     drive = new DriveTrain();
     index = new Index();
     shooter = new Shooter();
 
-    if (ButtonConstants.CONTROLLER_TYPE == ControllerType.PS4) {
-      PS4Controller PSController = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
       drive.setDefaultCommand(
-        new DefaultDrive(drive, PSController::getLeftY, PSController::getRightX, () -> PSController.getR2Axis() > 0)
-      );
-
-      controller = PSController;
-    } else {
-      XboxController XBController = new XboxController(ButtonConstants.CONTROLLER_PORT);
-      drive.setDefaultCommand(
-        new DefaultDrive(drive, XBController::getLeftY, XBController::getRightX, () -> XBController.getRightTriggerAxis() > 0)
-      );
-
-      controller = XBController;
-      String name = controller.getName();
-      System.out.println(name + " selected");
-    }
+        new LucaDrive( 
+          drive,
+          controller::getL2Axis,
+          controller::getR2Axis,
+          controller::getLeftX,
+          controller::getCircleButton
+      ));
   }
 
   /**

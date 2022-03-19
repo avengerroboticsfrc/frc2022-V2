@@ -21,9 +21,11 @@ public class DriveTrain extends SubsystemBase {
 
   protected final DifferentialDrive driveTrain;
 
-  private static final SPI.Port valueOf(PortConstants.TURRET_TURN_MOTOR)
+  //TODO: What?
+  //private static final SPI.Port valueOf(PortConstants.TURRET_TURN_MOTOR)
   
-  private final Gyro gyro = new ADXRS450_Gyro(SPI.Port 5);
+  //TODO: What?
+  private final Gyro gyro = new ADXRS450_Gyro();
 
   protected final DifferentialDriveOdometry odometry =
       new DifferentialDriveOdometry(gyro.getRotation2d());
@@ -57,10 +59,10 @@ public class DriveTrain extends SubsystemBase {
     rightMotors[0].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
     rightMotors[1].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
-    leftMotors[0].configOpenloopRamp(.5);
-    leftMotors[1].configOpenloopRamp(.5);
-    rightMotors[0].configOpenloopRamp(.5);
-    rightMotors[1].configOpenloopRamp(.5);
+    // leftMotors[0].configOpenloopRamp(.5);
+    // leftMotors[1].configOpenloopRamp(.5);
+    // rightMotors[0].configOpenloopRamp(.5);
+    // rightMotors[1].configOpenloopRamp(.5);
 
     leftMotors[1].follow(leftMotors[0]);
     rightMotors[1].follow(rightMotors[0]);
