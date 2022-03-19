@@ -12,7 +12,6 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
 public class Auton extends SequentialCommandGroup {
-<<<<<<< HEAD:src/main/java/frc/robot/commands/autons/Auton.java
   public Auton(DriveTrain drive, Shooter turret, Limelight limelight, Shooter shooter, double power, Intake intake, int power) {
     Trajectory sixBallPath = PathPlanner.loadPath("4-Ball", 3, 5);
     addCommands(
@@ -22,13 +21,3 @@ public class Auton extends SequentialCommandGroup {
         new IntakeIndex(intake, power)
     );
   }
-=======
-    public Auton(DriveTrain drive) {
-        Trajectory sixBallPath = PathPlanner.loadPath("New Path", 3, 5); 
-        addCommands(
-            new FridayRamseteCommand(sixBallPath, drive)
-        );
-    
-}
->>>>>>> aa2b1685b070726649413194a1bf6ed1ac1b6799:src/main/java/frc/robot/Auton.java
-}
