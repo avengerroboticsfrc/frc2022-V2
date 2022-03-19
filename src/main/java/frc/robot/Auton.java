@@ -21,7 +21,7 @@ public class Auton extends SequentialCommandGroup {
     addCommands(
         new AimTurretAtHub(turret, limelight),
         new ShooterCommand(shooter, power),
-        new FridayRamseteCommand(sixBallPath, drive), // this will fail since it needs 3 commands.
+        new FridayRamseteCommand(sixBallPath, drive), 
         new ParallelCommandGroup(
           new IndexCommand(index ,power),
           new IntakeCommand(intake, power),
