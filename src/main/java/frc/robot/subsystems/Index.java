@@ -25,7 +25,12 @@ public class Index extends SubsystemBase {
   /**
    * set the index to a certain power.
    */
-  public void power(double speed) {
+  public void powerIn(double speed) {
     indexInMotor.set(speed);
   }
+
+  public void powerUp(double speed) {
+    indexUpMotor.set(speed);
+  }
+
 }
