@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AimTurretAtHub;
 import frc.robot.commands.FridayRamseteCommand;
 import frc.robot.commands.ShooterCommand;
-import frc.robot.commands.IndexIntake;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
@@ -45,3 +44,4 @@ public class Auton extends SequentialCommandGroup {
         )
     );
   }
+}
