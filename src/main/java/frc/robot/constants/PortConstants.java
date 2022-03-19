@@ -25,5 +25,6 @@ public final class PortConstants {
 
   public static final int[] INTAKE_PNEUMATICS_PORTS = { 0, 1 };
   public static final int INTAKE_MOTOR = 12;
-  public static final int INDEX_MOTOR = 6;
+  public static final int INDEX_IN_MOTOR = 6;
+  public static final int INDEX_UP_MOTOR = 24;
 }
