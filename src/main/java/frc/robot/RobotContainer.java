@@ -13,7 +13,8 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DefaultDrive;
-import frc.robot.commands.autons.Auton;
+import frc.robot.commands.FridayRamseteCommand;
+import frc.robot.Auton;
 import frc.robot.constants.ButtonConstants;
 import frc.robot.constants.ButtonConstants.ControllerType;
 import frc.robot.subsystems.DriveTrain;
@@ -72,10 +73,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    RamseteCommand reverseCommand = new FridayRamseteCommand(threeBallTrajectory, drive);
+    FridayRamseteCommand reverseCommand = new FridayRamseteCommand(sixBallPath, drive);
 
     // Reset odometry to the starting pose of the trajectory.
-    drive.resetOdometry(threeBallTrajectory.getInitialPose());
+    drive.resetOdometry(sixBallPath.getInitialPose());
 
   public Command getTeleCommand() {
     return drive.getDefaultCommand();

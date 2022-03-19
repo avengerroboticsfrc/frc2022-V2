@@ -8,7 +8,7 @@ public class IndexCommand extends CommandBase {
   private final Index index;
   private static double currentPower;
 
-  public IndexCommand(Index index, int power) {
+  public IndexCommand(Index index, double power) {
     this.index = index;
     currentPower = power;
     addRequirements(index);

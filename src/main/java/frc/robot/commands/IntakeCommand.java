@@ -6,8 +6,8 @@ import frc.robot.subsystems.Intake;
 public class IntakeCommand extends CommandBase {
 
     private final Intake intakeCommand;
-    private static int currentPower;
-public IntakeCommand(Intake intake, int power){
+    private static double currentPower;
+public IntakeCommand(Intake intake, double power){
     intakeCommand = intake;
     currentPower = power;
     addRequirements(intake);
