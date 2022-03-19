@@ -37,8 +37,8 @@ public class RobotContainer {
   private final DriveTrain drive;
   private final Index index;
   private final Shooter shooter;
-  private final Auton auto;
   private final PS4Controller controller;
+  private final Trajectory trajectory;
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -49,6 +49,7 @@ public class RobotContainer {
     drive = new DriveTrain();
     index = new Index();
     shooter = new Shooter();
+    trajectory = new Trajectory();
 
       drive.setDefaultCommand(
         new LucaDrive( 
@@ -66,10 +67,11 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    FridayRamseteCommand reverseCommand = new FridayRamseteCommand(sixBallPath, drive);
+    FridayRamseteCommand reverseCommand = new FridayRamseteCommand(trajectory, drive);
 
     // Reset odometry to the starting pose of the trajectory.
-    drive.resetOdometry(sixBallPath.getInitialPose());
+    drive.resetOdometry(trajectory.getInitialPose());
+    return reverseCommand;
   }
   
   public Command getTeleCommand() {

@@ -2,11 +2,11 @@ package frc.robot;
 
 import com.pathplanner.lib.PathPlanner;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AimTurretAtHub;
 import frc.robot.commands.FridayRamseteCommand;
 import frc.robot.commands.ShooterCommand;
-import frc.robot.commands.IndexIntake;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
@@ -21,7 +21,27 @@ public class Auton extends SequentialCommandGroup {
     addCommands(
         new AimTurretAtHub(turret, limelight),
         new ShooterCommand(shooter, power),
-        new FridayRamseteCommand(sixBallPath, drive), // this will fail since it needs 3 commands.
-        new IndexIntake(intake, power, index)
+        new FridayRamseteCommand(sixBallPath, drive), 
+        new ParallelCommandGroup(
+          new IndexCommand(index ,power),
+          new IntakeCommand(intake, power),
+        new ParallelCommandGroup(
+          new IndexCommand(index ,power),
+          new IntakeCommand(intake, power),
+            new SequentialCommandGroup(
+              new AimTurretAtHub(turret, limelight),
+              new ShooterCommand(shooter, power),
+        new ParallelCommandGroup(
+          new IndexCommand(index, power),
+          new IntakeCommand(intake, power),
+          new SequentialCommandGroup(
+            new AimTurretAtHub(turret, limelight),
+            new ShooterCommand(shooter, power)
+        )
+        )
+        )
+        )
+        )
     );
   }
+}

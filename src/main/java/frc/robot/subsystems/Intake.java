@@ -55,6 +55,7 @@ public class Intake extends SubsystemBase {
     compressor.disable();
   }
 
+  
   // Method Extending Intake with Solenoids & Pneumatic System
   public void extend() {
     intakeSolenoid.set(Value.kForward);
