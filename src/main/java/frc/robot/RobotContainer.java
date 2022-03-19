@@ -65,8 +65,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new Auton(drive);
-  } 
+    RamseteCommand reverseCommand = new FridayRamseteCommand(threeBallTrajectory, drive);
+
+    // Reset odometry to the starting pose of the trajectory.
+    drive.resetOdometry(threeBallTrajectory.getInitialPose());
 
   public Command getTeleCommand() {
     return drive.getDefaultCommand();

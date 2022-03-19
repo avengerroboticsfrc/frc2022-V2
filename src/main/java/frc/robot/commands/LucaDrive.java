@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.DriveTrain;
@@ -15,9 +14,6 @@ public class LucaDrive extends CommandBase {
   private final BooleanSupplier turnInPlace;
   private final DoubleSupplier reverse;
 
-  // kMaxTorque = 4.69 newton meters for one
-  double kMaxTorque = 4.69 * 2;
-  double wheelRadiusInMeters = 0.0762; // @Truender find this please I don't know the wheels
   /**
    * Creates a new LucaDrive.
    *
