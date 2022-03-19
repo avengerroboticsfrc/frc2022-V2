@@ -76,7 +76,7 @@ public class Shooter extends SubsystemBase {
     targetPosition = turns;
   }
 
-  public void intakeBalltoFlywheel(double speed) {
+  public void intakeBall(double speed) {
     shooterInMotor.set(1);
   }
 
