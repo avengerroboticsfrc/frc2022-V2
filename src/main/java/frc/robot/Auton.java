@@ -23,7 +23,7 @@ public class Auton extends SequentialCommandGroup {
         new ShooterCommand(shooter, power),
         new FridayRamseteCommand(sixBallPath, drive), 
         new ParallelCommandGroup(
-          new IndexCommand(index ,power),
+          new IndexCommand(index, power),
           new IntakeCommand(intake, power),
         new ParallelCommandGroup(
           new IndexCommand(index ,power),

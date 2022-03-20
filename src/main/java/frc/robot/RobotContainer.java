@@ -88,7 +88,7 @@ public class RobotContainer {
 
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(trajectory.getInitialPose());
-    return new Auton(drive, shooter, limelight, shooter, 0.3, intake, index);
+    return new Auton(drive, turret, limelight, shooter, 0.3, intake, index);
   }
 
   public Command getTeleCommand() {
