@@ -6,25 +6,11 @@ package frc.robot;
 
 import frc.robot.commands.LucaDrive;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryUtil;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.FridayRamseteCommand;
-import frc.robot.commands.IndexCommand;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.Auton;
 import frc.robot.constants.ButtonConstants;
 import frc.robot.constants.ButtonConstants.ControllerType;
 import frc.robot.subsystems.DriveTrain;
@@ -84,10 +70,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    FridayRamseteCommand reverseCommand = new FridayRamseteCommand(trajectory, drive);
-
-    // Reset odometry to the starting pose of the trajectory.
-    drive.resetOdometry(trajectory.getInitialPose());
     return new Auton(drive, shooter, limelight, shooter, 0.3, intake, index);
   }
 

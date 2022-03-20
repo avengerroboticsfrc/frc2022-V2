@@ -23,6 +23,7 @@ public class AimTurretAtHub extends CommandBase {
   @Override
   public void initialize() {
     System.out.println("Enable");
+    System.out.println("Limelight ON");
     limelight.enableLights();
   }
   
@@ -30,7 +31,6 @@ public class AimTurretAtHub extends CommandBase {
 
   @Override
   public void execute() {
-    System.out.println("Limelight ON");
     turret.turn(limelight.getRotationAdjust());
   }
 

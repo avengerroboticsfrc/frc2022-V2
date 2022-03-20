@@ -5,27 +5,27 @@ import frc.robot.subsystems.Intake;
 
 public class IntakeCommand extends CommandBase {
 
-    private final Intake intakeCommand;
-    private static double currentPower;
-public IntakeCommand(Intake intake, double power){
-    intakeCommand = intake;
-    currentPower = power;
+  private final Intake intake;
+  private final double power;
+
+  public IntakeCommand(Intake intake, double power) {
+    this.intake = intake;
+    this.power = power;
     addRequirements(intake);
-}
+  }
 
-@Override
-public void initialize() {
- }
+  @Override
+  public void initialize() {
+  }
 
- @Override
-public void execute(){
- intakeCommand.power(currentPower);
-}
+  @Override
+  public void execute() {
+    intake.power(power);
+  }
 
-@Override
+  @Override
   public void end(boolean interrupted) {
-
-
+    intake.power(0);
   }
 
   // Returns true when the command should end.
@@ -33,11 +33,4 @@ public void execute(){
   public boolean isFinished() {
     return false;
   }
-
-
 }
-
-
-
-
-

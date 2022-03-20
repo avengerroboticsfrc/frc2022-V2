@@ -10,9 +10,12 @@ public class Limelight extends SubsystemBase {
   // how many degrees back is your limelight rotated from perfectly vertical?
   private static final double LIMELIGHT_MOUNT_ANGLE_DEGREES = 17.00;
   // distance from the center of the Limelight lens to the floor
-  private static final double LIMELIGHT_LENS_HEIGHT_INCHES = 26.375;
+  private static final double LIMELIGHT_LENS_HEIGHT_METERS = 0.669925;
   // distance from the target to the floor
-  private static final double GOAL_HEIGHT_INCHES = 104;
+  private static final double GOAL_HEIGHT_METERS = 2.6416;
+
+  // TODO: Find this number
+  private static final double POWER_PER_METER = 0;
 
   private static final double KP = -0.1; // Proportional control constant
   private static final double MIN_COMMAND = 0.05; // Minimum amount to slightly move
@@ -23,13 +26,13 @@ public class Limelight extends SubsystemBase {
   public Limelight() {
     super();
     table = NetworkTableInstance.getDefault().getTable("limelight");
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
+    table.getEntry("ledMode").setNumber(0);
+    table.getEntry("pipeline").setNumber(0);
   }
 
   /*
-  Updates the NetworkTables values every 20ms.
-  */
+   * Updates the NetworkTables values every 20ms.
+   */
   @Override
   public void periodic() {
     SmartDashboard.putNumber("LimelightX", getTargetXOffset());
@@ -51,19 +54,24 @@ public class Limelight extends SubsystemBase {
     return rotationAdjust;
   }
 
-  /*
-  Calculates the distance to the hub using the targetYOffset.
-  */
+  /**
+   * Calculates the distance to the hub using the targetYOffset.
+   */
   public double getDistance() {
     double targetOffsetAngle_Vertical = getTargetYOffset();
 
-    double angleToGoalDegrees = LIMELIGHT_MOUNT_ANGLE_DEGREES + targetOffsetAngle_Vertical;
-    double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
-  
-    //calculates distance
-    double distanceFromLimelightToGoalInches = (GOAL_HEIGHT_INCHES - LIMELIGHT_LENS_HEIGHT_INCHES)/Math.tan(angleToGoalRadians);
-  
-    return distanceFromLimelightToGoalInches;
+    double angle = LIMELIGHT_MOUNT_ANGLE_DEGREES + targetOffsetAngle_Vertical;
+    double height = GOAL_HEIGHT_METERS - LIMELIGHT_LENS_HEIGHT_METERS;
+
+    // tan = opp / hypot; divide opp to get adj.
+    double distance = height / Math.tan(Math.toRadians(angle));
+
+    return distance;
+  }
+
+  public double powerFromDistance() {
+    // there's probably some more complicated math behind this. ¯\_(ツ)_/¯
+    return getDistance() * POWER_PER_METER;
   }
 
   private double getTargetXOffset() {
@@ -72,7 +80,7 @@ public class Limelight extends SubsystemBase {
   }
 
   private double getTargetYOffset() {
-    // returns 0 if no target  
+    // returns 0 if no target
     return table.getEntry("ty").getDouble(0);
   }
 
@@ -80,14 +88,14 @@ public class Limelight extends SubsystemBase {
     // returns 0 if no target
     return table.getEntry("ta").getDouble(0);
   }
-  
+
   public void disableLights() {
-    //Disables LEDs
+    // Disables LEDs
     NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(0);
   }
 
   public void enableLights() {
-    //Enables LEDs
+    // Enables LEDs
     NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(3);
   }
 }
