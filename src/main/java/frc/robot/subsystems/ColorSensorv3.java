@@ -1,18 +1,47 @@
 package frc.robot.subsystems;
 
 
+
+import com.revrobotics.ColorSensorV3;
+
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ColorSensorv3 extends SubsystemBase {
     
-    private ColorSensorv3 ColorSensor;
+    private final I2C.Port i2cPort = I2C.Port.kOnboard;
+    private final ColorSensorV3 color = new ColorSensorV3(i2cPort);
+    private final Color BlueColorTarget = new Color(0,0,255); //needs to change depending on the rgb value of the blue ball
+    private final Color RedColorTarget = new Color(255,0,0); //needs to change depending on the rgb value of the red ball
+    
 
-
-    public void getRedValue(){
-        ColorSensor.getRedValue();   
+    public boolean checkifBlue(){
+        if(color.getColor() == BlueColorTarget){
+            System.out.println("Detected Blue");
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean checkifRed(){
+        if(color.getColor() == RedColorTarget){
+            System.out.println("Detected Red");
+            return true;
+        }
+        return false;
     }
 
-    public void getBlueValue(){
-        ColorSensor.getBlueValue();
+    /*public void SpitOutBall(String color){
+
+        if(color == "blue"){
+            if(checkifBlue() == true){
+
+            }
+        }
     }
+*/
+
+
+
 }
