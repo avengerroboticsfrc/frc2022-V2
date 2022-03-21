@@ -24,6 +24,4 @@ def load_img(frame):
     img = cv2.resize(img, dsize=(const.PROCESSED_WIDTH, const.PROCESSED_HEIGHT), interpolation=cv2.INTER_CUBIC)
     # Numpy array
     np_image_data = np.asarray(img)
-    # maybe insert float convertion here - see edit remark!
-    np_final = np.expand_dims(np_image_data, axis=0)
-    return np_final
+    return np.expand_dims(np_image_data, axis=0) # np_final
