@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.commands.LucaDrive;
+import frc.robot.commands.PickUpBallCommand;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -52,7 +53,7 @@ public class RobotContainer {
   private final Trajectory trajectory;
   private final Limelight limelight;
   private final Intake intake;
-
+  private final Joystick ButtonPanel = new Joystick(ButtonConstants.BUTTON_PANEL_PORT);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -65,6 +66,8 @@ public class RobotContainer {
     trajectory = new Trajectory();
     limelight = new Limelight();
     intake = new Intake();
+    
+  
 
     // Config Buttons
 
@@ -75,8 +78,14 @@ public class RobotContainer {
             controller::getR2Axis,
             controller::getLeftX,
             controller::getCircleButton));
+  
+
   }
 
+  private void buttonBinds(){
+    JoystickButton PickUpBall = new JoystickButton(ButtonPanel, ButtonConstants.BALL_TO_SHOOTER);
+    PickUpBall.whenHeld(new PickUpBallCommand(intake, index, 0.5) );
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
