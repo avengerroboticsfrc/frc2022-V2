@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 
 
 import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.I2C;
@@ -16,8 +17,8 @@ public class ColorSensorv3 extends SubsystemBase {
     private final Color BlueColorTarget; 
     private final Color RedColorTarget; 
     private final ColorMatch StoredColors;
-
-
+    private static ColorMatchResult ClosestColor;
+    private static Color detectedColor;
 
 
     public ColorSensorv3(){
@@ -36,31 +37,22 @@ public class ColorSensorv3 extends SubsystemBase {
     }
 
     public boolean checkifBlue(){
-        if(color.getColor() == BlueColorTarget){
-            System.out.println("Detected Blue");
+      detectedColor = color.getColor();  
+      ClosestColor = StoredColors.matchClosestColor(detectedColor);
+
+        if(ClosestColor.color == BlueColorTarget){
             return true;
         }
-        return false;
+            return false;
     }
     
     public boolean checkifRed(){
-        if(color.getColor() == RedColorTarget){
-            System.out.println("Detected Red");
-            return true;
-        }
-        return false;
+      detectedColor = color.getColor();  
+      ClosestColor = StoredColors.matchClosestColor(detectedColor);
+
+      if(ClosestColor.color == RedColorTarget){
+          return true;
+      }
+      return false;
     }
-
-    /*public void SpitOutBall(String color){
-
-        if(color == "blue"){
-            if(checkifBlue() == true){
-
-            }
-        }
-    }
-*/
-
-
-
 }
