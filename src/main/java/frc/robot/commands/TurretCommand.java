@@ -4,19 +4,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
-public class AimTurretAtHub extends CommandBase {
+public class TurretCommand extends CommandBase {
 
-  private final Shooter turret;
+  private final Shooter shooter;
   private final Limelight limelight;
 
 
   /**
    * command to target the turret.
    */
-  public AimTurretAtHub(Shooter turret, Limelight limelight) {
-    this.turret = turret;
+  public TurretCommand(Shooter shooter, Limelight limelight) {
+    this.shooter = shooter;
     this.limelight = limelight;
-    addRequirements(turret, limelight);
+    addRequirements(shooter, limelight);
   }
 
 
@@ -26,12 +26,10 @@ public class AimTurretAtHub extends CommandBase {
     System.out.println("Limelight ON");
     limelight.enableLights();
   }
-  
-  
 
   @Override
   public void execute() {
-    turret.turn(limelight.getRotationAdjust());
+    shooter.turn(limelight.getRotationAdjust());
   }
 
   @Override

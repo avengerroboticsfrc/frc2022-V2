@@ -3,12 +3,12 @@ package frc.robot.commands;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ShooterCommand extends CommandBase {
+public class FlywheelCommand extends CommandBase {
 
     private final Shooter shooter;
     private final double shooterPower;
 
-    public ShooterCommand(Shooter shooter, double power){
+    public FlywheelCommand(Shooter shooter, double power){
         this.shooter = shooter;
         shooterPower = power;
         addRequirements(shooter);
