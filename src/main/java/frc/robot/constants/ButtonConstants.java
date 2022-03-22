@@ -18,7 +18,7 @@ public class ButtonConstants {
    */
 
   // TODO: map these better @Glidepixel can you take a look at this?
-  public static final int TOGGLE_INTAKE_EXTENDED = 3;
+  public static final int BALL_TO_SHOOTER = 3;
   public static final int INTAKE_OUT = 7;
   public static final int INTAKE_IN = 8;
 
