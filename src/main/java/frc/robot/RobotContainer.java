@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.commands.LucaDrive;
+import frc.robot.commands.PickUpBallCommand;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -39,7 +40,6 @@ public class RobotContainer {
   private final Shooter shooter;
   private final PS4Controller controller;
   private final Trajectory trajectory;
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -68,7 +68,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     FridayRamseteCommand reverseCommand = new FridayRamseteCommand(trajectory, drive);
-
+    
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(trajectory.getInitialPose());
     return reverseCommand;

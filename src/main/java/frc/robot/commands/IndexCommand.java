@@ -2,22 +2,21 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Index;
-import frc.robot.subsystems.Shooter;
 
 public class IndexCommand extends CommandBase {
 
   private final Index index;
-  private static double currentPower;
+  private final double power;
 
   public IndexCommand(Index index, double power) {
     this.index = index;
-    currentPower = power;
+    this.power = power;
     addRequirements(index);
   }
 
   @Override
   public void execute() {
-    index.power(currentPower);
+    index.power(power);
   }
 
   @Override

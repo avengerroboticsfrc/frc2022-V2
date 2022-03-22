@@ -8,14 +8,13 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.DriveTrain;
 
-import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
@@ -36,11 +35,11 @@ public class FridayRamseteCommand extends CommandBase {
   private final BiConsumer<Double, Double> output;
   private DifferentialDriveWheelSpeeds prevSpeeds;
   private double prevTime;
-  private final double[] times;
-  private final Command[] commands;
+  private final Map<Double, Command> commands;
   private Command currentCommand = null;
   private boolean firstRun = true;
   private int statesCompleted = 0;
+  private double[] timesCompleted;
 
   /**
    * creates a Ramsete Command with a given trajectory using the settings for our
@@ -54,7 +53,7 @@ public class FridayRamseteCommand extends CommandBase {
    * because WPILib didn't make it possible to implement a method to pause a
    * trajectory easily
    */
-  public FridayRamseteCommand(Trajectory trajectory, DriveTrain drive, Command... commands) {
+  public FridayRamseteCommand(Trajectory trajectory, DriveTrain drive, Map<Double, Command> commands) {
     super();
 
     this.trajectory = trajectory;
@@ -71,21 +70,8 @@ public class FridayRamseteCommand extends CommandBase {
     // RamseteCommand passes volts to the callback
     output = drive::tankDriveVolts;
 
-    /**
-     * create an array of all times that the robot needs to pause and run a command.
-     */
-    List<State> states = trajectory.getStates();
-    times = new double[states.size() - 2];
-    for (int i = 0; i < times.length; i++) {
-      times[i + 1] = states.get(i).timeSeconds;
-    }
-
-    if (commands.length != times.length) {
-      throw new Error(
-          "Number of commands passed in to FRIDAY RAMSETE Command does not match path states");
-    }
-
     this.commands = commands;
+    timesCompleted = new double[commands.size()];
 
     addRequirements(drive);
   }
@@ -118,10 +104,12 @@ public class FridayRamseteCommand extends CommandBase {
       return;
     }
 
-    if (roundTime(curTime) == roundTime(times[statesCompleted])) {
+    double time = roundTime(curTime);
+    if (commands.containsKey(roundTime(time)) && timesCompleted[statesCompleted] != time) {
       if (firstRun) {
         timer.stop();
-        currentCommand = commands[statesCompleted];
+        currentCommand = commands.get(time);
+        System.out.println(currentCommand.getName());
         currentCommand.initialize();
         firstRun = false;
       }
@@ -130,6 +118,7 @@ public class FridayRamseteCommand extends CommandBase {
       output.accept(0.0, 0.0);
 
       if (currentCommand.isFinished()) {
+        timesCompleted[statesCompleted] = time;
         statesCompleted++;
         currentCommand.end(false);
         firstRun = true;
@@ -156,8 +145,11 @@ public class FridayRamseteCommand extends CommandBase {
     return timer.hasElapsed(trajectory.getTotalTimeSeconds());
   }
 
+  /**
+   * rounds the number to the hundredths place
+   */
   private double roundTime(double time) {
-    return (double) Math.round(time * 10) / 10;
+    return (double) Math.round(time * 100) / 100;
   }
 
   /**
