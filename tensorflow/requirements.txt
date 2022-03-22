@@ -1,5 +1,4 @@
-tensorflow
 numpy
-opencv-python
+tensorflow
 pillow
-matplotlib
+opencv-python

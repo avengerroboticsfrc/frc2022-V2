@@ -1,4 +1,4 @@
-tflite_runtime
 numpy
-opencv-python
+tensorflow
 pillow
+opencv-python
