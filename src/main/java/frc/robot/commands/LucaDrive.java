@@ -14,7 +14,11 @@ public class LucaDrive extends CommandBase {
   private final DoubleSupplier rotation;
   private final BooleanSupplier turnInPlace;
   private final DoubleSupplier reverse;
+  private double kMaxTorque = 4.69 * 2;
+  private double wheelRadiusInMeters = 0.0762;
 
+   // kMaxTorque = 4.69 newton meters for one
+   
   /**
    * Creates a new LucaDrive.
    *
@@ -41,51 +45,62 @@ public class LucaDrive extends CommandBase {
     addRequirements(drive);
   }
 
-  @Override
-  public void execute() {
-    double speed = (reverse.getAsDouble() + (forward.getAsDouble()*-1)) * .5;
-    double rotate = rotation.getAsDouble();
-    double val = turnInPlace.getAsBoolean() ? .25 : 1;
-    double speed2 = speed>0 ? Math.pow(speed, 2) : -Math.pow(speed, 2);
-    double val2 = Math.pow(rotate, 3);
-    drive.curvatureDrive((speed2 * .5), (val2*val), turnInPlace.getAsBoolean());
-
-  }
-
   // @Override
   // public void execute() {
-  //   double percentOutput = (forward.getAsDouble() - reverse.getAsDouble());
-  //   // // if percent out is negative, multiply it by -1
-  //   double speed = percentOutput > 0 ? Math.pow(percentOutput, 2) : -Math.pow(percentOutput, 2);
+  //   double speed = (reverse.getAsDouble() + (forward.getAsDouble()*-1)) * .5;
+  //   double rotate = rotation.getAsDouble();
+  //   double val = turnInPlace.getAsBoolean() ? .25 : 1;
+  //   double speed2 = speed>0 ? Math.pow(speed, 2) : -Math.pow(speed, 2);
+  //   double val2 = Math.pow(rotate, 3);
+  //   drive.curvatureDrive((speed2 * .5), (val2*val), turnInPlace.getAsBoolean());
 
-  //   // // slow down the drivetrain if turnInPlace is pressed
-  //   // double speedMultiplier = turnInPlace.getAsBoolean() ? .35 : 1;
+  // }
 
-  //   // drive.curvatureDrive(
-  //   //     (speed * .6),
-  //   //     (rotation.getAsDouble() * speedMultiplier),
-  //   //     turnInPlace.getAsBoolean());
-   
-  //   // Theory is that since the left side acts like the right one
-  //   // I can just mirror to other side
-  //   // Honestly have 0 clue if this works lol
-  //   double voltage = speed * 12.0;
-  //   var motor = DCMotor.getFalcon500(2);
-  //   // IF SOMETHING DOESNT WORK ITS PROBABLY THIS LINE BELOW
-  //   double encoderSpeedLeft = drive.getWheelSpeeds().leftMetersPerSecond / wheelRadiusInMeters;
-  //   // double encoderSpeedRight = drive.getWheelSpeeds().rightMetersPerSecond * wheelRadiusInMeters;
-  //   double torqueLeft = motor.KtNMPerAmp * motor.getCurrent(encoderSpeedLeft, voltage);
-  //   // double torqueRight = motor.KtNMPerAmp * motor.getCurrent(encoderSpeedLeft, voltageLeft);
+  @Override
+  public void execute() {
+    double percentOutput = (forward.getAsDouble() - reverse.getAsDouble());
+    // // if percent out is negative, multiply it by -1
+
+
+    double speed = percentOutput > 0 ? Math.pow(percentOutput, 2) : -Math.pow(percentOutput, 2);
+    var motor = DCMotor.getFalcon500(2);
+
+
+    // // slow down the drivetrain if turnInPlace is pressed
+    // double speedMultiplier = turnInPlace.getAsBoolean() ? .35 : 1;
+
+    double voltageLeft = percentOutput*12;
+    double voltageRight = percentOutput*12;
+    double voltageLeft2;
+
+    // IF SOMETHING DOESNT WORK ITS PROBABLY THIS LINE BELOW
+    double encoderSpeedLeft = drive.getWheelSpeeds().leftMetersPerSecond * wheelRadiusInMeters;
+    double encoderSpeedRight = drive.getWheelSpeeds().rightMetersPerSecond * wheelRadiusInMeters;
+    double torqueLeft = motor.KtNMPerAmp * motor.getCurrent(encoderSpeedLeft, voltageLeft);
+    double torqueRight = motor.KtNMPerAmp * motor.getCurrent(encoderSpeedLeft, voltageRight);
     
-  //   // Find voltage that limits torque
-  //   if (Math.abs(torqueLeft) > kMaxTorque) {
-  //     voltage = kMaxTorque * Math.signum(torqueLeft) / motor.KtNMPerAmp * motor.rOhms +
-  //       encoderSpeedLeft / motor.KvRadPerSecPerVolt;
-  //     drive.curvatureDrive(voltage, rotation.getAsDouble(), turnInPlace.getAsBoolean());// should work
-  //     // if you do drive.curvatureDriveVolts(voltage * 2); if controlling all 4 motor voltages at once
-  //     // I can't figure out how to limit voltages for curvatureDrive, I think you can take over
-  //   }
+    double encoder = drive.getAverageEncoderDistance() * wheelRadiusInMeters;
+    double torque = (torqueLeft+torqueRight)/2;
+    double encoderSpeed = (encoderSpeedLeft+encoderSpeedRight)/2;
+    // Find voltage that limits torque
+    if (Math.abs(torque) > kMaxTorque) {
+      voltageLeft2 = kMaxTorque * Math.signum(torque) / motor.KtNMPerAmp * motor.rOhms +
+        encoder / motor.KvRadPerSecPerVolt;
 
+    // drive.curvatureDrive(
+    //     (speed * .6),
+    //     (rotation.getAsDouble() * speedMultiplier),
+    //     turnInPlace.getAsBoolean());
+   
+    // Theory is that since the left side acts like the right one
+    // I can just mirror to other side
+    // Honestly have 0 clue if this works lol
+    
+      drive.curvatureDrive(voltageLeft2, rotation.getAsDouble(), turnInPlace.getAsBoolean());
+    }// should work
+      // if you do drive.curvatureDriveVolts(voltage * 2); if controlling all 4 motor voltages at once
+      // I can't figure out how to limit voltages for curvatureDrive, I think you can take over
+  }
   public void forwardAuto() {
     drive.tankDrive(.2, .2);
   }

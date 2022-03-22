@@ -43,15 +43,6 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-
-    // set the hood power based on the current position and target
-    // change only if its over half a rotation off
-    double power = 0;
-    if (getHoodPosition() > targetPosition + 0.5 || getHoodPosition() < targetPosition - 0.5) {
-      // can make this slower or faster if needed
-      power = getHoodPosition() > targetPosition ? -0.3 : 0.3;
-    }
-    //hoodMotor.set(power);
   }
 
   /**
