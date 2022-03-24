@@ -13,7 +13,7 @@ import frc.robot.constants.PortConstants;
 public class Shooter extends SubsystemBase {
   private final TalonFX flywheelMotor;
   public final TalonSRX turretTurnMotor;
-  private final Servo hood;
+  private final Servo[] hood;
 
   // TODO: find this value
   private static final double HOOD_ACTUATOR_LENGTH_CM = 14;
@@ -26,9 +26,13 @@ public class Shooter extends SubsystemBase {
     super();
     flywheelMotor = new TalonFX(PortConstants.FLYWHEEL_MOTOR);
     turretTurnMotor = new TalonSRX(PortConstants.TURRET_TURN_MOTOR);
-    hood = new Servo(PortConstants.HOOD_SERVO);
+    hood = new Servo[] {
+        new Servo(PortConstants.HOOD_SERVOS[0]),
+        new Servo(PortConstants.HOOD_SERVOS[1])
+    };
 
-    hood.setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
+    hood[0].setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
+    hood[1].setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
   }
 
   /**
@@ -49,11 +53,12 @@ public class Shooter extends SubsystemBase {
    * Set the hood's position in cm.
    */
   public void extendHood(double cm) {
-    hood.set(cm / HOOD_ACTUATOR_LENGTH_CM);
+    hood[0].set(cm / HOOD_ACTUATOR_LENGTH_CM);
+    hood[1].set(cm / HOOD_ACTUATOR_LENGTH_CM);
     System.out.println("the hood length is " + cm);
   }
 
   public double getHoodPos() {
-    return hood.get() * HOOD_ACTUATOR_LENGTH_CM;
+    return hood[0].get() * HOOD_ACTUATOR_LENGTH_CM;
   }
 }
