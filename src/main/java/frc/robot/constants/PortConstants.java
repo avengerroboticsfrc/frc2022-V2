@@ -20,11 +20,10 @@ public final class PortConstants {
   public static final int HOOD_SERVO = 41;
   public static final int TURRET_TURN_MOTOR = 5;
 
-  public static final int[] LIFT_MOTORS = { 8, 9 };
-  public static final int[] ARM_MOTORS = { 7, 11 };
+  public static final int VERTICAL_LIFT_MOTORS = 8;
+  public static final int ARM_MOTOR = 7;
 
   public static final int[] INTAKE_PNEUMATICS_PORTS = { 0, 1 };
   public static final int INTAKE_MOTOR = 12;
   public static final int INDEX_MOTOR = 6;
-  public static final int ColorSensor = 3; //port will change
 }
