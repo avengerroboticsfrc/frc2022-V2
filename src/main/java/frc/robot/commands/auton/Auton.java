@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.commands.auton;
 
 import com.pathplanner.lib.PathPlanner;
 
@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.FridayRamseteCommand;
-import frc.robot.commands.IntakeAndShootBallCommand;
+import frc.robot.commands.IntakeAndShootCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
@@ -21,19 +21,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Auton extends SequentialCommandGroup {
-  public Auton(DriveTrain drive, Shooter turret, Limelight limelight, Shooter shooter, double power, Intake intake, Index index) {
+  public Auton(DriveTrain drive, Shooter turret, Limelight limelight, Shooter shooter, Intake intake, Index index) {
     Trajectory path = PathPlanner.loadPath("4-Ball", 3, 5);
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(path.getInitialPose());
 
     Map<Double, Command> commands = new HashMap<Double,Command>();
-    commands.put(1.4980619414234015, new IntakeAndShootBallCommand(shooter, index, limelight, intake, power));
-    commands.put(3.1415553579132585, new IntakeAndShootBallCommand(shooter, index, limelight, intake, power));
+    commands.put(1.4980619414234015, new IntakeAndShootCommand(shooter, index, limelight, intake));
+    commands.put(3.1415553579132585, new IntakeAndShootCommand(shooter, index, limelight, intake));
 
     addCommands(
       deadline(new ShootBallCommand(shooter, index, limelight), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
       new FridayRamseteCommand(path, drive, commands),
-      deadline(new IntakeAndShootBallCommand(shooter, index, limelight, intake, power), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
+      deadline(new IntakeAndShootCommand(shooter, index, limelight, intake), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
       new InstantCommand(() -> System.out.println("trajectory over")),
       new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)
     );
