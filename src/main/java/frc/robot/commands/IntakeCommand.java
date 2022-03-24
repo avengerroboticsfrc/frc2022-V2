@@ -20,12 +20,14 @@ public class IntakeCommand extends CommandBase {
 
   @Override
   public void execute() {
+    intake.extend();
     intake.power(power);
   }
 
   @Override
   public void end(boolean interrupted) {
     intake.power(0);
+    intake.retract();
   }
 
   // Returns true when the command should end.

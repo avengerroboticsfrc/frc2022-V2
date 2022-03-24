@@ -1,3 +1,8 @@
+/**
+ * PLEASE DON'T MODIFY THIS THX
+ * -kh
+ */
+
 package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;

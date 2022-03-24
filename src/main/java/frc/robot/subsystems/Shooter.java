@@ -46,9 +46,14 @@ public class Shooter extends SubsystemBase {
   }
 
   /**
-   * Set the hood's position in inches.
+   * Set the hood's position in cm.
    */
-  public void extendHood(double inches) {
-    hood.set(inches / HOOD_ACTUATOR_LENGTH_CM);
+  public void extendHood(double cm) {
+    hood.set(cm / HOOD_ACTUATOR_LENGTH_CM);
+    System.out.println("the hood length is " + cm);
+  }
+
+  public double getHoodPos() {
+    return hood.get() * HOOD_ACTUATOR_LENGTH_CM;
   }
 }

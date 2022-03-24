@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
-public class TurretCommand extends CommandBase {
+public class TargetHubCommand extends CommandBase {
 
   private final Shooter shooter;
   private final Limelight limelight;
@@ -13,7 +13,7 @@ public class TurretCommand extends CommandBase {
   /**
    * command to target the turret.
    */
-  public TurretCommand(Shooter shooter, Limelight limelight) {
+  public TargetHubCommand(Shooter shooter, Limelight limelight) {
     this.shooter = shooter;
     this.limelight = limelight;
     addRequirements(shooter, limelight);
