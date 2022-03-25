@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.FridayRamseteCommand;
-import frc.robot.commands.IntakeAndShootCommand;
+import frc.robot.commands.IntakeAndShootCommandGroup;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
-import frc.robot.commands.ShootBallCommand;
+import frc.robot.commands.ShootBallCommandGroup;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Index;
 
@@ -27,13 +27,13 @@ public class Auton extends SequentialCommandGroup {
     drive.resetOdometry(path.getInitialPose());
 
     Map<Double, Command> commands = new HashMap<Double,Command>();
-    commands.put(1.4980619414234015, new IntakeAndShootCommand(shooter, index, limelight, intake));
-    commands.put(3.1415553579132585, new IntakeAndShootCommand(shooter, index, limelight, intake));
+    //commands.put(1.4980619414234015, new IntakeAndShootCommandGroup(shooter, index, limelight, intake));
+    commands.put(3.1415553579132585, new IntakeAndShootCommandGroup(shooter, index, limelight, intake));
 
     addCommands(
-      deadline(new ShootBallCommand(shooter, index, limelight), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
+      deadline(new ShootBallCommandGroup(shooter, index, limelight), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
       new FridayRamseteCommand(path, drive, commands),
-      deadline(new IntakeAndShootCommand(shooter, index, limelight, intake), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
+      deadline(new IntakeAndShootCommandGroup(shooter, index, limelight, intake), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
       new InstantCommand(() -> System.out.println("trajectory over")),
       new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)
     );

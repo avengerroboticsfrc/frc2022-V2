@@ -30,10 +30,10 @@ public class Intake extends SubsystemBase {
    * creates a new intake class.
    */
   public Intake() {
-    // init subsystem class
     super();
+    // init subsystem class
 
-    compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+    compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
     intakeSolenoid = new DoubleSolenoid(
       PneumaticsModuleType.CTREPCM,
       PortConstants.INTAKE_PNEUMATICS_PORTS[0],
@@ -42,11 +42,6 @@ public class Intake extends SubsystemBase {
     intakeMotor = new CANSparkMax(12, MotorType.kBrushless);
 
     intakeMotor.setIdleMode(IdleMode.kCoast);
-    start();
-  }
-
-  // Method Stoping Pneumatics System
-  public void start() {
     compressor.enableDigital();
   }
 
@@ -54,7 +49,6 @@ public class Intake extends SubsystemBase {
   public void stop() {
     compressor.disable();
   }
-
   
   // Method Extending Intake with Solenoids & Pneumatic System
   public void extend() {
@@ -83,11 +77,11 @@ public class Intake extends SubsystemBase {
    * set the power of the intake.
    */
   public void power(double speed) {
-    if (isExtended) {
-      intakeMotor.set(speed);
-    } else {
-      intakeMotor.set(0);
+    //TODO: FIX
+    intakeMotor.set(speed);
+    // if (isExtended) {
+    //   intakeMotor.set(speed);
+    // } else {
+    //   intakeMotor.set(0);
     }
   }
-
-}

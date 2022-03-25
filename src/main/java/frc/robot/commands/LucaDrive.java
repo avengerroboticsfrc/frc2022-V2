@@ -1,64 +1,49 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
 import frc.robot.subsystems.DriveTrain;
-
-import java.util.function.BooleanSupplier;
+import java.lang.Math;
 import java.util.function.DoubleSupplier;
+import java.util.function.BooleanSupplier;
 
 public class LucaDrive extends CommandBase {
   private final DriveTrain drive;
   private final DoubleSupplier forward;
   private final DoubleSupplier rotation;
-  private final BooleanSupplier turnInPlace;
+  private final BooleanSupplier turn;
   private final DoubleSupplier reverse;
-  // private double kMaxTorque = 4.69 * 2;
-  // private double wheelRadiusInMeters = 0.0762;
-
-  // kMaxTorque = 4.69 newton meters for one
 
   /**
-   * Creates a new LucaDrive.
+   * Creates a new DefaultDrive.
    *
-   * @param subsystem   The drive subsystem this command wil run on.
-   * @param forward     The control input for driving forwards
-   * @param reverse     The control input for reversing
-   * @param rotation    The control input for turning
-   * @param turnInPlace The button input for whether to turn in place
+   * @param subsystem The drive subsystem this command wil run on.
+   * @param forward   The control input for driving forwards/backwards
+   * @param rotation  The control input for turning
    */
-  public LucaDrive(
-      DriveTrain subsystem,
-      DoubleSupplier forward,
-      DoubleSupplier reverse,
-      DoubleSupplier rotation,
-      BooleanSupplier turnInPlace) {
+  public LucaDrive(DriveTrain subsystem, DoubleSupplier reverse, DoubleSupplier forward, DoubleSupplier rotation, BooleanSupplier turn) {
     super();
-
     this.drive = subsystem;
     this.reverse = reverse;
     this.forward = forward;
     this.rotation = rotation;
-    this.turnInPlace = turnInPlace;
+    this.turn = turn;
 
+    
     addRequirements(drive);
   }
 
   @Override
   public void execute() {
-    double percentOutput = (forward.getAsDouble() - reverse.getAsDouble());
+    double speed = (reverse.getAsDouble() + (forward.getAsDouble()*-1)) * .5;
+    double rotate = rotation.getAsDouble();
 
-    // if percent out is negative, multiply it by -1
-    double speed = percentOutput > 0 ? Math.pow(percentOutput, 2) : -Math.pow(percentOutput, 2);
+    double val = turn.getAsBoolean() ? .25 : 1;
+    double speed2 = speed>0 ? Math.pow(speed, 2) : -Math.pow(speed, 2);
+    double val2 = Math.pow(rotate, 3);
 
-    // slow down the drivetrain if turnInPlace is pressed
-    double speedMultiplier = turnInPlace.getAsBoolean() ? .35 : 1;
-
-    drive.curvatureDrive(
-        (speed * .6),
-        (rotation.getAsDouble() * speedMultiplier),
-        turnInPlace.getAsBoolean());
+    drive.curvatureDrive((speed2*.8), (val2*.3), turn.getAsBoolean());
   }
+
 
   /*
   @Override

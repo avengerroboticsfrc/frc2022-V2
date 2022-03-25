@@ -16,14 +16,14 @@ public class Lift extends SubsystemBase {
     super();
 
     verticalMotor = new VictorSPX(PortConstants.VERTICAL_LIFT_MOTORS);
-    angularMotor = new CANSparkMax(PortConstants.ARM_MOTOR, MotorType.kBrushless);
+    //angularMotor = new CANSparkMax(PortConstants.ARM_MOTOR, MotorType.kBrushless);
   }
 
   public void vertical(double power) {
     verticalMotor.set(VictorSPXControlMode.PercentOutput, power);
   }
 
-  public void turn(double power) {
-    angularMotor.set(power);
-  }
+  // public void turn(double power) {
+  //   angularMotor.set(power);
+  // }
 }

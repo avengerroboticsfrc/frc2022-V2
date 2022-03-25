@@ -45,8 +45,8 @@ public class Limelight extends SubsystemBase {
    */
   public double getRotationAdjust() {
     double rotationAdjust = 0.0;
-    double targetX = getTargetXOffset();
-
+    double targetX = table.getEntry("tx").getDouble(0);
+    System.out.println(targetX);
     rotationAdjust = (targetX > 1.0)
         ? KP * -1 * targetX - MIN_COMMAND
         : KP * -1 * targetX + MIN_COMMAND;

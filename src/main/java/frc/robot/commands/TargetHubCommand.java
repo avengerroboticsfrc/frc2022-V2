@@ -30,6 +30,7 @@ public class TargetHubCommand extends CommandBase {
   @Override
   public void execute() {
     shooter.turn(limelight.getRotationAdjust());
+    shooter.extendHood(limelight.getDistance()*.05);
   }
 
   @Override

@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -13,9 +12,8 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.PortConstants;
 
-public class DriveTrain extends SubsystemBase {
+public abstract class DriveTrain extends SubsystemBase {
   protected final WPI_TalonFX[] leftMotors;
   protected final WPI_TalonFX[] rightMotors;
 
@@ -29,16 +27,16 @@ public class DriveTrain extends SubsystemBase {
   /**
    * this method is called when the DriveTrainSubsystem class is initialized.
    */
-  public DriveTrain() {
+  public DriveTrain(int[] left, int[] right) {
     super();
 
     this.leftMotors = new WPI_TalonFX[] {
-        new WPI_TalonFX(PortConstants.LEFT_DRIVE[0]),
-        new WPI_TalonFX(PortConstants.RIGHT_DRIVE[1])
+        new WPI_TalonFX(left[0]),
+        new WPI_TalonFX(left[1])
     };
     this.rightMotors = new WPI_TalonFX[] {
-        new WPI_TalonFX(PortConstants.RIGHT_DRIVE[0]),
-        new WPI_TalonFX(PortConstants.RIGHT_DRIVE[1])
+        new WPI_TalonFX(right[0]),
+        new WPI_TalonFX(right[1])
     };
 
     driveTrain = new DifferentialDrive(
@@ -51,15 +49,15 @@ public class DriveTrain extends SubsystemBase {
     rightMotors[0].configFactoryDefault();
     rightMotors[1].configFactoryDefault();
 
-    leftMotors[0].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    leftMotors[1].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    rightMotors[0].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-    rightMotors[1].configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
+    leftMotors[0].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    leftMotors[1].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    rightMotors[0].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    rightMotors[1].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
-    leftMotors[0].configOpenloopRamp(.5);
-    leftMotors[1].configOpenloopRamp(.5);
-    rightMotors[0].configOpenloopRamp(.5);
-    rightMotors[1].configOpenloopRamp(.5);
+    leftMotors[0].configOpenloopRamp(1);
+    leftMotors[1].configOpenloopRamp(1);
+    rightMotors[0].configOpenloopRamp(1);
+    rightMotors[1].configOpenloopRamp(1);
 
     leftMotors[1].follow(leftMotors[0]);
     rightMotors[1].follow(rightMotors[0]);
@@ -67,10 +65,11 @@ public class DriveTrain extends SubsystemBase {
     rightMotors[0].setInverted(true);
     rightMotors[1].setInverted(InvertType.FollowMaster);
 
-    leftMotors[0].setNeutralMode(NeutralMode.Brake);
-    leftMotors[1].setNeutralMode(NeutralMode.Brake);
-    rightMotors[0].setNeutralMode(NeutralMode.Brake);
-    rightMotors[1].setNeutralMode(NeutralMode.Brake);
+    leftMotors[0].setNeutralMode(NeutralMode.Coast);
+    leftMotors[1].setNeutralMode(NeutralMode.Coast);
+    rightMotors[0].setNeutralMode(NeutralMode.Coast);
+    rightMotors[1].setNeutralMode(NeutralMode.Coast);
+
 
     resetEncoders();
   }
@@ -149,8 +148,6 @@ public class DriveTrain extends SubsystemBase {
    * speeds.
    */
   public void curvatureDrive(double speed, double rotation, boolean turn) {
-
-    
     driveTrain.curvatureDrive(speed, rotation, turn);
   }
 
@@ -178,41 +175,5 @@ public class DriveTrain extends SubsystemBase {
 
   public void gyroCalibrate() {
     gyro.calibrate();
-  }
-
-  public void ConfigPid() {
-    int pidIdx = 0;
-    int slotIdx = 0;
-    double pos = 0;
-    leftMotors[0].setSensorPhase(true);
-    leftMotors[1].setSensorPhase(true);
-    rightMotors[0].setSensorPhase(true);
-    rightMotors[1].setSensorPhase(true);
-    leftMotors[0].configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, pidIdx, 100);
-    leftMotors[1].configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, pidIdx, 100);
-    rightMotors[0].configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, pidIdx, 100);
-    rightMotors[1].configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, pidIdx, 100);
-    leftMotors[0].config_kP(slotIdx, 0);
-    leftMotors[1].config_kP(slotIdx, 0);
-    rightMotors[0].config_kP(slotIdx, 0);
-    rightMotors[1].config_kP(slotIdx, 0);
-    leftMotors[0].config_kI(slotIdx, 0);
-    leftMotors[1].config_kI(slotIdx, 0);
-    rightMotors[0].config_kI(slotIdx, 0);
-    rightMotors[1].config_kI(slotIdx, 0);
-    leftMotors[0].config_kD(slotIdx, 0);
-    leftMotors[1].config_kD(slotIdx, 0);
-    rightMotors[0].config_kD(slotIdx, 0);
-    rightMotors[1].config_kD(slotIdx, 0);
-    leftMotors[0].config_kF(slotIdx, 0);
-    leftMotors[1].config_kF(slotIdx, 0);
-    rightMotors[0].config_kF(slotIdx, 0);
-    rightMotors[1].config_kF(slotIdx, 0);
-    leftMotors[0].setSelectedSensorPosition(pos, pidIdx, 100);
-    leftMotors[1].setSelectedSensorPosition(pos, pidIdx, 100);
-    rightMotors[0].setSelectedSensorPosition(pos, pidIdx, 100);
-    rightMotors[1].setSelectedSensorPosition(pos, pidIdx, 100);
-
-
   }
 }
