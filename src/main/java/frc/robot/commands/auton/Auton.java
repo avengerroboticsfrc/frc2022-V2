@@ -29,7 +29,6 @@ public class Auton extends SequentialCommandGroup {
     Map<Double, Command> commands = new HashMap<Double,Command>();
     //commands.put(1.4980619414234015, new IntakeAndShootCommandGroup(shooter, index, limelight, intake));
     commands.put(3.1415553579132585, new IntakeAndShootCommandGroup(shooter, index, limelight, intake));
-
     addCommands(
       deadline(new ShootBallCommandGroup(shooter, index, limelight), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
       new FridayRamseteCommand(path, drive, commands),
