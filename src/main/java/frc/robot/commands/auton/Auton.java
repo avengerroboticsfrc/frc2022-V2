@@ -27,7 +27,7 @@ public class Auton extends SequentialCommandGroup {
     drive.resetOdometry(path.getInitialPose());
 
     Map<Double, Command> commands = new HashMap<Double,Command>();
-    commands.put(1.4980619414234015, new IntakeAndShootCommand(shooter, index, limelight, intake));
+    // commands.put(1.4980619414234015, new IntakeAndShootCommand(shooter, index, limelight, intake));
     commands.put(3.1415553579132585, new IntakeAndShootCommand(shooter, index, limelight, intake));
 
     addCommands(
