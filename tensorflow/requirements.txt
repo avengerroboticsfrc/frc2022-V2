@@ -2,3 +2,4 @@ numpy
 tensorflow
 pillow
 opencv-python
+pynetworktables

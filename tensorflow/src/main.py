@@ -8,6 +8,7 @@ from util import *
 
 # Example Detection: [{'bounding_box': array([0.26929605, 0.5280721 , 0.48070395, 0.71024466], dtype=float32), 'class_id': 0.0, 'score': 0.796875}, {'bounding_box': array([0.27319047, 0.3893147 , 0.48459837, 0.55939335], dtype=float32), 'class_id': 1.0, 'score': 0.7578125}]
 
+
 # Load Labels into List
 classes = LABELS.copy()
 
@@ -26,20 +27,24 @@ def run_odt(image_path, interpreter, threshold=0.5):
 
 
 def main():
-  # Start Video Capture
-  vid = cv2.VideoCapture(0)
-
-  # Set Video Dimensions to Trained Dimensions
-  vid.set(3, CAM_WIDTH) # Width
-  vid.set(4, CAM_HEIGHT) # Height
-
   # Load TFLite model
   interpreter = lite.Interpreter(model_path=MODEL_PATH, num_threads=NUM_THREADS)
   interpreter.allocate_tensors()
 
+  # Start Video Capture from Pre-Configured MJPEG Server
+  vid = cv2.VideoCapture(SERVER)
+
+  # Set Video Dimensions to Trained Dimensions
+  vid.set(3, CAM_WIDTH) # Width
+  vid.set(4, CAM_HEIGHT) # Height
+#Bing Bong
   while True:
       # Read Frame from Webcam
       ret, frame = vid.read()
+      # Empty Frame Handling
+      if not ret:
+        print("Frame Skipped")
+        continue
       # Write Frame to File for TF Processing
       cv2.imwrite("frame.png", frame)
 

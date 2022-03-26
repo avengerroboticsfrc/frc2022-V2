@@ -4,12 +4,22 @@ import cv2
 from PIL import Image
 import numpy as np
 import tensorflow as tf
+# Test Only
 from time import time
 
 # Local Imports
 from const import *
 from util import *
 
+#           ___ ____                      __                   __    __      ______    ___      ____   _________
+#          |__   ___|                    |  |               __|  |___| |__  /      |  /  /     /    \ |    _____|
+#             | | ______   ____  ______  |  | ___  ___ ___ |__    ___   __|/__/|   | /  /___   | /\ | |___   \
+#             | | | ( ) | |    \ | ( ) | |  |/   \ | | | |  __|  |   |  |__    |   ||  |/   \  | || |     |   |
+#           __/ / |___  | | ( ) ||___  | |    ( )| | |_| | |__    ___    __|   |   ||    () /  | \/ |  ___/   /
+#          |___/      \_\ |   _/     \_\ |__|\___/ \_____/    |__|   |__|      |___| \_____/   \____/  |_____/
+#                         |  |
+#                         |__|
+#
 # Load Labels into List
 classes = LABELS.copy()
 
@@ -45,6 +55,7 @@ def run_odt_and_draw_results(image_path, interpreter, threshold=0.5):
         color = COLORS[class_id]
         cv2.rectangle(original_image_np, (xmin, ymin), (xmax, ymax), color, 2)
         # Make adjustments to make the label visible for all objects
+        #Do you read the comments?
         y = ymin - 15 if ymin > 30 else ymin + 15
         label = "{}: {:.0f}%".format(classes[class_id], obj["score"] * 100)
         cv2.putText(
@@ -53,17 +64,17 @@ def run_odt_and_draw_results(image_path, interpreter, threshold=0.5):
     return original_image_np.astype(np.uint8)
 
 def main():
-    # Start Video Capture
+    # Start Video Capture from Webcam
     vid = cv2.VideoCapture(0)
 
-    # Set Video Dimensions to Trained Dimensions
+    # # Set Video Dimensions to Trained Dimensions
     vid.set(3, CAM_WIDTH) # Width
     vid.set(4, CAM_HEIGHT) # Height
 
     # Load TFLite model
     interpreter = tf.lite.Interpreter(model_path=MODEL_PATH, num_threads=NUM_THREADS)
     interpreter.allocate_tensors()
-
+    #Bing Bong duck ur life
     while True:
         # Read Frame from Webcam
         ret, frame = vid.read()
@@ -75,7 +86,7 @@ def main():
         detection_result_image = run_odt_and_draw_results(
             "frame.png", interpreter, threshold=DETECTION_THRESHOLD
         )
-        print(f"Elapsed: {time() - it}")
+        print(f"Evaluation Time: {time() - it}")
 
         # Show Detection Result
         fin_img = cv2.cvtColor(
@@ -90,6 +101,16 @@ def main():
     # Release Webcam and Destroy Windows
     vid.release()
     cv2.destroyAllWindows()
+    #         __________________________
+    #        /     _                     \
+    #       |       ___                   \
+    #       |      |\  \                   \    _____
+    #       |      |_|__|                   \  /    /
+    #       |          ______                \/    /
+    #       \____________|      _____________     |
+    #         \__\__\____|   /__\___\___\__/  \    \
+    #                    \   \                 \____\
+    #                     \___\                 
 
 if __name__ == "__main__":
     main()
