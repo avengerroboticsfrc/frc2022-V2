@@ -12,6 +12,8 @@ public class LucaDrive extends CommandBase {
   private final DoubleSupplier rotation;
   private final BooleanSupplier turn;
   private final DoubleSupplier reverse;
+  private double heldSpeed2 = 0;
+  private final double decayVar = 0.96;
 
   /**
    * Creates a new DefaultDrive.
@@ -41,7 +43,28 @@ public class LucaDrive extends CommandBase {
     double speed2 = speed>0 ? Math.pow(speed, 2) : -Math.pow(speed, 2);
     double val2 = Math.pow(rotate, 3);
 
-    drive.curvatureDrive((speed2*.5), (val2*.3), turn.getAsBoolean());
+    System.out.println("Real Speed" + speed2);
+    System.out.println("Held Speed" + heldSpeed2);
+    // If you stop putting in inputs
+    // Robot keeps moving, exponentially decreasing speed
+    if (Math.abs(speed2) < 0.1) {
+      heldSpeed2 *= decayVar;
+      drive.curvatureDrive(heldSpeed2, (val2*.3), turn.getAsBoolean());
+      // 0.18 is the stopping threshold
+      // Technical value the robot stops moving is 0.2
+      // AKA bare minimum input to move robot ^^^
+
+      // Hard Brake Code
+      // if (Math.abs(speed2) < 0.05) {
+      //   heldSpeed2 = 0;
+      // }
+
+      // IF there is ANY controller input, drive as normal
+    } else {
+      drive.curvatureDrive((speed2*.5), (val2*.3), turn.getAsBoolean());
+      // Hold inputs at end due to how it cycles
+      heldSpeed2 = speed2;
+    }
   }
 
 

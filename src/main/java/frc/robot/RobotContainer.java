@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.auton.Auton;
@@ -17,6 +20,7 @@ import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.IndexCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeExtendCommand;
+import frc.robot.commands.IntakeRetractCommand;
 import frc.robot.commands.LiftCommand;
 import frc.robot.commands.TargetHubCommand;
 import frc.robot.constants.ButtonConstants;
@@ -73,31 +77,34 @@ public class RobotContainer {
     // Can turn in place with button press.
     drive.setDefaultCommand(
         // pass in a reference to a method
-        // new LucaDrive( 
-        //     drive,
-        //     controller::getL2Axis,
-        //     controller::getR2Axis,
-        //     controller::getLeftX,
-        //     controller::getCircleButton
-        // ));
-        new DefaultDrive(drive, controller::getLeftY, controller::getRightY, controller::getR1Button));
+        new LucaDrive( 
+            drive,
+            controller::getL2Axis,
+            controller::getR2Axis,
+            controller::getLeftX,
+            controller::getCircleButton
+        ));
+        // new DefaultDrive(drive, controller::getLeftY, controller::getRightY, controller::getR1Button));
   }
 
   private void configureButtonBindings() {
     JoystickButton toggleIntake = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_TOGGLE_AND_OPEN);
     toggleIntake.whenHeld(new IntakeExtendCommand(intake));
 
+    JoystickButton toggleIntakeRetract = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_RETRACT);
+    toggleIntakeRetract.whenHeld(new IntakeRetractCommand(intake));
+
     JoystickButton indexUp = new JoystickButton(buttonPanel, ButtonConstants.INDEX_UP);
-    indexUp.whenHeld(new IndexCommand(index, -.5));
+    indexUp.whenHeld(new IndexCommand(index, .5));
 
     JoystickButton indexOut = new JoystickButton(buttonPanel, ButtonConstants.INDEX_OUT);
-    indexOut.whenHeld(new IndexCommand(index, .5));
+    indexOut.whenHeld(new IndexCommand(index, -.5));
 
     JoystickButton runIntakeIn = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_IN);
-    runIntakeIn.whenHeld(new IntakeCommand(intake, -.7));
+    runIntakeIn.whenHeld(new IntakeCommand(intake, .4));
 
     JoystickButton runIntakeOut = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_OUT);
-    runIntakeOut.whenHeld(new IntakeCommand(intake, .4));
+    runIntakeOut.whenHeld(new IntakeCommand(intake, -.7));
 
     //Shoot button
     JoystickButton shootButton = new JoystickButton(buttonPanel, ButtonConstants.FLYWHEEL_ON);
@@ -135,8 +142,38 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    
+    Command stopDriveCommand = new RunCommand(() -> drive.tankDriveVolts(0, 0), drive);
+    Command powerIndexCommand = new RunCommand(() -> index.power(1), index);
+    Command endIndexCommand = new RunCommand(() -> index.power(0), index);
 
-    return null;
+    Command forwardDrive = new RunCommand(() -> drive.tankDrive(.5, .5), drive);
+
+    Command holdCom = new WaitCommand(0);
+
+
+    return new ParallelDeadlineGroup(
+        new WaitCommand(3),
+        new RunCommand(() -> drive.tankDrive(.5, .5), drive)
+      ).andThen(new ParallelDeadlineGroup(
+        new WaitCommand(3)))
+      .andThen(() -> drive.tankDrive(0, 0), drive);
+
+
+
+    // // SHoot and drive back (works)
+    // return holdCom
+    // .andThen(new ParallelDeadlineGroup(new WaitCommand(4)
+    // ,
+    // powerShooterCommand,
+    // powerIndexCommand)).andThen(new ParallelDeadlineGroup(new WaitCommand(5)
+    // , 
+    // forwardDrive,
+    // endShooterCommand,
+    // endIndexCommand
+    // ));
+
+    // return null;
 
     //return new Auton(drive, shooter, limelight, shooter, intake, index);
   }
