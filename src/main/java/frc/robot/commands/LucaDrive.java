@@ -41,7 +41,7 @@ public class LucaDrive extends CommandBase {
     double speed2 = speed>0 ? Math.pow(speed, 2) : -Math.pow(speed, 2);
     double val2 = Math.pow(rotate, 3);
 
-    drive.curvatureDrive((speed2*.8), (val2*.3), turn.getAsBoolean());
+    drive.curvatureDrive((speed2*.5), (val2*.3), turn.getAsBoolean());
   }
 
 

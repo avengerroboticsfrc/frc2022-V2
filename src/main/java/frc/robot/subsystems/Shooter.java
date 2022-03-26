@@ -20,7 +20,7 @@ public class Shooter extends SubsystemBase {
   private final TalonFX flywheelMotor2;
   public final CANSparkMax turretTurnMotor;
   private final Servo[] hood;
-  private final WPI_VictorSPX indexUp;
+  private final CANSparkMax indexUp;
   private SparkMaxPIDController m_pidController;
   private RelativeEncoder m_encoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
@@ -44,7 +44,8 @@ public class Shooter extends SubsystemBase {
    */
   public Shooter() {
     super();
-    indexUp = new WPI_VictorSPX(PortConstants.INDEX_MOTOR2);
+    indexUp = new CANSparkMax(PortConstants.INDEX_MOTOR2, MotorType.kBrushless);
+    // indexUp = new WPI_VictorSPX(PortConstants.INDEX_MOTOR2);
     flywheelMotor = new TalonFX(PortConstants.FLYWHEEL_MOTOR);
     flywheelMotor2 = new TalonFX(PortConstants.FLYWHEEL_MOTOR2);
     turretTurnMotor = new CANSparkMax(5, MotorType.kBrushless);
@@ -71,7 +72,7 @@ public class Shooter extends SubsystemBase {
   public void spin(double power) {
     flywheelMotor.set(TalonFXControlMode.PercentOutput, power*-1);
     flywheelMotor2.set(TalonFXControlMode.PercentOutput, power);
-    indexUp.set(-power);
+    indexUp.set(power);
   }
 
   /**

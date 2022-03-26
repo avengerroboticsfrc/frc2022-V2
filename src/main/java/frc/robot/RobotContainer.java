@@ -13,8 +13,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.auton.Auton;
 import frc.robot.commands.LucaDrive;
 import frc.robot.commands.ShootBallCommandGroup;
+import frc.robot.commands.DefaultDrive;
 import frc.robot.commands.IndexCommand;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.IntakeExtendCommand;
 import frc.robot.commands.LiftCommand;
 import frc.robot.commands.TargetHubCommand;
 import frc.robot.constants.ButtonConstants;
@@ -71,26 +73,25 @@ public class RobotContainer {
     // Can turn in place with button press.
     drive.setDefaultCommand(
         // pass in a reference to a method
-        new LucaDrive( 
-            drive,
-            controller::getL2Axis,
-            controller::getR2Axis,
-            controller::getLeftX,
-            controller::getCircleButton
-        ));
-        // new TankDrive(drive, controller2::getLeftY, controller2::getRaw, () -> controller2.getRightBumper()));
+        // new LucaDrive( 
+        //     drive,
+        //     controller::getL2Axis,
+        //     controller::getR2Axis,
+        //     controller::getLeftX,
+        //     controller::getCircleButton
+        // ));
+        new DefaultDrive(drive, controller::getLeftY, controller::getRightY, controller::getR1Button));
   }
 
   private void configureButtonBindings() {
     JoystickButton toggleIntake = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_TOGGLE_AND_OPEN);
-    toggleIntake.whenHeld(new IntakeCommand(intake, 0));
-//TODO: CHANGE SPEED INTAKE
+    toggleIntake.whenHeld(new IntakeExtendCommand(intake));
 
     JoystickButton indexUp = new JoystickButton(buttonPanel, ButtonConstants.INDEX_UP);
     indexUp.whenHeld(new IndexCommand(index, -.5));
 
     JoystickButton indexOut = new JoystickButton(buttonPanel, ButtonConstants.INDEX_OUT);
-    indexOut.whenHeld(new IndexCommand(index, .7));
+    indexOut.whenHeld(new IndexCommand(index, .5));
 
     JoystickButton runIntakeIn = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_IN);
     runIntakeIn.whenHeld(new IntakeCommand(intake, -.7));
@@ -116,10 +117,10 @@ public class RobotContainer {
 
 
     JoystickButton raiseLift = new JoystickButton(buttonPanel, ButtonConstants.LIFT_UP);
-    raiseLift.whenHeld(new LiftCommand(lift, 1));
+    raiseLift.whenHeld(new LiftCommand(lift, -1));
 
     JoystickButton lowerLift = new JoystickButton(buttonPanel, ButtonConstants.LIFT_DOWN);
-    lowerLift.whenHeld(new LiftCommand(lift, -.3));
+    lowerLift.whenHeld(new LiftCommand(lift, 1));
 
     // JoystickButton liftForward = new JoystickButton(buttonPanel, ButtonConstants.LIFT_FORWARD);
     // liftForward.whenHeld(new LiftCommand(lift, 0.3, true));
@@ -134,7 +135,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new Auton(drive, shooter, limelight, shooter, intake, index);
+
+    return null;
+
+    //return new Auton(drive, shooter, limelight, shooter, intake, index);
   }
 
   public Command getTeleCommand() {

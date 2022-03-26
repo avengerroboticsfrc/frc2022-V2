@@ -7,7 +7,7 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
 public class ShootBallCommandGroup extends SequentialCommandGroup {
-  private static final double indexPower = -1;
+  private static final double indexPower = 1;
   private static final double shooterPower = 1;
 
   public ShootBallCommandGroup(Shooter shooter, Index index, Limelight limelight) {

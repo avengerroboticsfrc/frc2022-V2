@@ -39,11 +39,6 @@ public abstract class DriveTrain extends SubsystemBase {
         new WPI_TalonFX(right[1])
     };
 
-    driveTrain = new DifferentialDrive(
-        leftMotors[0],
-        rightMotors[0]);
-
-
     leftMotors[0].configFactoryDefault();
     leftMotors[1].configFactoryDefault();
     rightMotors[0].configFactoryDefault();
@@ -54,10 +49,10 @@ public abstract class DriveTrain extends SubsystemBase {
     rightMotors[0].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
     rightMotors[1].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
-    leftMotors[0].configOpenloopRamp(1);
-    leftMotors[1].configOpenloopRamp(1);
-    rightMotors[0].configOpenloopRamp(1);
-    rightMotors[1].configOpenloopRamp(1);
+    leftMotors[0].configOpenloopRamp(.6);
+    leftMotors[1].configOpenloopRamp(.6);
+    rightMotors[0].configOpenloopRamp(.6);
+    rightMotors[1].configOpenloopRamp(.6);
 
     leftMotors[1].follow(leftMotors[0]);
     rightMotors[1].follow(rightMotors[0]);
@@ -70,7 +65,10 @@ public abstract class DriveTrain extends SubsystemBase {
     rightMotors[0].setNeutralMode(NeutralMode.Coast);
     rightMotors[1].setNeutralMode(NeutralMode.Coast);
 
-
+    driveTrain = new DifferentialDrive(
+      leftMotors[0],
+      rightMotors[0]);
+      
     resetEncoders();
   }
 
