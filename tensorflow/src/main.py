@@ -13,7 +13,7 @@ from util import *
 classes = LABELS.copy()
 
 def run_odt(image_path, interpreter, threshold=0.5):
-    """Run object detection on the input image and draw the detection results"""
+    """Run object detection on the input image and return the detection results"""
     # Load the input shape required by the model
     _, input_height, input_width, _ = interpreter.get_input_details()[0]["shape"]
 
@@ -37,7 +37,7 @@ def main():
   # Set Video Dimensions to Trained Dimensions
   vid.set(3, CAM_WIDTH) # Width
   vid.set(4, CAM_HEIGHT) # Height
-#Bing Bong
+  
   while True:
       # Read Frame from Webcam
       ret, frame = vid.read()

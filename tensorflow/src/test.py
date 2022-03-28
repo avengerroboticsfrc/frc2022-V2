@@ -20,6 +20,7 @@ from util import *
 #                         |  |
 #                         |__|
 #
+
 # Load Labels into List
 classes = LABELS.copy()
 
@@ -74,7 +75,7 @@ def main():
     # Load TFLite model
     interpreter = tf.lite.Interpreter(model_path=MODEL_PATH, num_threads=NUM_THREADS)
     interpreter.allocate_tensors()
-    #Bing Bong duck ur life
+
     while True:
         # Read Frame from Webcam
         ret, frame = vid.read()
