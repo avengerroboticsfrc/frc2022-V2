@@ -1,5 +1,5 @@
 package frc.robot.commands.auton;
 
-public class ThreeBallAuton {
+public class ThreeBallLeftAuton {
     
 }
