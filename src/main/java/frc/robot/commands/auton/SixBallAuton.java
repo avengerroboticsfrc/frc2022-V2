@@ -21,9 +21,9 @@ import frc.robot.subsystems.Index;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Auton extends SequentialCommandGroup {
-  public Auton(DriveTrain drive, Shooter turret, Limelight limelight, Shooter shooter, Intake intake, Index index) {
-    Trajectory path = PathPlanner.loadPath("4-Ball", 3, 5);
+public class SixBallAuton extends SequentialCommandGroup {
+  public SixBallAuton(DriveTrain drive, Limelight limelight, Shooter shooter, Intake intake, Index index) {
+    Trajectory path = PathPlanner.loadPath("6-Ball", 3, 5);
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(path.getInitialPose());
 

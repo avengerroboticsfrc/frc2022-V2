@@ -43,9 +43,6 @@ public class LucaDrive extends CommandBase {
     double speed2 = speed>0 ? Math.pow(speed, 2) : -Math.pow(speed, 2);
     double val2 = Math.pow(rotate, 3);
 
-<<<<<<< HEAD
-    drive.curvatureDrive((speed2*.8), (val2*.3), turn.getAsBoolean());
-=======
     System.out.println("Real Speed" + speed2);
     System.out.println("Held Speed" + heldSpeed2);
     // If you stop putting in inputs
@@ -67,7 +64,6 @@ public class LucaDrive extends CommandBase {
       // Hold inputs at end due to how it cycles
       heldSpeed2 = speed2;
     }
->>>>>>> 85c4a9b... Drive decay and simple autonomous
   }
 
   /*
