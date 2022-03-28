@@ -41,9 +41,23 @@ public class LucaDrive extends CommandBase {
     double speed2 = speed>0 ? Math.pow(speed, 2) : -Math.pow(speed, 2);
     double val2 = Math.pow(rotate, 3);
 
+<<<<<<< HEAD
     drive.curvatureDrive((speed2*.8), (val2*.3), turn.getAsBoolean());
+=======
+    System.out.println("Real Speed" + speed2);
+    System.out.println("Held Speed" + heldSpeed2);
+    // If you stop putting in inputs
+    // Robot keeps moving, exponentially decreasing speed
+    if (Math.abs(speed2) < 0.1) {
+      heldSpeed2 *= decayVar;
+      drive.curvatureDrive(heldSpeed2, (val2*.3), turn.getAsBoolean());
+    } else {
+      drive.curvatureDrive((speed2*.5), (val2*.3), turn.getAsBoolean());
+      // Hold inputs at end due to how it cycles
+      heldSpeed2 = speed2;
+    }
+>>>>>>> 85c4a9b... Drive decay and simple autonomous
   }
-
 
   /*
   @Override

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.auton.Auton;
+import frc.robot.commands.auton.SimpleDriveandShoot;
 import frc.robot.commands.LucaDrive;
 import frc.robot.commands.ShootBallCommandGroup;
 import frc.robot.commands.IndexCommand;
@@ -134,7 +135,41 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new Auton(drive, shooter, limelight, shooter, intake, index);
+    
+    Command stopDriveCommand = new RunCommand(() -> drive.tankDriveVolts(0, 0), drive);
+    Command powerIndexCommand = new RunCommand(() -> index.power(1), index);
+    Command endIndexCommand = new RunCommand(() -> index.power(0), index);
+
+    Command forwardDrive = new RunCommand(() -> drive.tankDrive(.5, .5), drive);
+
+    Command holdCom = new WaitCommand(0);
+
+
+    // return new ParallelDeadlineGroup(
+    //     new WaitCommand(1.5),
+    //     new RunCommand(() -> drive.tankDrive(.5, .5), drive)
+    //   ).andThen(new ParallelDeadlineGroup(
+    //     new WaitCommand(1)))
+    //   .andThen(() -> drive.tankDrive(0, 0), drive);
+    return new SimpleDriveandShoot(drive, shooter, index, limelight);
+
+
+
+    // // SHoot and drive back (works)
+    // return holdCom
+    // .andThen(new ParallelDeadlineGroup(new WaitCommand(4)
+    // ,
+    // powerShooterCommand,
+    // powerIndexCommand)).andThen(new ParallelDeadlineGroup(new WaitCommand(5)
+    // , 
+    // forwardDrive,
+    // endShooterCommand,
+    // endIndexCommand
+    // ));
+
+    // return null;
+
+    //return new Auton(drive, shooter, limelight, shooter, intake, index);
   }
 
   public Command getTeleCommand() {

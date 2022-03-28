@@ -12,7 +12,7 @@ public class ShootBallCommandGroup extends SequentialCommandGroup {
 
   public ShootBallCommandGroup(Shooter shooter, Index index, Limelight limelight) {
     addCommands(
-      deadline(new WaitCommand(1), new TargetHubCommand(shooter, limelight)),
+      deadline(new WaitCommand(0), new TargetHubCommand(shooter, limelight)),
       deadline(new WaitCommand(3), new FlywheelCommand(shooter, shooterPower),
         parallel(new WaitCommand(2), new IndexCommand(index, indexPower))
         
