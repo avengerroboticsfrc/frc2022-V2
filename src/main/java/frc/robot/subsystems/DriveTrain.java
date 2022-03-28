@@ -18,7 +18,6 @@ public abstract class DriveTrain extends SubsystemBase {
   protected final WPI_TalonFX[] rightMotors;
 
   protected final DifferentialDrive driveTrain;
-
   private final Gyro gyro = new ADXRS450_Gyro();
 
   protected final DifferentialDriveOdometry odometry =
