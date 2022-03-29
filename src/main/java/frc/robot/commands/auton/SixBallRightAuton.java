@@ -28,9 +28,9 @@ public class SixBallRightAuton extends SequentialCommandGroup {
     drive.resetOdometry(path.getInitialPose());
 
     Map<Double, Command> commands = new HashMap<Double,Command>();
-    commands.put(0.9555530630348358, new PickUpBallCommandGroup(intake, index));
-    commands.put(2.0428413435675257, new IntakeAndShootCommandGroup(shooter, index, limelight, intake));
-    commands.put(3.8162712857696506, new PickUpBallCommandGroup(intake, index));
+    commands.put(1.1304040796428534, new PickUpBallCommandGroup(intake, index));
+    commands.put(3.0185091255112075, new IntakeAndShootCommandGroup(shooter, index, limelight, intake));
+    commands.put(5.030751908041635, new PickUpBallCommandGroup(intake, index));
     addCommands(
       new FridayRamseteCommand(path, drive, commands),
       deadline(new IntakeAndShootCommandGroup(shooter, index, limelight, intake), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
