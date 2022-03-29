@@ -7,10 +7,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.FridayRamseteCommand;
 import frc.robot.commands.IntakeAndShootCommandGroup;
 import frc.robot.commands.PickUpBallCommandGroup;
+import frc.robot.commands.ShootBallCommandGroup;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
@@ -25,13 +26,14 @@ public class ThreeBallLeftAuton extends SequentialCommandGroup {
     Trajectory path = PathPlanner.loadPath("6-Ball", 3, 5);
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(path.getInitialPose());
-
+//Chnaged path will have to redo timing 
     Map<Double, Command> commands = new HashMap<Double,Command>();
-    commands.put(1.9090726859329716, new PickUpBallCommandGroup(intake, index));
-    commands.put(4.2078244623106436, new IntakeAndShootCommandGroup(shooter, index, limelight, intake));
-    commands.put(7.297797460834611, new PickUpBallCommandGroup(intake, index));
+    commands.put(1.304808785515134, new PickUpBallCommandGroup(intake, index));
+    
 
     addCommands(
+      new ShootBallCommandGroup(shooter, index, limelight),
+      new WaitCommand(1),
       new FridayRamseteCommand(path, drive, commands),
       deadline(new IntakeAndShootCommandGroup(shooter, index, limelight, intake), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
       new InstantCommand(() -> System.out.println("trajectory over")),

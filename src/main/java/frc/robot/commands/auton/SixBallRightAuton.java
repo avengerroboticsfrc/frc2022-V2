@@ -27,6 +27,8 @@ public class SixBallRightAuton extends SequentialCommandGroup {
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(path.getInitialPose());
 
+
+//Not Fully Done. Changed Path so time and coordinates will change
     Map<Double, Command> commands = new HashMap<Double,Command>();
     commands.put(1.1304040796428534, new PickUpBallCommandGroup(intake, index));
     commands.put(3.0185091255112075, new IntakeAndShootCommandGroup(shooter, index, limelight, intake));
