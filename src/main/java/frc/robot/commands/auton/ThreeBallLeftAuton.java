@@ -27,9 +27,7 @@ public class ThreeBallLeftAuton extends SequentialCommandGroup {
     drive.resetOdometry(path.getInitialPose());
 
     Map<Double, Command> commands = new HashMap<Double,Command>();
-    commands.put(1.9090726859329716, new PickUpBallCommandGroup(intake, index));
-    commands.put(4.2078244623106436, new IntakeAndShootCommandGroup(shooter, index, limelight, intake));
-    commands.put(7.297797460834611, new PickUpBallCommandGroup(intake, index));
+    commands.put(1.304808785515134, new IntakeAndShootCommandGroup(shooter, index, limelight, intake));
 
     addCommands(
       new FridayRamseteCommand(path, drive, commands),
