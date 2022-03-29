@@ -14,21 +14,20 @@ import frc.robot.commands.PickUpBallCommandGroup;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
-import frc.robot.commands.ShootBallCommandGroup;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Index;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ThreeBallAuton extends SequentialCommandGroup {
-  public ThreeBallAuton(DriveTrain drive, Limelight limelight, Shooter shooter, Intake intake, Index index) {
-    Trajectory path = PathPlanner.loadPath("3-Ball", 3, 5);
+public class ThreeBallLeftAuton extends SequentialCommandGroup {
+  public ThreeBallLeftAuton(DriveTrain drive, Limelight limelight, Shooter shooter, Intake intake, Index index) {
+    Trajectory path = PathPlanner.loadPath("6-Ball", 3, 5);
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(path.getInitialPose());
 
     Map<Double, Command> commands = new HashMap<Double,Command>();
-    commands.put(1.3496353308099465, new PickUpBallCommandGroup(intake, index));
+    commands.put(1.9090726859329716, new PickUpBallCommandGroup(intake, index));
     commands.put(4.2078244623106436, new IntakeAndShootCommandGroup(shooter, index, limelight, intake));
     commands.put(7.297797460834611, new PickUpBallCommandGroup(intake, index));
 

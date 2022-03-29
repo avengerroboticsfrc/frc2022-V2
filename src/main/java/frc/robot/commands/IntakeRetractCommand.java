@@ -3,14 +3,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
-public class IntakeCommand extends CommandBase {
+public class IntakeRetractCommand extends CommandBase {
 
   private final Intake intake;
-  private final double power;
 
-  public IntakeCommand(Intake intake, double power) {
+  public IntakeRetractCommand(Intake intake) {
     this.intake = intake;
-    this.power = power;
     addRequirements(intake);
   }
 
@@ -20,17 +18,16 @@ public class IntakeCommand extends CommandBase {
 
   @Override
   public void execute() {
-    intake.power(power);
+    intake.retract();
   }
 
   @Override
   public void end(boolean interrupted) {
-    intake.power(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
