@@ -147,7 +147,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     //return new SimpleDriveandShoot(drive, shooter, index, limelight);
     //return new SixBallLeftAuton(drive, limelight, shooter, intake, index);
-    //reutrn new ThreeBallLeftAuton(drive, limelight, shooter, intake, index);
+    //return new ThreeBallLeftAuton(drive, limelight, shooter, intake, index);
     //return new ThreeBallRightAuton(drive, limelight, shooter, intake, index);
     return new SixBallLeftAuton(drive, limelight, shooter, intake, index);
   }
