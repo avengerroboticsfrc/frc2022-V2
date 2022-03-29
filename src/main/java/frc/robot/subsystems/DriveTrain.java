@@ -13,12 +13,11 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public abstract class DriveTrain extends SubsystemBase {
+public class DriveTrain extends SubsystemBase {
   protected final WPI_TalonFX[] leftMotors;
   protected final WPI_TalonFX[] rightMotors;
 
   protected final DifferentialDrive driveTrain;
-
   private final Gyro gyro = new ADXRS450_Gyro();
 
   protected final DifferentialDriveOdometry odometry =

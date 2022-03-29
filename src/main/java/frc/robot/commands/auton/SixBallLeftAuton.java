@@ -21,14 +21,14 @@ import frc.robot.subsystems.Index;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Auton extends SequentialCommandGroup {
-  public Auton(DriveTrain drive, Limelight limelight, Shooter shooter, Intake intake, Index index) {
-    Trajectory path = PathPlanner.loadPath("4-Ball", 3, 5);
+public class SixBallLeftAuton extends SequentialCommandGroup {
+  public SixBallLeftAuton(DriveTrain drive, Limelight limelight, Shooter shooter, Intake intake, Index index) {
+    Trajectory path = PathPlanner.loadPath("6-Ball", 3, 5);
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(path.getInitialPose());
 
     Map<Double, Command> commands = new HashMap<Double,Command>();
-    //commands.put(1.4980619414234015, new IntakeAndShootCommandGroup(shooter, index, limelight, intake));
+    commands.put(1.4980619414234015, new IntakeAndShootCommandGroup(shooter, index, limelight, intake));
     commands.put(1.4165069792702134, new PickUpBallCommandGroup(intake, index));
     addCommands(
       new FridayRamseteCommand(path, drive, commands),

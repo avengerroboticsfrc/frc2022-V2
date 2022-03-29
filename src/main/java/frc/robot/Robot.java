@@ -4,9 +4,11 @@
 
 package frc.robot;
 
+import frc.robot.subsystems.DriveTrain;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.constants.PortConstants;
 import edu.wpi.first.util.net.PortForwarder;
 
 /**
@@ -19,7 +21,7 @@ import edu.wpi.first.util.net.PortForwarder;
 public class Robot extends TimedRobot {
   private Command autonomousCommand;
   private Command teleCommand;
-
+  private DriveTrain gyro;
   private RobotContainer robotContainer;
 
   /**
@@ -30,6 +32,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our autonomous chooser on the dashboard.
+    gyro.gyroCalibrate();
     robotContainer = new RobotContainer();
     PortForwarder.add(5800, "limelight.local", 5800);
     PortForwarder.add(5801, "limelight.local", 5801);

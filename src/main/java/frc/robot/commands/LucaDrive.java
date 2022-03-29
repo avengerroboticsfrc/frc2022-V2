@@ -13,7 +13,11 @@ public class LucaDrive extends CommandBase {
   private final BooleanSupplier turn;
   private final DoubleSupplier reverse;
   private double heldSpeed2 = 0;
+<<<<<<< HEAD
   private final double decayVar = 0.96;
+=======
+  private final double decayVar = 0.975;
+>>>>>>> fdc4d87cc8010053b6f82e7daec385b079dfa9ed
 
   /**
    * Creates a new DefaultDrive.
@@ -47,26 +51,24 @@ public class LucaDrive extends CommandBase {
     System.out.println("Held Speed" + heldSpeed2);
     // If you stop putting in inputs
     // Robot keeps moving, exponentially decreasing speed
-    if (Math.abs(speed2) < 0.1) {
+
+    if (Math.abs(speed2) > Math.abs(heldSpeed2)) {
+      if (speed2 - heldSpeed2 > 0.1) {
+        heldSpeed2 += 0.001;
+      } else if (speed2 - heldSpeed2 < -0.1) {
+        heldSpeed2 -= 0.001;
+      }
+      heldSpeed2 /= decayVar;
+      drive.curvatureDrive(heldSpeed2, (val2 * .3), turn.getAsBoolean());
+    } else if (Math.abs(speed2) < 0.1) {
       heldSpeed2 *= decayVar;
-      drive.curvatureDrive(heldSpeed2, (val2*.3), turn.getAsBoolean());
-      // 0.18 is the stopping threshold
-      // Technical value the robot stops moving is 0.2
-      // AKA bare minimum input to move robot ^^^
-
-      // Hard Brake Code
-      // if (Math.abs(speed2) < 0.05) {
-      //   heldSpeed2 = 0;
-      // }
-
-      // IF there is ANY controller input, drive as normal
+      drive.curvatureDrive(heldSpeed2, (val2 * .3), turn.getAsBoolean());
     } else {
       drive.curvatureDrive((speed2*.5), (val2*.3), turn.getAsBoolean());
       // Hold inputs at end due to how it cycles
       heldSpeed2 = speed2;
     }
   }
-
 
   /*
   @Override
