@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.FridayRamseteCommand;
 import frc.robot.commands.IntakeAndShootCommandGroup;
-import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.PickUpBallCommandGroup;
 import frc.robot.commands.ShootBallCommandGroup;
 import frc.robot.subsystems.DriveTrain;
