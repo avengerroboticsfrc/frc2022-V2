@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.auton.SimpleDriveandShoot;
 import frc.robot.commands.auton.SixBallLeftAuton;
+import frc.robot.commands.auton.ThreeBallLeftAuton;
+import frc.robot.commands.auton.ThreeBallRightAuton;
 import frc.robot.commands.LucaDrive;
 import frc.robot.commands.ShootBallCommandGroup;
 import frc.robot.commands.DefaultDrive;
@@ -144,6 +146,9 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     //return new SimpleDriveandShoot(drive, shooter, index, limelight);
+    //return new SixBallLeftAuton(drive, limelight, shooter, intake, index);
+    //reutrn new ThreeBallLeftAuton(drive, limelight, shooter, intake, index);
+    //return new ThreeBallRightAuton(drive, limelight, shooter, intake, index);
     return new SixBallLeftAuton(drive, limelight, shooter, intake, index);
   }
 
