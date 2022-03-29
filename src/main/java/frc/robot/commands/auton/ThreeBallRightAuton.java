@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.commands.FridayRamseteCommand;
 import frc.robot.commands.IntakeAndShootCommandGroup;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.PickUpBallCommandGroup;
 import frc.robot.commands.ShootBallCommandGroup;
 import frc.robot.subsystems.DriveTrain;
@@ -28,7 +29,7 @@ public class ThreeBallRightAuton extends SequentialCommandGroup {
     drive.resetOdometry(path.getInitialPose());
 
     Map<Double, Command> commands = new HashMap<Double,Command>();
-    commands.put(1.484711222788454, new ShootBallCommandGroup(shooter, index, limelight));
+    commands.put(1.484711222788454, new PickUpBallCommandGroup(intake, index));
 
     addCommands(
       new ShootBallCommandGroup(shooter, index, limelight),
