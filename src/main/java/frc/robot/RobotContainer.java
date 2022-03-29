@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.auton.SimpleDriveandShoot;
-import frc.robot.commands.auton.SixBallAuton;
 import frc.robot.commands.auton.SixBallLeftAuton;
 import frc.robot.commands.LucaDrive;
 import frc.robot.commands.ShootBallCommandGroup;

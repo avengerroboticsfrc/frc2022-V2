@@ -13,11 +13,7 @@ public class LucaDrive extends CommandBase {
   private final BooleanSupplier turn;
   private final DoubleSupplier reverse;
   private double heldSpeed2 = 0;
-<<<<<<< HEAD
-  private final double decayVar = 0.96;
-=======
   private final double decayVar = 0.975;
->>>>>>> fdc4d87cc8010053b6f82e7daec385b079dfa9ed
 
   /**
    * Creates a new DefaultDrive.

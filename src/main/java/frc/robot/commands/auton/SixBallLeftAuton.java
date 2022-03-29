@@ -14,7 +14,7 @@ import frc.robot.commands.PickUpBallCommandGroup;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
-import frc.robot.commands.ShootBallCommandGroup;
+//import frc.robot.commands.ShootBallCommandGroup;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Index;
 
@@ -33,7 +33,7 @@ public class SixBallLeftAuton extends SequentialCommandGroup {
     commands.put(7.297797460834611, new PickUpBallCommandGroup(intake, index));
     addCommands(
       new FridayRamseteCommand(path, drive, commands),
-      deadline(new ShootBallCommandGroup(shooter, index, limelight), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
+      deadline(new IntakeAndShootCommandGroup(shooter, index, limelight, intake), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
       new InstantCommand(() -> System.out.println("trajectory over")),
       new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)
     );
