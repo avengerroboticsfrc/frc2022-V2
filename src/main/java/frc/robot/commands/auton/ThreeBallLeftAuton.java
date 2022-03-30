@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.FridayRamseteCommand;
 import frc.robot.commands.IntakeAndShootCommandGroup;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.PickUpBallCommandGroup;
 import frc.robot.commands.ShootBallCommandGroup;
 import frc.robot.subsystems.DriveTrain;
@@ -29,11 +30,9 @@ public class ThreeBallLeftAuton extends SequentialCommandGroup {
 //Chnaged path will have to redo timing 
     Map<Double, Command> commands = new HashMap<Double,Command>();
     commands.put(1.304808785515134, new PickUpBallCommandGroup(intake, index));
-    
 
     addCommands(
       new ShootBallCommandGroup(shooter, index, limelight),
-      new WaitCommand(1),
       new FridayRamseteCommand(path, drive, commands),
       deadline(new IntakeAndShootCommandGroup(shooter, index, limelight, intake), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
       new InstantCommand(() -> System.out.println("trajectory over")),

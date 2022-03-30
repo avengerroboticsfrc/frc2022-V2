@@ -30,7 +30,7 @@ public class ThreeBallRightAuton extends SequentialCommandGroup {
     drive.resetOdometry(path.getInitialPose());
 //Changed path will have to redo timing
     Map<Double, Command> commands = new HashMap<Double,Command>();
-    commands.put(1.536352434800916, new PickUpBallCommandGroup(intake, index));
+    commands.put(1.484711222788454, new PickUpBallCommandGroup(intake, index));
 
     addCommands(
       new FridayRamseteCommand(path, drive, commands),
