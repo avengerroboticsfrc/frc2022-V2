@@ -1,16 +1,14 @@
-package frc.robot.commands;
+package frc.robot.commands.SimpleCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
-public class IntakeCommand extends CommandBase {
+public class IntakeExtendCommand extends CommandBase {
 
   private final Intake intake;
-  private final double power;
 
-  public IntakeCommand(Intake intake, double power) {
+  public IntakeExtendCommand(Intake intake) {
     this.intake = intake;
-    this.power = power;
     addRequirements(intake);
   }
 
@@ -21,18 +19,15 @@ public class IntakeCommand extends CommandBase {
   @Override
   public void execute() {
     intake.extend();
-    intake.power(power);
   }
 
   @Override
   public void end(boolean interrupted) {
-    intake.power(0);
-    intake.retract();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

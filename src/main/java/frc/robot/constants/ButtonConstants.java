@@ -18,7 +18,7 @@ public class ButtonConstants {
    */
 
   public static final int INTAKE_TOGGLE_AND_OPEN = 3;
-  //public static final int TOGGLE_INTAKE_EXTENDED = -1;
+  public static final int INTAKE_RETRACT = 4;
   public static final int INTAKE_OUT = 8;
   public static final int INTAKE_IN = 7;
 

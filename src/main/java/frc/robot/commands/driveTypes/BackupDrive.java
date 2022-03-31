@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.driveTypes;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj2.command.CommandBase;

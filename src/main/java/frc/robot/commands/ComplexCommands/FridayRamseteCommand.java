@@ -3,7 +3,7 @@
  * -kh
  */
 
-package frc.robot.commands;
+package frc.robot.commands.ComplexCommands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
@@ -141,7 +141,9 @@ public class FridayRamseteCommand extends CommandBase {
 
     if (interrupted) {
       output.accept(0.0, 0.0);
-      currentCommand.end(true);
+      if (currentCommand != null) {
+        currentCommand.end(true);
+      }
     }
   }
 

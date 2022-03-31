@@ -16,7 +16,7 @@ public class ColorSensorv3 extends SubsystemBase {
     private final ColorSensorV3 color;
     private final Color BlueColorTarget; 
     private final Color RedColorTarget; 
-    private final ColorMatch StoredColors;
+    private final ColorMatch colorMatcher;
     private static ColorMatchResult ClosestColor;
     private static Color detectedColor;
 
@@ -27,10 +27,10 @@ public class ColorSensorv3 extends SubsystemBase {
         color = new ColorSensorV3(i2cPort);
         BlueColorTarget = new Color(0,0,255); //needs to change depending on the rgb value of the blue ball
         RedColorTarget = new Color(255,0,0); //needs to change depending on the rgb value of the red ball
-        StoredColors = new ColorMatch();
+        colorMatcher = new ColorMatch();
 
-        StoredColors.addColorMatch(BlueColorTarget);
-        StoredColors.addColorMatch(RedColorTarget);
+        colorMatcher.addColorMatch(BlueColorTarget);
+        colorMatcher.addColorMatch(RedColorTarget);
         
 
 
@@ -38,17 +38,17 @@ public class ColorSensorv3 extends SubsystemBase {
 
     public boolean checkifBlue(){
       detectedColor = color.getColor();  
-      ClosestColor = StoredColors.matchClosestColor(detectedColor);
+      ClosestColor = colorMatcher.matchClosestColor(detectedColor);
 
         if(ClosestColor.color == BlueColorTarget){
             return true;
         }
             return false;
     }
-    
+
     public boolean checkifRed(){
       detectedColor = color.getColor();  
-      ClosestColor = StoredColors.matchClosestColor(detectedColor);
+      ClosestColor = colorMatcher.matchClosestColor(detectedColor);
 
       if(ClosestColor.color == RedColorTarget){
           return true;

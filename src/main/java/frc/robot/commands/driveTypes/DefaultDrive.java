@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.driveTypes;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
@@ -25,7 +25,7 @@ public class DefaultDrive extends CommandBase {
       DoubleSupplier left,
       DoubleSupplier right,
       BooleanSupplier turbo) {
-    super();
+        super();
 
     this.drive = subsystem;
     this.left = left;
@@ -36,13 +36,7 @@ public class DefaultDrive extends CommandBase {
   }
 
   @Override
-  public void initialize() {
-    System.out.println("Ready to Drive!");
-  }
-
-  @Override
   public void execute() {
     double scalar = turbo.getAsBoolean() ? 0.8 : 0.4;
-    drive.arcadeDrive(left.getAsDouble() * scalar, right.getAsDouble() * scalar);
   }
 }

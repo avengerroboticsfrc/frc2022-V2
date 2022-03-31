@@ -7,7 +7,7 @@ package frc.robot.commands.auton;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.ShootBallCommandGroup;
+import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Limelight;
