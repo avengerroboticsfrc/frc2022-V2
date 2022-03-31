@@ -3,7 +3,7 @@
  * -kh
  */
 
-package frc.robot.commands;
+package frc.robot.commands.ComplexCommands;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;

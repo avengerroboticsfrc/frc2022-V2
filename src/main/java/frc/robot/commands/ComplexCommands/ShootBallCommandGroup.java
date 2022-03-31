@@ -1,7 +1,10 @@
-package frc.robot.commands;
+package frc.robot.commands.ComplexCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.FlywheelCommand;
+import frc.robot.commands.IndexCommand;
+import frc.robot.commands.TargetHubCommand;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;

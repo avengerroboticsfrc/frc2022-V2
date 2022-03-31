@@ -8,12 +8,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
-import frc.robot.commands.FridayRamseteCommand;
-import frc.robot.commands.IntakeAndShootCommandGroup;
 import frc.robot.commands.IntakeExtendCommand;
-import frc.robot.commands.PickUpBallCommandGroup;
-import frc.robot.commands.ShootBallCommandGroup;
+import frc.robot.commands.ComplexCommands.FridayRamseteCommand;
+import frc.robot.commands.ComplexCommands.IntakeAndShootCommandGroup;
+import frc.robot.commands.ComplexCommands.PickUpBallCommandGroup;
+import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
