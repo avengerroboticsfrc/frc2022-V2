@@ -60,7 +60,7 @@ public class RobotContainer {
     limelight = new Limelight();
     intake = new Intake();
     lift = new Lift();
-
+    drive.gyroCalibrate();
 
     configureDriveTrain();
     configureButtonBindings();
@@ -135,8 +135,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //return new SimpleDriveandShoot(drive, shooter, index, limelight);
-    return new SixBallAuton(drive, limelight, shooter, intake, index);
+    return new SimpleDriveandShoot(drive, shooter, index, limelight);
+    //return new SixBallAuton(drive, limelight, shooter, intake, index);
   }
 
   public Command getTeleCommand() {
