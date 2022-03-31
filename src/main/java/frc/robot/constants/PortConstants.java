@@ -28,6 +28,7 @@ public final class PortConstants {
   public static final int INTAKE_MOTOR = 12;
   public static final int INDEX_MOTOR = 25;
   public static final int INDEX_MOTOR2 = 26;
+  public static final int INTAKE_TO_INDEX_MOTOR = 27; //Number Subject to Change
   public static final int Gyro = 0;
 
 }
