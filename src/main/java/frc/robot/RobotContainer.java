@@ -17,13 +17,13 @@ import frc.robot.commands.auton.ThreeBallLeftAuton;   //Keep Import. Needed For 
 import frc.robot.commands.auton.ThreeBallRightAuton;  //Keep Import. Needed For Auton
 import frc.robot.commands.driveTypes.DefaultDrive;    //Keep Import. Needed For Auton
 import frc.robot.commands.driveTypes.LucaDrive;
-import frc.robot.commands.IndexCommand;
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.IntakeExtendCommand;
-import frc.robot.commands.IntakeRetractCommand;
-import frc.robot.commands.LiftCommand;
 import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
 import frc.robot.commands.ComplexCommands.TargetHubCommand;
+import frc.robot.commands.SimpleCommands.IndexCommand;
+import frc.robot.commands.SimpleCommands.IntakeCommand;
+import frc.robot.commands.SimpleCommands.IntakeExtendCommand;
+import frc.robot.commands.SimpleCommands.IntakeRetractCommand;
+import frc.robot.commands.SimpleCommands.LiftCommand;
 import frc.robot.constants.ButtonConstants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;
