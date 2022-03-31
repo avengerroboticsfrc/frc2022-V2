@@ -24,10 +24,9 @@ import java.util.Map;
 
 public class ThreeBallLeftAuton extends SequentialCommandGroup {
   public ThreeBallLeftAuton(DriveTrain drive, Limelight limelight, Shooter shooter, Intake intake, Index index) {
-    Trajectory path = PathPlanner.loadPath("6-Ball", 3, 5);
+    Trajectory path = PathPlanner.loadPath("3-Ball-Blue", 3, 5);
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(path.getInitialPose());
-//Chnaged path will have to redo timing 
     Map<Double, Command> commands = new HashMap<Double,Command>();
     commands.put(1.304808785515134, new PickUpBallCommandGroup(intake, index));
 

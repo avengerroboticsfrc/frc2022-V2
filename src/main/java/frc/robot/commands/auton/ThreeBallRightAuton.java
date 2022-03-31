@@ -25,10 +25,9 @@ import java.util.Map;
 
 public class ThreeBallRightAuton extends SequentialCommandGroup {
   public ThreeBallRightAuton(DriveTrain drive, Limelight limelight, Shooter shooter, Intake intake, Index index) {
-    Trajectory path = PathPlanner.loadPath("3-Ball", 3, 5);
+    Trajectory path = PathPlanner.loadPath("3-Ball-Red", 3, 5);
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(path.getInitialPose());
-//Changed path will have to redo timing
     Map<Double, Command> commands = new HashMap<Double,Command>();
     commands.put(1.484711222788454, new PickUpBallCommandGroup(intake, index));
 
@@ -36,8 +35,7 @@ public class ThreeBallRightAuton extends SequentialCommandGroup {
       new FridayRamseteCommand(path, drive, commands),
       deadline(new IntakeAndShootCommandGroup(shooter, index, limelight, intake), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
       new InstantCommand(() -> System.out.println("trajectory over")),
-      new RunCommand(() -> drive.tankDriveVolts(0, 0), drive),
-      )
+      new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)
     );
   }
 }
