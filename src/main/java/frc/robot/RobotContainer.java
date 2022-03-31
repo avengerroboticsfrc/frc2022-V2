@@ -8,16 +8,14 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import frc.robot.commands.auton.SimpleDriveandShoot;
-import frc.robot.commands.auton.SixBallLeftAuton;
-import frc.robot.commands.auton.ThreeBallLeftAuton;
-import frc.robot.commands.auton.ThreeBallRightAuton;
-import frc.robot.commands.driveTypes.DefaultDrive;
+import frc.robot.commands.auton.SimpleDriveandShoot;  //Keep Import. Needed For Auton
+import frc.robot.commands.auton.SixBallLeftAuton;     //Keep Import. Needed For Auton
+import frc.robot.commands.auton.ThreeBallLeftAuton;   //Keep Import. Needed For Auton
+import frc.robot.commands.auton.ThreeBallRightAuton;  //Keep Import. Needed For Auton
+import frc.robot.commands.driveTypes.DefaultDrive;    //Keep Import. Needed For Auton
 import frc.robot.commands.driveTypes.LucaDrive;
 import frc.robot.commands.IndexCommand;
 import frc.robot.commands.IntakeCommand;

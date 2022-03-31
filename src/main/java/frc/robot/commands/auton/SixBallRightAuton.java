@@ -13,7 +13,6 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.commands.ComplexCommands.FridayRamseteCommand;
 import frc.robot.commands.ComplexCommands.IntakeAndShootCommandGroup;
 import frc.robot.commands.ComplexCommands.PickUpBallCommandGroup;
-import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Index;
 
