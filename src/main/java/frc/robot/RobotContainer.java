@@ -109,7 +109,7 @@ public class RobotContainer {
 
     //Shoot button
     JoystickButton shootButton = new JoystickButton(buttonPanel, ButtonConstants.FLYWHEEL_ON);
-    shootButton.whenHeld(new ShootBallCommandGroup(shooter, index, limelight));
+    shootButton.whenHeld(new ShootBallCommandGroup(shooter, index, limelight, 0, 0, 0));//Null values subject to change
 
     //unused
     JoystickButton targetHub = new JoystickButton(buttonPanel, ButtonConstants.TARGET_SHOOTER);
@@ -147,7 +147,7 @@ public class RobotContainer {
     //return new SixBallLeftAuton(drive, limelight, shooter, intake, index);
     //return new ThreeBallLeftAuton(drive, limelight, shooter, intake, index);
     //return new ThreeBallRightAuton(drive, limelight, shooter, intake, index);
-    return new SixBallLeftAuton(drive, limelight, shooter, intake, index);
+    return new SixBallLeftAuton(drive, limelight, shooter, intake, index, 0, 0, 0, 0, 0);//Null Values subject to chnage
   }
 
   public Command getTeleCommand() {
