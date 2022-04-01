@@ -66,7 +66,7 @@ public class RobotContainer {
     limelight = new Limelight();
     intake = new Intake();
     lift = new Lift();
-
+    drive.gyroCalibrate();
 
     configureDriveTrain();
     configureButtonBindings();
