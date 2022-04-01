@@ -12,10 +12,7 @@ import frc.robot.subsystems.Intake;
 
 
 public class AutomaticIntakeCommandGroup extends SequentialCommandGroup {
-  private static final double indexPower = 1;
-  private static final double intakePower = 1; //might need to change values
-  private static final double intakeToIndexPower = 1;
-  public AutomaticIntakeCommandGroup(Index index, Intake intake) {
+  public AutomaticIntakeCommandGroup(Index index, Intake intake, double intakePower, double indexPower, double intakeToIndexPower) {
     addCommands(
       deadline(new WaitCommand(0), new IntakeExtendCommand(intake)),
       deadline(new WaitCommand(0.2), new IntakeCommand(intake, intakePower),
