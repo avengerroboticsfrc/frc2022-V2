@@ -18,7 +18,7 @@ public class Index extends SubsystemBase {
   public Index() {
     super();
 
-    indexMotor = new WPI_VictorSPX(PortConstants.INTAKE_TO_INDEX_MOTOR);
+    indexMotor = new WPI_VictorSPX(PortConstants.INDEX_MOTOR);
   }
 
   /**

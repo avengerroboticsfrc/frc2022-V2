@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;
+import frc.robot.subsystems.IndexToShooter;
+import frc.robot.subsystems.IntakeToIndex;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
@@ -18,13 +20,13 @@ import frc.robot.subsystems.Shooter;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SimpleDriveandShoot extends SequentialCommandGroup {
   /** Creates a new SimpleDriveandShoot. */
-  public SimpleDriveandShoot(DriveTrain drive, Shooter shooter, Index index, Limelight limelight, double shooterPower, double indexPower, double intakeToIndexPower) {
+  public SimpleDriveandShoot(DriveTrain drive, Shooter shooter, Index index, Limelight limelight, IntakeToIndex inIndex, IndexToShooter inShooter, double shooterPower, double indexPower, double intakeToIndexPower) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new RunCommand(() -> drive.tankDrive(.5, .5), drive).withTimeout(1.5),
       new WaitCommand(1),
-      new ShootBallCommandGroup(shooter, index, limelight, shooterPower, indexPower, intakeToIndexPower)
+      new ShootBallCommandGroup(shooter, index, inIndex, inShooter, limelight, shooterPower, indexPower, intakeToIndexPower, intakeToIndexPower)
     );
   }
 }

@@ -18,7 +18,7 @@ public class IndexToShooter extends SubsystemBase {
   public IndexToShooter() {
     super();
 
-    indexToShooter = new WPI_VictorSPX(PortConstants.INTAKE_TO_INDEX_MOTOR);
+    indexToShooter = new WPI_VictorSPX(PortConstants.INDEX_MOTOR2);
   }
 
   /**
