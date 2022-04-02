@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class TwoBallAutonRed extends SequentialCommandGroup {
   public TwoBallAutonRed(DriveTrain drive, Limelight limelight, Shooter shooter, Intake intake, Index index, double intakePower, double intakeToIndexPower, double indexPower, double indexToShooterPower, double shooterPower) {
-    Trajectory path = PathPlanner.loadPath("3-Ball-Red", 3, 5);
+    Trajectory path = PathPlanner.loadPath("2-Ball-Red", 3, 5);
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(path.getInitialPose());
     Map<Double, Command> commands = new HashMap<Double,Command>();
