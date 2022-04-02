@@ -19,13 +19,13 @@ import frc.robot.commands.driveTypes.DefaultDrive;    //Keep Import. Needed For 
 import frc.robot.commands.driveTypes.LucaDrive;
 import frc.robot.commands.ComplexCommands.IntakeToIndexCommandGroup;
 import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
-import frc.robot.commands.ComplexCommands.TargetHubCommand;
 import frc.robot.commands.SimpleCommands.IndexCommand;
 import frc.robot.commands.SimpleCommands.BADIndexToFlywheelCommand;
 import frc.robot.commands.SimpleCommands.IntakeCommand;
 import frc.robot.commands.SimpleCommands.IntakeExtendCommand;
 import frc.robot.commands.SimpleCommands.IntakeRetractCommand;
 import frc.robot.commands.SimpleCommands.LiftCommand;
+import frc.robot.commands.SimpleCommands.TargetHubCommand;
 import frc.robot.constants.ButtonConstants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;
@@ -111,7 +111,7 @@ public class RobotContainer {
 
     //Shoot button
     JoystickButton shootButton = new JoystickButton(buttonPanel, ButtonConstants.FLYWHEEL_ON);
-    shootButton.whenHeld(new ShootBallCommandGroup(shooter, index, limelight));
+    shootButton.whenHeld(new ShootBallCommandGroup(shooter, index, limelight, 0, 0, 0));//Null values subject to change
 
     //unused
     JoystickButton targetHub = new JoystickButton(buttonPanel, ButtonConstants.TARGET_SHOOTER);
@@ -149,9 +149,8 @@ public class RobotContainer {
     //return new SixBallLeftAuton(drive, limelight, shooter, intake, index);
     //return new ThreeBallLeftAuton(drive, limelight, shooter, intake, index);
     //return new ThreeBallRightAuton(drive, limelight, shooter, intake, index);
-    return new SixBallLeftAuton(drive, limelight, shooter, intake, index);
+    return new SixBallLeftAuton(drive, limelight, shooter, intake, index, 0, 0, 0, 0, 0);//Null Values subject to chnage
   }
-
   public Command getTeleCommand() {
     return drive.getDefaultCommand();
   }

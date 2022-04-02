@@ -7,24 +7,25 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.PortConstants;
 
 //Creates index class 
-public class Index extends SubsystemBase {
+public class IndexToShooter extends SubsystemBase {
   // Creates the index motor
   // private final WPI_VictorSPX indexMotor;
-  private final WPI_VictorSPX indexMotor;
+  private static WPI_VictorSPX indexToShooter;
 
   /**
    * creates a new index subsystem.
    */
-  public Index() {
+  public IndexToShooter() {
     super();
 
-    indexMotor = new WPI_VictorSPX(PortConstants.INDEX_MOTOR);
+    indexToShooter = new WPI_VictorSPX(PortConstants.INDEX_MOTOR2);
   }
 
   /**
    * set the index to a certain power.
    */
+
   public void power(double speed) {
-    indexMotor.set(speed);
+    indexToShooter.set(speed); 
   }
 }
