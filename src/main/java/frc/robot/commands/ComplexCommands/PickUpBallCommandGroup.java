@@ -12,17 +12,18 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.IntakeToIndex;
 
 public class PickUpBallCommandGroup extends SequentialCommandGroup {
-  public PickUpBallCommandGroup(Intake intake, IntakeToIndex inIndex, Index index, double intakePower, double intakeToIndexPower, double indexPower) {
+  public PickUpBallCommandGroup(Intake intake, IntakeToIndex intakeToIndex, Index index, double intakePower, double intakeToIndexPower, double indexPower) {
     addCommands(
-        deadline( // TODO:: FIX THIS CHANGE MOTOR RUN ON INTAKECOMMAND
+
             new InstantCommand(intake::extend),
             new WaitCommand(1),
-            new ParallelDeadlineGroup(
-              new WaitCommand(5), 
+            parallel(
               new IntakeCommand(intake, intakePower),
-              new IntakeToIndexCommand(inIndex, intakeToIndexPower),
+              new IntakeToIndexCommand(intakeToIndex, intakeToIndexPower),
               new IndexCommand(index, indexPower)
-            )));
+            )
+            )
+            ;
 
   }
 }

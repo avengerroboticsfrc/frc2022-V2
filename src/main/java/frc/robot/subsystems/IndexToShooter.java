@@ -18,7 +18,7 @@ public class IndexToShooter extends SubsystemBase {
   public IndexToShooter() {
     super();
 
-    indexToShooter = new WPI_VictorSPX(PortConstants.INDEX_MOTOR2);
+    indexToShooter = new WPI_VictorSPX(PortConstants.INDEX_TO_FLYWHEEL_MOTOR);
   }
 
   /**
@@ -26,6 +26,6 @@ public class IndexToShooter extends SubsystemBase {
    */
 
   public void power(double speed) {
-    indexToShooter.set(speed); 
+    indexToShooter.set(-speed); 
   }
 }

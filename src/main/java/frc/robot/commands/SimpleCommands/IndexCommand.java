@@ -16,11 +16,11 @@ public class IndexCommand extends CommandBase {
 
   @Override
   public void execute() {
-    index.indexPower(power);
+    index.power(power);
   }
 
   @Override
   public void end(boolean interrupted) {
-    index.indexPower(0);
+    index.power(0);
   }
 }

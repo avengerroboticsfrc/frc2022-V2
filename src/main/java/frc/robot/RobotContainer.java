@@ -17,7 +17,9 @@ import frc.robot.commands.auton.ThreeBallLeftAuton;   //Keep Import. Needed For 
 import frc.robot.commands.auton.ThreeBallRightAuton;  //Keep Import. Needed For Auton
 import frc.robot.commands.driveTypes.DefaultDrive;    //Keep Import. Needed For Auton
 import frc.robot.commands.driveTypes.LucaDrive;
+import frc.robot.commands.ComplexCommands.IntakeAndShootCommandGroup;
 import frc.robot.commands.ComplexCommands.IntakeToIndexCommandGroup;
+import frc.robot.commands.ComplexCommands.PickUpBallCommandGroup;
 import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
 import frc.robot.commands.SimpleCommands.IndexCommand;
 import frc.robot.commands.SimpleCommands.BADIndexToFlywheelCommand;
@@ -29,7 +31,9 @@ import frc.robot.commands.SimpleCommands.TargetHubCommand;
 import frc.robot.constants.ButtonConstants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;
+import frc.robot.subsystems.IndexToShooter;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakeToIndex;
 import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.MainDrive;
@@ -45,7 +49,9 @@ import frc.robot.subsystems.Shooter;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrain drive;
+  private final IntakeToIndex intakeToIndex;
   private final Index index;
+  private final IndexToShooter indexToShooter;
   private final Shooter shooter;
   private final PS4Controller controller;
   private final Limelight limelight;
@@ -67,6 +73,8 @@ public class RobotContainer {
     shooter = new Shooter();
     limelight = new Limelight();
     intake = new Intake();
+    intakeToIndex = new IntakeToIndex();
+    indexToShooter = new IndexToShooter();
     lift = new Lift();
     drive.gyroCalibrate();
 
@@ -92,7 +100,8 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     JoystickButton toggleIntake = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_TOGGLE_AND_OPEN);
-    toggleIntake.whenHeld(new IntakeExtendCommand(intake));
+    toggleIntake.whenHeld(new IntakeAndShootCommandGroup(shooter, index, limelight, intake, intakeToIndex, indexToShooter, 1, .4, .5, .5));
+    // toggleIntake.whenHeld(new IntakeExtendCommand(intake));
 
     JoystickButton toggleIntakeRetract = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_RETRACT);
     toggleIntakeRetract.whenHeld(new IntakeRetractCommand(intake));
@@ -104,14 +113,14 @@ public class RobotContainer {
     indexOut.whenHeld(new BADIndexToFlywheelCommand(index, .5));
 
     JoystickButton runIntakeIn = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_IN);
-    runIntakeIn.whenHeld(new IntakeToIndexCommandGroup(intake, index));
+    runIntakeIn.whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index));
 
     // JoystickButton runIntakeOut = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_OUT);
     // runIntakeOut.whenHeld(new IntakeCommand(intake, -.7));
 
     //Shoot button
     JoystickButton shootButton = new JoystickButton(buttonPanel, ButtonConstants.FLYWHEEL_ON);
-    shootButton.whenHeld(new ShootBallCommandGroup(shooter, index, limelight, 0, 0, 0));//Null values subject to change
+    shootButton.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 1, .5, .5));//Null values subject to change
 
     //unused
     JoystickButton targetHub = new JoystickButton(buttonPanel, ButtonConstants.TARGET_SHOOTER);
@@ -149,7 +158,7 @@ public class RobotContainer {
     //return new SixBallLeftAuton(drive, limelight, shooter, intake, index);
     //return new ThreeBallLeftAuton(drive, limelight, shooter, intake, index);
     //return new ThreeBallRightAuton(drive, limelight, shooter, intake, index);
-    return new SixBallLeftAuton(drive, limelight, shooter, intake, index, 0, 0, 0, 0, 0);//Null Values subject to chnage
+    return new SixBallLeftAuton(drive, limelight, shooter, intake, index, intakeToIndex, indexToShooter, 0.0, 0.0, 0.0, 0.0, 0.0);//Null Values subject to chnage
   }
   public Command getTeleCommand() {
     return drive.getDefaultCommand();

@@ -1,10 +1,12 @@
 package frc.robot.commands.ComplexCommands;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.SimpleCommands.FlywheelCommand;
 import frc.robot.commands.SimpleCommands.IndexCommand;
+import frc.robot.commands.SimpleCommands.IndexToShooterCommand;
 import frc.robot.commands.SimpleCommands.IntakeToIndexCommand;
 import frc.robot.commands.SimpleCommands.TargetHubCommand;
 import frc.robot.subsystems.Index;
@@ -15,19 +17,31 @@ import frc.robot.subsystems.Shooter;
 
 public class ShootBallCommandGroup extends SequentialCommandGroup {
 
-  public ShootBallCommandGroup(Shooter shooter, Index index, IntakeToIndex inIndex, IndexToShooter inShooter, Limelight limelight, double shooterPower, double indexPower, double indexToShooterPower, double intakeToIndexPower) {
+  public ShootBallCommandGroup(Shooter shooter, Index index, IndexToShooter indexToShooter, Limelight limelight, double shooterPower, double indexPower, double indexToShooterPower) {
     addCommands(
-      deadline(new WaitCommand(2), new TargetHubCommand(shooter, limelight)),
-      new WaitCommand(1),
-      deadline(
-        new WaitCommand(5), 
-        sequence(new FlywheelCommand(shooter, shooterPower), new WaitCommand(2), new ParallelCommandGroup(
-          new IntakeToIndexCommand(inIndex, intakeToIndexPower),
-          new IndexCommand(index, indexPower),
-          new IndextoFlywheelCommandGroup(index, inShooter, indexPower, indexToShooterPower)
-          )
-        )
-      )    
+      deadline(new WaitCommand(1), new TargetHubCommand(shooter, limelight)),
+      parallel(
+      new FlywheelCommand(shooter, shooterPower),
+      sequence(new WaitCommand(2), 
+      parallel(new IndexToShooterCommand(indexToShooter, indexToShooterPower),
+      new IndexCommand(index, indexPower))
+      )
+      )
+          
+        
+       
     );
+
+
+    // deadline(
+    //   new WaitCommand(1), 
+    //   new TargetHubCommand(shooter, limelight)),
+    // deadline(
+    //   new WaitCommand(1), 
+    //   new FlywheelCommand(shooter, shooterPower)),
+    // parallel(
+    //     new IndexCommand(index, indexPower),
+    //     new IndexToShooterCommand(indexToShooter, indexToShooterPower)
+    //   )
   }
 }
