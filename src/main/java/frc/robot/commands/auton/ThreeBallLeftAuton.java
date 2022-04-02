@@ -33,7 +33,7 @@ public class ThreeBallLeftAuton extends SequentialCommandGroup {
     addCommands(
       new ShootBallCommandGroup(shooter, index, inShooter, limelight, shooterPower, indexPower, indexToShooterPower),
       new FridayRamseteCommand(path, drive, commands),
-      deadline(new IntakeAndShootCommandGroup(shooter, index, limelight, intake, inIndex, inShooter, shooterPower, shooterPower, shooterPower, shooterPower).withTimeout(5), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
+      deadline(new IntakeAndShootCommandGroup(shooter, index, limelight, intake, inIndex, inShooter, shooterPower, shooterPower, shooterPower, shooterPower, shooterPower).withTimeout(5), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
       new InstantCommand(() -> System.out.println("trajectory over")),
       new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)
     );

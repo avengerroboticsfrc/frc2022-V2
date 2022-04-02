@@ -31,7 +31,7 @@ public class TwoBallAutonBlue extends SequentialCommandGroup {
 
     addCommands(
       new FridayRamseteCommand(path, drive, commands),
-      deadline(new IntakeAndShootCommandGroup(shooter, index, limelight, intake, inIndex, inShooter, shooterPower, shooterPower, shooterPower, shooterPower).withTimeout(4), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
+      deadline(new IntakeAndShootCommandGroup(shooter, index, limelight, intake, inIndex, inShooter, shooterPower, shooterPower, shooterPower, shooterPower, shooterPower).withTimeout(4), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
       new InstantCommand(() -> System.out.println("trajectory over")),
       new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)
     );

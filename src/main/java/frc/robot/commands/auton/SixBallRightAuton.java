@@ -29,11 +29,11 @@ public class SixBallRightAuton extends SequentialCommandGroup {
 
     Map<Double, Command> commands = new HashMap<Double,Command>();
     commands.put(1.1304040796428534, new PickUpBallCommandGroup(intake, inIndex, index, intakePower, intakeToIndexPower, indexPower).withTimeout(2));
-    commands.put(3.0185091255112075, new IntakeAndShootCommandGroup(shooter, index, limelight, intake, inIndex, inShooter, shooterPower, shooterPower, shooterPower, shooterPower).withTimeout(4));
+    commands.put(3.0185091255112075, new IntakeAndShootCommandGroup(shooter, index, limelight, intake, inIndex, inShooter, shooterPower, shooterPower, shooterPower, shooterPower, shooterPower).withTimeout(4));
     commands.put(5.030751908041635, new PickUpBallCommandGroup(intake, inIndex, index, intakePower, intakeToIndexPower, indexPower).withTimeout(2));
     addCommands(
       new FridayRamseteCommand(path, drive, commands),
-      deadline(new IntakeAndShootCommandGroup(shooter, index, limelight, intake, inIndex, inShooter, shooterPower, shooterPower, shooterPower, shooterPower).withTimeout(4), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
+      deadline(new IntakeAndShootCommandGroup(shooter, index, limelight, intake, inIndex, inShooter, shooterPower, shooterPower, shooterPower, shooterPower, shooterPower).withTimeout(4), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
       new InstantCommand(() -> System.out.println("trajectory over")),
       new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)
     );
