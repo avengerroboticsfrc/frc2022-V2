@@ -1,26 +1,26 @@
 package frc.robot.commands.SimpleCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Index;
+import frc.robot.subsystems.IntakeToIndex;
 
 public class IntakeToIndexCommand extends CommandBase {
 
-  private final Index Inindex;
+  private final IntakeToIndex inIndex;
   private final double power;
 
-  public IntakeToIndexCommand(Index index, double power) {
-    this.Inindex = index;
+  public IntakeToIndexCommand(IntakeToIndex inIndex, double power) {
+    this.inIndex = inIndex;
     this.power = power;
-    addRequirements(index);
+    addRequirements(inIndex);
   }
 
   @Override
   public void execute() {
-    Inindex.power(power);
+    inIndex.power(power);
   }
 
   @Override
   public void end(boolean interrupted) {
-    Inindex.power(0);
+    inIndex.power(0);
   }
 }

@@ -1,26 +1,26 @@
 package frc.robot.commands.SimpleCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Index;
+import frc.robot.subsystems.IndexToShooter;
 
 public class IndexToShooterCommand extends CommandBase {
 
-  private final Index index;
   private final double power;
+  private final IndexToShooter inShooter;
 
-  public IndexToShooterCommand(Index index, double power) {
-    this.index = index;
+  public IndexToShooterCommand(IndexToShooter inShooter, double power) {
     this.power = power;
-    addRequirements(index);
+    this.inShooter = inShooter;
+    addRequirements(inShooter);
   }
 
   @Override
   public void execute() {
-    index.IndexToShooterPower(power);
+    inShooter.power(power);
   }
 
   @Override
   public void end(boolean interrupted) {
-    index.IndexToShooterPower(0);
+    inShooter.power(0);
   }
 }
