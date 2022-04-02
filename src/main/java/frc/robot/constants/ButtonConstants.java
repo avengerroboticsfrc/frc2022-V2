@@ -24,8 +24,8 @@ public class ButtonConstants {
 
   // TESTING BUTTONS (hopefully)
   public static final int FLYWHEEL_ON = 9;
-  public static final int HOOD_UP = 12;
-  public static final int HOOD_DOWN = 12;
+  public static final int HOOD_UP = 11;
+  public static final int HOOD_DOWN = 11;
   //public static final int HOOD_MIN = -1;
   //public static final int HOOD_MAX = -1;
 

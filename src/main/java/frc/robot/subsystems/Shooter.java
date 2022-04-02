@@ -19,6 +19,7 @@ public class Shooter extends SubsystemBase {
   private final TalonFX flywheelMotor;
   private final TalonFX flywheelMotor2;
   public final CANSparkMax turretTurnMotor;
+  private final WPI_VictorSPX indexToShooter;
   private final Servo[] hood;
   private SparkMaxPIDController m_pidController;
   private RelativeEncoder m_encoder;
@@ -33,7 +34,8 @@ public class Shooter extends SubsystemBase {
   public static boolean kSensorPhase = false;
   public static boolean kMotorInvert = false;
   // kP, kI, kD, kF, kIzone, kPeakOutput;
-  public static final double[] kTurretGains = { 0, 0, 0, .1705, 0, 1 };
+  public static final double[] kTurretGains = { 0, 0, 0, 0, 0, 1 };
+  // public static final double[] kTurretGains = { 0, 0, 0, .1705, 0, 1 };
   // kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput;
   public static final double[] kHoodGains = { 0, 0, 0, 0, 0, 0, 1 };
 
@@ -46,6 +48,7 @@ public class Shooter extends SubsystemBase {
     flywheelMotor = new TalonFX(PortConstants.FLYWHEEL_MOTOR);
     flywheelMotor2 = new TalonFX(PortConstants.FLYWHEEL_MOTOR2);
     turretTurnMotor = new CANSparkMax(5, MotorType.kBrushless);
+    indexToShooter = new WPI_VictorSPX(PortConstants.INDEX_TO_FLYWHEEL_MOTOR);
     m_pidController = turretTurnMotor.getPIDController();
     m_encoder = turretTurnMotor.getEncoder();
     hood = new Servo[] {
@@ -61,6 +64,7 @@ public class Shooter extends SubsystemBase {
    */
   public void turn(double counts) {
     m_pidController.setReference(counts, CANSparkMax.ControlType.kPosition);
+    m_encoder.setPosition(counts);
   }
 
   /**
@@ -69,6 +73,7 @@ public class Shooter extends SubsystemBase {
   public void spin(double power) {
     flywheelMotor.set(TalonFXControlMode.PercentOutput, power*-1);
     flywheelMotor2.set(TalonFXControlMode.PercentOutput, power);
+    indexToShooter.set(-power*.7 );
   }
 
   /**
@@ -107,7 +112,7 @@ public class Shooter extends SubsystemBase {
     turretTurnMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     turretTurnMotor.setIdleMode(IdleMode.kBrake);
     //TODO: CHANGE THESE VALS
-    turretTurnMotor.setSoftLimit(SoftLimitDirection.kForward, 24000);
-    turretTurnMotor.setSoftLimit(SoftLimitDirection.kReverse, 24000);
+    turretTurnMotor.setSoftLimit(SoftLimitDirection.kForward, 2400);
+    turretTurnMotor.setSoftLimit(SoftLimitDirection.kReverse, 2400);
     }
 }

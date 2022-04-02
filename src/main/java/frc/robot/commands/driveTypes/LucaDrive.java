@@ -39,30 +39,32 @@ public class LucaDrive extends CommandBase {
     double speed = (reverse.getAsDouble() + (forward.getAsDouble()*-1)) * .5;
     double rotate = rotation.getAsDouble();
 
-    double val = turn.getAsBoolean() ? .25 : 1;
+    double val = turn.getAsBoolean() ? .3 : 1;
     double speed2 = speed>0 ? Math.pow(speed, 2) : -Math.pow(speed, 2);
     double val2 = Math.pow(rotate, 3);
 
-    System.out.println("Real Speed" + speed2);
-    System.out.println("Held Speed" + heldSpeed2);
+    // System.out.println("Real Speed" + speed2);
+    // System.out.println("Held Speed" + heldSpeed2);
     // If you stop putting in inputs
     // Robot keeps moving, exponentially decreasing speed
 
-    if (Math.abs(speed2) > Math.abs(heldSpeed2)) {
-      if (speed2 - heldSpeed2 > 0.1) {
-        heldSpeed2 += 0.001;
-      } else if (speed2 - heldSpeed2 < -0.1) {
-        heldSpeed2 -= 0.001;
-      }
-      heldSpeed2 /= decayVar;
-      drive.curvatureDrive(heldSpeed2, (val2 * .3), turn.getAsBoolean());
-    } else if (Math.abs(speed2) < 0.1) {
-      heldSpeed2 *= decayVar;
-      drive.curvatureDrive(heldSpeed2, (val2 * .3), turn.getAsBoolean());
-    } else {
-      drive.curvatureDrive((speed2*.5), (val2*.3), turn.getAsBoolean());
-      // Hold inputs at end due to how it cycles
-      heldSpeed2 = speed2;
+    // if (Math.abs(speed2) > Math.abs(heldSpeed2)) {
+    //   if (speed2 - heldSpeed2 > 0.1) {
+    //     heldSpeed2 += 0.001;
+    //   } else if (speed2 - heldSpeed2 < -0.1) {
+    //     heldSpeed2 -= 0.001;
+    //   }
+    //   heldSpeed2 /= decayVar;
+    //   drive.curvatureDrive(heldSpeed2, (val2 * .3), turn.getAsBoolean());
+    // } else if (Math.abs(speed2) < 0.1) {
+    //   heldSpeed2 *= decayVar;
+    //   drive.curvatureDrive(heldSpeed2, (val2 * .3), turn.getAsBoolean());
+    // } else {
+    //   drive.curvatureDrive((speed2*.5), (val2*.3), turn.getAsBoolean());
+    //   // Hold inputs at end due to how it cycles
+    //   heldSpeed2 = speed2;
+    
+    drive.curvatureDrive((speed2*.6), (val2*val), turn.getAsBoolean());
     }
   }
 
@@ -113,4 +115,3 @@ public class LucaDrive extends CommandBase {
       // take over
   }
 */
-}

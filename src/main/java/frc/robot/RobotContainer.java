@@ -17,9 +17,11 @@ import frc.robot.commands.auton.ThreeBallLeftAuton;   //Keep Import. Needed For 
 import frc.robot.commands.auton.ThreeBallRightAuton;  //Keep Import. Needed For Auton
 import frc.robot.commands.driveTypes.DefaultDrive;    //Keep Import. Needed For Auton
 import frc.robot.commands.driveTypes.LucaDrive;
+import frc.robot.commands.ComplexCommands.IntakeToIndexCommandGroup;
 import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
 import frc.robot.commands.ComplexCommands.TargetHubCommand;
 import frc.robot.commands.SimpleCommands.IndexCommand;
+import frc.robot.commands.SimpleCommands.BADIndexToFlywheelCommand;
 import frc.robot.commands.SimpleCommands.IntakeCommand;
 import frc.robot.commands.SimpleCommands.IntakeExtendCommand;
 import frc.robot.commands.SimpleCommands.IntakeRetractCommand;
@@ -99,13 +101,13 @@ public class RobotContainer {
     indexUp.whenHeld(new IndexCommand(index, .5));
 
     JoystickButton indexOut = new JoystickButton(buttonPanel, ButtonConstants.INDEX_OUT);
-    indexOut.whenHeld(new IndexCommand(index, -.5));
+    indexOut.whenHeld(new BADIndexToFlywheelCommand(index, .5));
 
     JoystickButton runIntakeIn = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_IN);
-    runIntakeIn.whenHeld(new IntakeCommand(intake, .4));
+    runIntakeIn.whenHeld(new IntakeToIndexCommandGroup(intake, index));
 
-    JoystickButton runIntakeOut = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_OUT);
-    runIntakeOut.whenHeld(new IntakeCommand(intake, -.7));
+    // JoystickButton runIntakeOut = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_OUT);
+    // runIntakeOut.whenHeld(new IntakeCommand(intake, -.7));
 
     //Shoot button
     JoystickButton shootButton = new JoystickButton(buttonPanel, ButtonConstants.FLYWHEEL_ON);

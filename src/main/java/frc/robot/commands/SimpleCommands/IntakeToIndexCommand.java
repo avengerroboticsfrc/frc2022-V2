@@ -3,12 +3,12 @@ package frc.robot.commands.SimpleCommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Index;
 
-public class IntakeToIndex extends CommandBase  {
+public class IntakeToIndexCommand extends CommandBase  {
   private double power;
-  private Index Inindex;
+  private Index inIndex;
 
-  public void IntakeToIndexCommand(Index index, double power) {
-    this.Inindex = index;
+  public IntakeToIndexCommand(Index index, double power) {
+    this.inIndex = index;
     this.power = power;
     addRequirements(index);
   }
@@ -19,12 +19,12 @@ public class IntakeToIndex extends CommandBase  {
 
   @Override
   public void execute() {
-    Inindex.IntakeIntoIndexPower(power);
+    inIndex.intakeIntoIndexPower(power);
   }
 
   @Override
   public void end(boolean interrupted) {
-    Inindex.IntakeIntoIndexPower(0);
+    inIndex.intakeIntoIndexPower(0);
   }
   //Something is wrong with class I created
 

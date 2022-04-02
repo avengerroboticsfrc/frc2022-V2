@@ -12,7 +12,6 @@ public class Index extends SubsystemBase {
   // private final WPI_VictorSPX indexMotor;
   private final WPI_VictorSPX indexMotor;
   private final WPI_VictorSPX IntakeToIndex;
-  private final WPI_VictorSPX IndexToShooter;
 
   /**
    * creates a new index subsystem.
@@ -22,21 +21,19 @@ public class Index extends SubsystemBase {
 
     indexMotor = new WPI_VictorSPX(PortConstants.INDEX_MOTOR);
     IntakeToIndex = new WPI_VictorSPX(PortConstants.INTAKE_TO_INDEX_MOTOR);
-    IndexToShooter = new WPI_VictorSPX(PortConstants.INDEX_MOTOR2);
   }
 
   /**
    * set the index to a certain power.
    */
-  public void power(double speed) {
+  public void indexPower(double speed) {
     indexMotor.set(-speed);
   }
 
-  public void IntakeIntoIndexPower(double speed) {
-    IntakeToIndex.set(-speed);
-  }
 
-  public void IndexToShooterPower(double speed) {
-    IndexToShooter.set(-speed); 
+
+  public void intakeIntoIndexPower(double speed) {
+    IntakeToIndex.set(speed);
+    indexMotor.set(-speed);
   }
 }

@@ -3,12 +3,12 @@ package frc.robot.commands.SimpleCommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Index;
 
-public class IndexCommand extends CommandBase {
-
+public class BADIndexToFlywheelCommand extends CommandBase{
+    
   private final Index index;
   private final double power;
 
-  public IndexCommand(Index index, double power) {
+  public BADIndexToFlywheelCommand(Index index, double power) {
     this.index = index;
     this.power = power;
     addRequirements(index);
@@ -16,11 +16,12 @@ public class IndexCommand extends CommandBase {
 
   @Override
   public void execute() {
-    index.indexPower(power);
+    //index.indexToShooterPower(power);
   }
 
   @Override
   public void end(boolean interrupted) {
-    index.indexPower(0);
+    //index.indexToShooterPower(0);
   }
+    
 }

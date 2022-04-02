@@ -11,12 +11,13 @@ import frc.robot.subsystems.Shooter;
 
 public class ShootBallCommandGroup extends SequentialCommandGroup {
   private static final double indexPower = 1;
-  private static final double shooterPower = .75;
+  private static final double shooterPower = 1;
 
   public ShootBallCommandGroup(Shooter shooter, Index index, Limelight limelight) {
     addCommands(
       deadline(new WaitCommand(0), new TargetHubCommand(shooter, limelight)),
       deadline(new WaitCommand(3), new FlywheelCommand(shooter, shooterPower),
+        sequence( new WaitCommand(1)),
         parallel(new WaitCommand(2), new IndexCommand(index, indexPower))
         
       )

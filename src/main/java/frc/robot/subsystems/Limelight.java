@@ -17,9 +17,10 @@ public class Limelight extends SubsystemBase {
   // TODO: Find this number
   private static final double POWER_PER_METER = 0;
 
-  private static final double KP = -0.1; // Proportional control constant
-  private static final double MIN_COMMAND = 0.05; // Minimum amount to slightly move
+  private static final double Kp = -0.1; // Proportional control constant
+  private static final double min_command = 0.05; // Minimum amount to slightly move
 
+  private double steering_adjust;
   /**
    * creates a new limelight class.
    */
@@ -44,14 +45,17 @@ public class Limelight extends SubsystemBase {
    * uses the targetXOffset value to calculate the rotationAdjust value.
    */
   public double getRotationAdjust() {
-    double rotationAdjust = 0.0;
-    double targetX = table.getEntry("tx").getDouble(0);
-    System.out.println(targetX);
-    rotationAdjust = (targetX > 1.0)
-        ? KP * -1 * targetX - MIN_COMMAND
-        : KP * -1 * targetX + MIN_COMMAND;
-
-    return rotationAdjust;
+    double tx = table.getEntry("tx").getDouble(0);
+    double heading_error = -tx;
+    if (tx > 1.0)
+    {
+            steering_adjust = Kp*heading_error - min_command;
+    }
+    else if (tx < 1.0)
+    {
+            steering_adjust = Kp*heading_error + min_command;
+    }
+    return steering_adjust;
   }
 
   /**
