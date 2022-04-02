@@ -25,11 +25,11 @@ public class TwoBallAutonRed extends SequentialCommandGroup {
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(path.getInitialPose());
     Map<Double, Command> commands = new HashMap<Double,Command>();
-    commands.put(1.5488426615095783, new PickUpBallCommandGroup(intake, index, shooterPower, shooterPower, shooterPower));
+    commands.put(1.5488426615095783, new PickUpBallCommandGroup(intake, index, shooterPower, shooterPower, shooterPower).withTimeout(3));
 
     addCommands(
       new FridayRamseteCommand(path, drive, commands),
-      deadline(new IntakeAndShootCommandGroup(shooter, index, limelight, intake, shooterPower, shooterPower, shooterPower), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
+      deadline(new IntakeAndShootCommandGroup(shooter, index, limelight, intake, shooterPower, shooterPower, shooterPower).withTimeout(5), new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)),
       new InstantCommand(() -> System.out.println("trajectory over")),
       new RunCommand(() -> drive.tankDriveVolts(0, 0), drive)
     );
