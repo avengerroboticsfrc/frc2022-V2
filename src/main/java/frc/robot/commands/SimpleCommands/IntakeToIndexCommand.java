@@ -5,12 +5,12 @@ import frc.robot.subsystems.IntakeToIndex;
 
 public class IntakeToIndexCommand extends CommandBase  {
   private double power;
-  private IntakeToIndex index;
+  private IntakeToIndex inIndex;
 
-  public IntakeToIndexCommand(IntakeToIndex index, double power) {
-    this.index = index;
+  public IntakeToIndexCommand(IntakeToIndex inIndex, double power) {
+    this.inIndex = inIndex;
     this.power = power;
-    addRequirements(index);
+    addRequirements(inIndex);
   }
   
   @Override
@@ -19,14 +19,13 @@ public class IntakeToIndexCommand extends CommandBase  {
 
   @Override
   public void execute() {
-    index.power(power);
+    inIndex.power(power);
   }
 
   @Override
   public void end(boolean interrupted) {
-    index.power(0);
+    inIndex.power(0);
   }
-  //Something is wrong with class I created
 
 
 }
