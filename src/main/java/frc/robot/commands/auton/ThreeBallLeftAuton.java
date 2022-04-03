@@ -28,7 +28,7 @@ public class ThreeBallLeftAuton extends SequentialCommandGroup {
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(path.getInitialPose());
     Map<Double, Command> commands = new HashMap<Double,Command>();
-    commands.put(1.304808785515134, new PickUpBallCommandGroup(intake, inIndex, index, intakePower, intakeToIndexPower, indexPower).withTimeout(3));
+    commands.put(1.307538965165357, new PickUpBallCommandGroup(intake, inIndex, index, intakePower, intakeToIndexPower, indexPower).withTimeout(3));
 
     addCommands(
       new ShootBallCommandGroup(shooter, index, inShooter, limelight, shooterPower, indexPower, indexToShooterPower),
