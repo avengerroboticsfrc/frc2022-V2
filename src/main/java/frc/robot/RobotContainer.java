@@ -100,7 +100,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     JoystickButton toggleIntake = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_TOGGLE_AND_OPEN);
-    toggleIntake.whenHeld(new IntakeAndShootCommandGroup(shooter, index, limelight, intake, intakeToIndex, indexToShooter, 1, .4, .5, .5));
+    toggleIntake.whenHeld(new IntakeAndShootCommandGroup(shooter, index, limelight, intake, intakeToIndex, indexToShooter, 1, .4, .5, .5, .5));
     // toggleIntake.whenHeld(new IntakeExtendCommand(intake));
 
     JoystickButton toggleIntakeRetract = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_RETRACT);
