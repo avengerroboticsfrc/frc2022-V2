@@ -18,22 +18,22 @@ public class ButtonConstants {
    */
 
   //public static final int INTAKE_TOGGLE_AND_OPEN = 3;
-  public static final int INTAKE_RETRACT = 1;
-  public static final int INTAKE_EXTEND = 2;
+  public static final int INTAKE_RETRACT = 4;
+  public static final int INTAKE_EXTEND = 3;
 
-  public static final int INTAKE_OUT = 3;
-  public static final int INTAKE_IN = 4;
+  public static final int INTAKE_OUT = 6;
+  public static final int INTAKE_IN = 5;
 
-  public static final int INDEX_UP = 5;
-  public static final int INDEX_OUT = 6;
+  public static final int INDEX_UP = 8;
+  public static final int INDEX_OUT = 7;
 
-  public static final int FLYWHEEL_ON = 7;
-  public static final int SHOOT_WRONG_BALL = 8;
+  public static final int FLYWHEEL_ON = 11;
+  public static final int SHOOT_WRONG_BALL = 12;
 
-  public static final int LIFT_UP = 9;
-  public static final int LIFT_DOWN = 10;
-  public static final int LIFT_FORWARD = 11;
-  public static final int LIFT_BACK = 12;
+  public static final int LIFT_UP = 1;
+  public static final int LIFT_DOWN = 2;
+  public static final int LIFT_FORWARD = 9;
+  public static final int LIFT_BACK = 10;
 
   //Targeting should work with Robot Hood so it is probably not needed
   //public static final int HOOD_UP = 11;

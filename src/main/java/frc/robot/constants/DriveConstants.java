@@ -22,4 +22,5 @@ public class DriveConstants {
   // RAMSETE Parameters
   public static final double K_RAMSETE = 2;
   public static final double K_RAMSETE_ZETA = 0.7;
+  public static final double MAX_DRIVE_VOLTAGE = 7;
 }
