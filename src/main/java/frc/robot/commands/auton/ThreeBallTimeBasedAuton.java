@@ -30,7 +30,9 @@ public class ThreeBallTimeBasedAuton extends SequentialCommandGroup {
             new RunCommand(() -> drive.tankDrive(0,0), drive),
             new RunCommand(() -> drive.tankDrive(-0.5, -0.5), drive).withTimeout(1.6),
             new PickUpBallCommandGroup(intake, intakeToIndex, index, intakePower, intakeToIndexPower, indexPower),
-            new RunCommand(() -> drive.tankDrive(-0.5, -0.5), drive).withTimeout(.75),
+            new WaitCommand(1),
+            new RunCommand(() -> drive.tankDrive(0,0), drive),
+            new RunCommand(() -> drive.tankDrive(-0.5, 0.5), drive).withTimeout(.75),
             new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, shooterPower, indexPower, indexToShooterPower).withTimeout(3)
         );
 
