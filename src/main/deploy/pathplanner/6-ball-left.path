@@ -10,7 +10,7 @@
         "x": 8.56296801201718,
         "y": 1.4792475154622629
       },
-      "holonomicAngle": 0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false
@@ -28,7 +28,7 @@
         "x": 7.477084121805817,
         "y": 0.5016882249446246
       },
-      "holonomicAngle": 0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false
@@ -46,7 +46,7 @@
         "x": 5.362182256302576,
         "y": 2.051737743725928
       },
-      "holonomicAngle": 0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false
@@ -64,7 +64,7 @@
         "x": 5.817653839287572,
         "y": 5.180895707626882
       },
-      "holonomicAngle": 0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false
@@ -79,13 +79,13 @@
         "y": 6.97053975560405
       },
       "nextControl": null,
-      "holonomicAngle": 0,
+      "holonomicAngle": 0.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false
     }
   ],
-  "maxVelocity": 3,
-  "maxAcceleration": 5,
+  "maxVelocity": 3.0,
+  "maxAcceleration": 5.0,
   "isReversed": null
 }
