@@ -19,7 +19,7 @@ import frc.robot.constants.DriveConstants;
 public class Trajectories {
     private static final DifferentialDriveVoltageConstraint autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(DriveConstants.KS_VOLTS, DriveConstants.KV_VOLT_SECONDS_PER_METER, DriveConstants.KA_VOLT_SECONDS_SQUARED_PER_METER),
-            DriveConstants.K_DRIVE_KINEMATICS, DriveConstants.MAX_DRIVE_VOLTAGE);
+            DriveConstants.K_DRIVE_KINEMATICS, DriveConstants.KS_VOLTS);
 
     private static final TrajectoryConfig forwardTrajConfig = new TrajectoryConfig(DriveConstants.KP_DRIVE_VELOCITY,
             DriveConstants.K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
