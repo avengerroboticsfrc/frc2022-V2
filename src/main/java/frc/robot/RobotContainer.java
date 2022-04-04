@@ -9,24 +9,21 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.auton.SimpleDriveandShoot;  //Keep Import. Needed For Auton
 import frc.robot.commands.auton.SixBallLeftAuton;     //Keep Import. Needed For Auton
 import frc.robot.commands.auton.ThreeBallLeftAuton;   //Keep Import. Needed For Auton
 import frc.robot.commands.auton.ThreeBallRightAuton;  //Keep Import. Needed For Auton
-import frc.robot.commands.auton.TwoBallTimeBased;
+import frc.robot.commands.auton.TwoBallTimeBased;     //Keep Import. Needed For Auton
 import frc.robot.commands.driveTypes.DefaultDrive;    //Keep Import. Needed For Auton
-import frc.robot.commands.driveTypes.LucaDrive;
+import frc.robot.commands.driveTypes.LucaDrive;       //Keep Import. Luca Drive 
 import frc.robot.commands.ComplexCommands.AllIndexCommand;
 import frc.robot.commands.ComplexCommands.IntakeAndShootCommandGroup;
 import frc.robot.commands.ComplexCommands.IntakeToIndexCommandGroup;
 import frc.robot.commands.ComplexCommands.PickUpBallCommandGroup;
 import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
 import frc.robot.commands.SimpleCommands.IndexCommand;
-import frc.robot.commands.SimpleCommands.BADIndexToFlywheelCommand;
 import frc.robot.commands.SimpleCommands.IntakeCommand;
 import frc.robot.commands.SimpleCommands.IntakeExtendCommand;
 import frc.robot.commands.SimpleCommands.IntakeRetractCommand;
@@ -136,10 +133,10 @@ public class RobotContainer {
 
     //unused
     // replace these when we calibrate the hood
-    JoystickButton hoodUp = new JoystickButton(buttonPanel, ButtonConstants.HOOD_UP);
-    hoodUp.whileActiveContinuous(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() + 0.1), shooter));
-    JoystickButton hoodDown = new JoystickButton(buttonPanel, ButtonConstants.HOOD_DOWN);
-    hoodDown.whileActiveContinuous(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() - 0.1), shooter));
+    //JoystickButton hoodUp = new JoystickButton(buttonPanel, ButtonConstants.HOOD_UP);
+    //hoodUp.whileActiveContinuous(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() + 0.1), shooter));
+    //JoystickButton hoodDown = new JoystickButton(buttonPanel, ButtonConstants.HOOD_DOWN);
+    //hoodDown.whileActiveContinuous(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() - 0.1), shooter));
 
 
     JoystickButton raiseLift = new JoystickButton(buttonPanel, ButtonConstants.LIFT_UP);
@@ -148,11 +145,11 @@ public class RobotContainer {
     JoystickButton lowerLift = new JoystickButton(buttonPanel, ButtonConstants.LIFT_DOWN);
     lowerLift.whenHeld(new LiftCommand(lift, 1));
 
-    // JoystickButton liftForward = new JoystickButton(buttonPanel, ButtonConstants.LIFT_FORWARD);
-    // liftForward.whenHeld(new LiftCommand(lift, 0.3, true));
+    JoystickButton liftForward = new JoystickButton(buttonPanel, ButtonConstants.LIFT_FORWARD);
+    liftForward.whenHeld(new LiftCommand(lift, 0.3, true));
 
-    // JoystickButton liftBackward = new JoystickButton(buttonPanel, ButtonConstants.LIFT_BACK);
-    // liftBackward.whenHeld(new LiftCommand(lift, -0.3, true));
+    JoystickButton liftBackward = new JoystickButton(buttonPanel, ButtonConstants.LIFT_BACK);
+    liftBackward.whenHeld(new LiftCommand(lift, -0.3, true));
   }
 
   /**
