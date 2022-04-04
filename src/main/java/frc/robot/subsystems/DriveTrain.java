@@ -11,6 +11,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveTrain extends SubsystemBase {
@@ -79,6 +80,7 @@ public class DriveTrain extends SubsystemBase {
         leftMotors[0].getSelectedSensorPosition(),
         rightMotors[0].getSelectedSensorPosition() * -1
     );
+    SmartDashboard.putNumber("Gyro Rotation (Degrees)", gyro.getRotation2d().getDegrees());
   }
 
   /**
