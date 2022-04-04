@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 
@@ -54,7 +55,7 @@ public class RobotContainer {
   private final Index index;
   private final IndexToShooter indexToShooter;
   private final Shooter shooter;
-  private final PS4Controller controller;
+  private final XboxController controller;
   private final Limelight limelight;
   private final Intake intake;
   private final Joystick buttonPanel;
@@ -66,7 +67,7 @@ public class RobotContainer {
   public RobotContainer() {
     System.out.println("Hello, Driver");
 
-    controller = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
+    controller = new XboxController(ButtonConstants.CONTROLLER_PORT);
     buttonPanel = new Joystick(ButtonConstants.BUTTON_PANEL_PORT);
 
     drive = new MainDrive();
@@ -89,14 +90,14 @@ public class RobotContainer {
     // Can turn in place with button press.
     drive.setDefaultCommand(
         // pass in a reference to a method
-        new LucaDrive( 
-            drive,
-            controller::getL2Axis,
-            controller::getR2Axis,
-            controller::getLeftX,
-            controller::getCircleButton
-        ));
-        // new DefaultDrive(drive, controller::getLeftY, controller::getRightY, controller::getR1Button));
+        // new LucaDrive( 
+        //     drive,
+        //     controller::getL2Axis,
+        //     controller::getR2Axis,
+        //     controller::getLeftX,
+        //     controller::getCircleButton
+        // ));
+        new DefaultDrive(drive, controller::getLeftY, controller::getRightY, controller::getRightBumper));
   }
 
   private void configureButtonBindings() {
@@ -107,13 +108,13 @@ public class RobotContainer {
     //toggleIntakeRetract.whenHeld(new IntakeRetractCommand(intake));
 
     JoystickButton indexUp = new JoystickButton(buttonPanel, ButtonConstants.INDEX_UP);
-    indexUp.whenHeld(new AllIndexCommand(indexToShooter, intakeToIndex, index, 0.5, 0.5, 0.5));
+    indexUp.whenHeld(new AllIndexCommand(intakeToIndex, index, 0.5, 0.5));
 
     JoystickButton indexOut = new JoystickButton(buttonPanel, ButtonConstants.INDEX_OUT);
-    indexOut.whenHeld(new AllIndexCommand(indexToShooter, intakeToIndex, index, -0.5, -0.5, -0.5));
+    indexOut.whenHeld(new AllIndexCommand(intakeToIndex, index, -0.5, -0.5));
 
     JoystickButton runIntakeIn = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_IN);
-    runIntakeIn.whenHeld(new IntakeCommand(intake, 1.0));
+    runIntakeIn.whenHeld(new IntakeCommand(intake, 0.5));
 
     JoystickButton runIntakeOut = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_OUT);
     runIntakeOut.whenHeld(new IntakeCommand(intake, -0.3));
@@ -162,7 +163,7 @@ public class RobotContainer {
     //return new SixBallLeftAuton(drive, limelight, shooter, intake, index);
     //return new ThreeBallLeftAuton(drive, limelight, shooter, intake, index);
     //return new ThreeBallRightAuton(drive, limelight, shooter, intake, index);
-    return new SixBallLeftAuton(drive, limelight, shooter, intake, index, intakeToIndex, indexToShooter, 0.0, 0.0, 0.0, 0.0, 0.0);//Null Values subject to chnage
+    return new SixBallLeftAuton(drive, limelight, shooter, intake, index, intakeToIndex, indexToShooter, 0.5, 0.5, 0.5, 0.5, 1);//Null Values subject to chnage
   }
   public Command getTeleCommand() {
     return drive.getDefaultCommand();
