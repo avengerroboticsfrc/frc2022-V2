@@ -162,7 +162,7 @@ public class RobotContainer {
     //return new SixBallLeftAuton(drive, limelight, shooter, intake, index);
     //return new ThreeBallLeftAuton(drive, limelight, shooter, intake, index);
     //return new ThreeBallRightAuton(drive, limelight, shooter, intake, index);
-    return new SixBallLeftAuton(drive, limelight, shooter, intake, index, intakeToIndex, indexToShooter, 0.0, 0.0, 0.0, 0.0, 0.0);//Null Values subject to chnage
+    return new SixBallLeftAuton(drive, limelight, shooter, intake, index, intakeToIndex, indexToShooter, 0.5, 0.5, 0.5, 0.5, 0.5);//Null Values subject to chnage
   }
   public Command getTeleCommand() {
     return drive.getDefaultCommand();
