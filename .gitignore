@@ -161,5 +161,10 @@ bin/
 # Simulation GUI and other tools window save file
 *-window.json
 
-# Python Virtual Environment
-tensorflow/testing/python/venv/tensorflow/training/images
+# Tensorflow/Python
+*.tflite
+!model.zip
+training
+tensorflow/venv/
+tensorflow/src/__pycache__/
+frame.png
