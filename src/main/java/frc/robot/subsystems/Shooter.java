@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
@@ -69,8 +70,7 @@ public class Shooter extends SubsystemBase {
    * Run the flywheel at a power AND runs the top index wheels.
    */
   public void spin(double power) {
-    flywheelMotor.set(TalonFXControlMode.PercentOutput, power*-1);
-    flywheelMotor2.set(TalonFXControlMode.PercentOutput, power);
+    flywheelMotor.set(TalonFXControlMode.PercentOutput, power);
   }
 
   /**
@@ -87,6 +87,9 @@ public class Shooter extends SubsystemBase {
   }
 
   private void configureShooter() {
+    flywheelMotor.setInverted(TalonFXInvertType.Clockwise);
+    flywheelMotor2.follow(flywheelMotor);
+    flywheelMotor2.setInverted(TalonFXInvertType.OpposeMaster);
 
     flywheelMotor.configOpenloopRamp(1);
     flywheelMotor2.configOpenloopRamp(1);

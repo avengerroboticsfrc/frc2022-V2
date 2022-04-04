@@ -17,6 +17,7 @@ import frc.robot.commands.auton.ThreeBallLeftAuton;   //Keep Import. Needed For 
 import frc.robot.commands.auton.ThreeBallRightAuton;  //Keep Import. Needed For Auton
 import frc.robot.commands.driveTypes.DefaultDrive;    //Keep Import. Needed For Auton
 import frc.robot.commands.driveTypes.LucaDrive;
+import frc.robot.commands.ComplexCommands.AllIndexCommand;
 import frc.robot.commands.ComplexCommands.IntakeAndShootCommandGroup;
 import frc.robot.commands.ComplexCommands.IntakeToIndexCommandGroup;
 import frc.robot.commands.ComplexCommands.PickUpBallCommandGroup;
@@ -99,28 +100,31 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    JoystickButton toggleIntake = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_TOGGLE_AND_OPEN);
-    toggleIntake.whenHeld(new IntakeAndShootCommandGroup(shooter, index, limelight, intake, intakeToIndex, indexToShooter, 1, .4, .5, .5, .5));
+    //JoystickButton toggleIntake = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_TOGGLE_AND_OPEN);
     // toggleIntake.whenHeld(new IntakeExtendCommand(intake));
 
-    JoystickButton toggleIntakeRetract = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_RETRACT);
-    toggleIntakeRetract.whenHeld(new IntakeRetractCommand(intake));
+   //JoystickButton toggleIntakeRetract = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_RETRACT);
+    //toggleIntakeRetract.whenHeld(new IntakeRetractCommand(intake));
 
     JoystickButton indexUp = new JoystickButton(buttonPanel, ButtonConstants.INDEX_UP);
-    indexUp.whenHeld(new IndexCommand(index, .5));
+    indexUp.whenHeld(new AllIndexCommand(indexToShooter, intakeToIndex, index, 0.5, 0.5, 0.5));
 
     JoystickButton indexOut = new JoystickButton(buttonPanel, ButtonConstants.INDEX_OUT);
-    indexOut.whenHeld(new BADIndexToFlywheelCommand(index, .5));
+    indexOut.whenHeld(new AllIndexCommand(indexToShooter, intakeToIndex, index, -0.5, -0.5, -0.5));
 
     JoystickButton runIntakeIn = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_IN);
-    runIntakeIn.whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index));
+    runIntakeIn.whenHeld(new IntakeCommand(intake, 1.0));
 
-    // JoystickButton runIntakeOut = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_OUT);
-    // runIntakeOut.whenHeld(new IntakeCommand(intake, -.7));
+    JoystickButton runIntakeOut = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_OUT);
+    runIntakeOut.whenHeld(new IntakeCommand(intake, -0.3));
 
     //Shoot button
     JoystickButton shootButton = new JoystickButton(buttonPanel, ButtonConstants.FLYWHEEL_ON);
     shootButton.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 1, .5, .5));//Null values subject to change
+
+    JoystickButton shootWrongBall = new JoystickButton(buttonPanel, ButtonConstants.SHOOT_WRONG_BALL);
+    shootWrongBall.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.2, .5, .5));//Null values subject to change
+
 
     //unused
     JoystickButton targetHub = new JoystickButton(buttonPanel, ButtonConstants.TARGET_SHOOTER);
