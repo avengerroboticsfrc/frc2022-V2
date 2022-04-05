@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
@@ -30,6 +33,7 @@ import frc.robot.commands.SimpleCommands.IntakeRetractCommand;
 import frc.robot.commands.SimpleCommands.LiftCommand;
 import frc.robot.commands.SimpleCommands.TargetHubCommand;
 import frc.robot.constants.ButtonConstants;
+import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.IndexToShooter;
@@ -158,12 +162,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //return new SimpleDriveandShoot(drive, shooter, index, limelight);
-    //return new SixBallLeftAuton(drive, limelight, shooter, intake, index);
-    //return new ThreeBallLeftAuton(drive, limelight, shooter, intake, index);
-    //return new ThreeBallRightAuton(drive, limelight, shooter, intake, index);
-    //return new SixBallLeftAuton(drive, limelight, shooter, intake, index, intakeToIndex, indexToShooter, 0.5, 0.5, 0.5, 0.5, 1);
-    return new TwoBallTimeBased(drive, intake, index, intakeToIndex, shooter, indexToShooter, 0.5, 0.5, 0.5, 1, 0.5, limelight);//Works for both sides
+    TrajectoryConfig config = new TrajectoryConfig(DriveConstants.K_MAX_SPEED_METER_PER_SECOND, DriveConstants.K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+    config.setKinematics(drive.getKinematics());
+    return null;
+
   }
   public Command getTeleCommand() {
     return drive.getDefaultCommand();

@@ -5,24 +5,36 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.DriveConstants;
 
 public class DriveTrain extends SubsystemBase {
   protected final WPI_TalonFX[] leftMotors;
   protected final WPI_TalonFX[] rightMotors;
+  protected final WPI_TalonFX newMotor;
+  Pose2d pose;
 
   protected final DifferentialDrive driveTrain;
   private final Gyro gyro = new ADXRS450_Gyro();
 
-  protected final DifferentialDriveOdometry odometry =
-      new DifferentialDriveOdometry(gyro.getRotation2d());
+  DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
+  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(DriveConstants.K_TRACK_WIDTH_METERS);
+  SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(DriveConstants.KS_VOLTS, DriveConstants.KV_VOLT_SECONDS_PER_METER, DriveConstants.KA_VOLT_SECONDS_SQUARED_PER_METER);
+  PIDController leftPIDController = new PIDController(DriveConstants.KP_DRIVE_VELOCITY, 0, 0);
+  PIDController rightPIDController = new PIDController(DriveConstants.KP_DRIVE_VELOCITY,0,0);
+
 
   /**
    * this method is called when the DriveTrainSubsystem class is initialized.
@@ -38,6 +50,8 @@ public class DriveTrain extends SubsystemBase {
         new WPI_TalonFX(right[0]),
         new WPI_TalonFX(right[1])
     };
+
+    newMotor = new WPI_TalonFX(2);
 
     leftMotors[0].configFactoryDefault();
     leftMotors[1].configFactoryDefault();
@@ -75,10 +89,10 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    odometry.update(
-        gyro.getRotation2d(),
-        leftMotors[0].getSelectedSensorPosition(),
-        rightMotors[0].getSelectedSensorPosition() * -1
+    pose = odometry.update(
+      getHeading(),
+      leftMotors[0].getSelectedSensorVelocity()/5.95 * 2 * Math.PI * Units.inchesToMeters(3)/60,
+      rightMotors[0].getSelectedSensorVelocity()/5.95 * 2 * Math.PI * Units.inchesToMeters(3)/60
     );
     SmartDashboard.putNumber("Gyro Rotation (Degrees)", gyro.getRotation2d().getDegrees());
   }
@@ -100,8 +114,8 @@ public class DriveTrain extends SubsystemBase {
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(
-        leftMotors[0].getSelectedSensorVelocity(),
-        rightMotors[0].getSelectedSensorVelocity() * -1
+        leftMotors[0].getSelectedSensorVelocity()/5.95 * 2 * Math.PI * Units.inchesToMeters(3)/60,
+        rightMotors[0].getSelectedSensorVelocity()/5.95 * 2 * Math.PI * Units.inchesToMeters(3)/60
       );
   }
 
@@ -175,4 +189,29 @@ public class DriveTrain extends SubsystemBase {
   public void gyroCalibrate() {
     gyro.calibrate();
   }
+
+  public Rotation2d getHeading(){
+    return Rotation2d.fromDegrees(-gyro.getAngle());
+  }
+
+ 
+  public SimpleMotorFeedforward getFeedforward() {
+    return feedForward;
+  }
+
+  public PIDController getLeftPIDController(){
+    return leftPIDController;
+  }
+
+  public PIDController getRightPIDController(){
+    return rightPIDController;
+  }
+
+  public DifferentialDriveKinematics getKinematics() {
+    return kinematics;
+  }
+
+
+
+
 }
