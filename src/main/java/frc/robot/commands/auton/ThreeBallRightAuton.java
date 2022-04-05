@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class ThreeBallRightAuton extends SequentialCommandGroup {
   public ThreeBallRightAuton(DriveTrain drive, Limelight limelight, Shooter shooter, Intake intake, Index index, IntakeToIndex inIndex, IndexToShooter inShooter, double intakePower, double intakeToIndexPower, double indexPower, double indexToShooterPower, double shooterPower) {
-    Trajectory path = PathPlanner.loadPath("3-Ball-Red", 3, 5);
+    Trajectory path = PathPlanner.loadPath("3-Ball-Right", 3, 5);
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(path.getInitialPose());
     Map<Double, Command> commands = new HashMap<Double,Command>();
