@@ -142,13 +142,13 @@ public class RobotContainer {
         ButtonConstants.HOOD_DOWN);
     hoodDown.whileActiveContinuous(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() - 0.1), shooter));
 
-    // JoystickButton raiseLift = new JoystickButton(buttonPanel,
-    // ButtonConstants.LIFT_UP);
-    // raiseLift.whenHeld(new LiftCommand(lift, -1));
+    JoystickButton raiseLift = new JoystickButton(buttonPanel,
+    ButtonConstants.LIFT_UP);
+    raiseLift.whenHeld(new LiftCommand(lift, -1));
 
-    // JoystickButton lowerLift = new JoystickButton(buttonPanel,
-    // ButtonConstants.LIFT_DOWN);
-    // lowerLift.whenHeld(new LiftCommand(lift, 1));
+    JoystickButton lowerLift = new JoystickButton(buttonPanel,
+    ButtonConstants.LIFT_DOWN);
+    lowerLift.whenHeld(new LiftCommand(lift, 1));
 
     // JoystickButton liftForward = new JoystickButton(buttonPanel,
     // ButtonConstants.LIFT_FORWARD);
