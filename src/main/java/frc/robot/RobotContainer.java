@@ -81,8 +81,8 @@ public class RobotContainer {
 
     controller = new XboxController(ButtonConstants.CONTROLLER_PORT);
     buttonPanel = new Joystick(ButtonConstants.BUTTON_PANEL_PORT);
-    String trajectoryJSON = "src/main/deply/pathweaver";
-    Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+    trajectoryJSON = "pathweaver/output/TarmacToBall1.wpilib.json";
+    trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
 
     drive = new DriveTrain();
     index = new Index();
@@ -182,16 +182,17 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    TrajectoryConfig config = new TrajectoryConfig(DriveConstants.K_MAX_SPEED_METER_PER_SECOND, DriveConstants.K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
-    config.setKinematics(drive.getKinematics());
-    try {
-      Trajectory trajectory  = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    // TrajectoryConfig config = new TrajectoryConfig(DriveConstants.K_MAX_SPEED_METER_PER_SECOND, DriveConstants.K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED);
+    // config.setKinematics(drive.getKinematics());
+    // try {
+    //   trajectory  = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+    // } catch (IOException e) {
+    //   e.printStackTrace();
+    // }
 
-    RamseteCommand command = new RamseteCommand(trajectory, drive::getPose, new RamseteController(2.0, 0.7), drive.getFeedforward(), drive.getKinematics(), drive::getWheelSpeeds, drive.getLeftPIDController(), drive.getRightPIDController(), drive::tankDriveVolts, drive);
-    return command;
+    // RamseteCommand command = new RamseteCommand(trajectory, drive::getPose, new RamseteController(2.0, 0.7), drive.getFeedforward(), drive.getKinematics(), drive::getWheelSpeeds, drive.getLeftPIDController(), drive.getRightPIDController(), drive::tankDriveVolts, drive);
+    // return command.andThen(() -> drive.tankDrive(0, 0));
+    return new TwoBallTimeBased(drive, intake, index, intakeToIndex, shooter, indexToShooter, 0.5, 0.5, 1, 1, 1, limelight);
 
   }
 
