@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -154,20 +155,17 @@ public class RobotContainer {
 
     // unused
     // replace these when we calibrate the hood
-    // JoystickButton hoodUp = new JoystickButton(buttonPanel,
-    // ButtonConstants.HOOD_UP);
-    // hoodUp.whileActiveContinuous(new InstantCommand(() ->
-    // shooter.extendHood(shooter.getHoodPos() + 0.1), shooter));
-    // JoystickButton hoodDown = new JoystickButton(buttonPanel,
-    // ButtonConstants.HOOD_DOWN);
-    // hoodDown.whileActiveContinuous(new InstantCommand(() ->
-    // shooter.extendHood(shooter.getHoodPos() - 0.1), shooter));
+    JoystickButton hoodUp = new JoystickButton(buttonPanel,ButtonConstants.HOOD_UP);
+    hoodUp.whileActiveContinuous(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() + 0.1), shooter));
 
-    JoystickButton raiseLift = new JoystickButton(buttonPanel, ButtonConstants.LIFT_UP);
-    raiseLift.whenHeld(new LiftCommand(lift, -1));
+     JoystickButton hoodDown = new JoystickButton(buttonPanel,ButtonConstants.HOOD_DOWN);
+      hoodDown.whileActiveContinuous(new InstantCommand(() ->shooter.extendHood(shooter.getHoodPos() - 0.1), shooter));
 
-    JoystickButton lowerLift = new JoystickButton(buttonPanel, ButtonConstants.LIFT_DOWN);
-    lowerLift.whenHeld(new LiftCommand(lift, 1));
+    // JoystickButton raiseLift = new JoystickButton(buttonPanel, ButtonConstants.LIFT_UP);
+    // raiseLift.whenHeld(new LiftCommand(lift, -1));
+
+    // JoystickButton lowerLift = new JoystickButton(buttonPanel, ButtonConstants.LIFT_DOWN);
+    // lowerLift.whenHeld(new LiftCommand(lift, 1));
 
     JoystickButton liftForward = new JoystickButton(buttonPanel, ButtonConstants.LIFT_FORWARD);
     liftForward.whenHeld(new LiftCommand(lift, 0.3, true));
@@ -197,6 +195,7 @@ public class RobotContainer {
   }
 
   public Command getTeleCommand() {
+    
     return drive.getDefaultCommand();
   }
 }

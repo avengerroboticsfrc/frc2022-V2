@@ -36,8 +36,8 @@ public class ButtonConstants {
   public static final int LIFT_BACK = 10;
 
   //Targeting should work with Robot Hood so it is probably not needed
-  //public static final int HOOD_UP = 11;
-  //public static final int HOOD_DOWN = 11;
+  public static final int HOOD_UP = 1;
+  public static final int HOOD_DOWN = 2;
   //public static final int HOOD_MIN = -1;
   //public static final int HOOD_MAX = -1;
 
