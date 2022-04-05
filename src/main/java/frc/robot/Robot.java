@@ -4,9 +4,17 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import java.io.IOException;
+import java.nio.file.Path;
+
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
 import edu.wpi.first.util.net.PortForwarder;
 
 /**
@@ -20,6 +28,9 @@ public class Robot extends TimedRobot {
   private Command autonomousCommand;
   private Command teleCommand;
   private RobotContainer robotContainer;
+  String trajectoryJSON = "src/main/deply/pathweaver";
+  Trajectory trajectory = new Trajectory();
+
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -36,7 +47,12 @@ public class Robot extends TimedRobot {
     PortForwarder.add(5803, "limelight.local", 5803);
     PortForwarder.add(5804, "limelight.local", 5804);
     PortForwarder.add(5805, "limelight.local", 5805);
+  
+
+
+
   }
+
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for

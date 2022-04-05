@@ -103,7 +103,7 @@ public class DriveTrain extends SubsystemBase {
   * @return The pose.
   */
   public Pose2d getPose() {
-    return odometry.getPoseMeters();
+    return pose;
   }
 
 
@@ -137,8 +137,8 @@ public class DriveTrain extends SubsystemBase {
    * @param rightVolts the commanded right output
    */
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    leftMotors[0].setVoltage(leftVolts);
-    rightMotors[0].setVoltage(rightVolts);
+    leftMotors[0].setVoltage(leftVolts/12);
+    rightMotors[0].setVoltage(rightVolts/12);
     driveTrain.feed();
   }
 
@@ -209,6 +209,11 @@ public class DriveTrain extends SubsystemBase {
 
   public DifferentialDriveKinematics getKinematics() {
     return kinematics;
+  }
+
+  public void setOutput(double leftVolts, double rightVolts) {
+    leftMotors[0].set(leftVolts/12);
+    rightMotors[0].set(rightVolts/12);
   }
 
 
