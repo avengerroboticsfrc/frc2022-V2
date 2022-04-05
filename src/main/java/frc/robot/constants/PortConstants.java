@@ -22,6 +22,7 @@ public final class PortConstants {
   public static final int TURRET_TURN_MOTOR = 5;
 
   public static final int VERTICAL_LIFT_MOTORS = 8;
+  public static final int ARM_MOTOR2 = 9;
   public static final int ARM_MOTOR = 7;
 
   public static final int[] INTAKE_PNEUMATICS_PORTS = { 0, 1 };
