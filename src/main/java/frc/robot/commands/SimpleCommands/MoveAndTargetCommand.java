@@ -31,11 +31,7 @@ public class MoveAndTargetCommand extends CommandBase {
 
     // add distances from the hub + power/angle that we found to work on the
     // turret
-    distanceValues.put(2.13, new Double[] { 0.0, 1.0 });
-    distanceValues.put(3.0, new Double[] { 0.0, 1.0 });
-    distanceValues.put(2.13, new Double[] { 0.0, 1.0 });
-    distanceValues.put(2.13, new Double[] { 0.0, 1.0 });
-    distanceValues.put(2.13, new Double[] { 0.0, 1.0 });
+    distanceValues.put(2.13, new Double[] { 0.0, 0.73 });
   }
 
   @Override
@@ -57,6 +53,7 @@ public class MoveAndTargetCommand extends CommandBase {
       drive.arcadeDrive(0.3, limelight.getRotationAdjust());
     }
 
+    shooter.spin(distanceValues.get(targetDistance)[1]);
     shooter.extendHood(distanceValues.get(targetDistance)[0]);
   }
 }
