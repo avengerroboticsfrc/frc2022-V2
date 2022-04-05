@@ -48,7 +48,6 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.IntakeToIndex;
 import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.MainDrive;
 import frc.robot.subsystems.Shooter;
 
 /**
@@ -85,7 +84,7 @@ public class RobotContainer {
     String trajectoryJSON = "src/main/deply/pathweaver";
     Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
 
-    drive = new MainDrive();
+    drive = new DriveTrain();
     index = new Index();
     shooter = new Shooter();
     limelight = new Limelight();

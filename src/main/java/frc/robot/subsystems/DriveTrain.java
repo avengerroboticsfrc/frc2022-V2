@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.DriveConstants;
+import frc.robot.constants.PortConstants;
 
 public class DriveTrain extends SubsystemBase {
   protected final WPI_TalonFX[] leftMotors;
@@ -39,16 +40,16 @@ public class DriveTrain extends SubsystemBase {
   /**
    * this method is called when the DriveTrainSubsystem class is initialized.
    */
-  public DriveTrain(int[] left, int[] right) {
+  public DriveTrain() {
     super();
 
     this.leftMotors = new WPI_TalonFX[] {
-        new WPI_TalonFX(left[0]),
-        new WPI_TalonFX(left[1])
+        new WPI_TalonFX(PortConstants.LEFT_DRIVE[0]),
+        new WPI_TalonFX(PortConstants.LEFT_DRIVE[1])
     };
     this.rightMotors = new WPI_TalonFX[] {
-        new WPI_TalonFX(right[0]),
-        new WPI_TalonFX(right[1])
+        new WPI_TalonFX(PortConstants.RIGHT_DRIVE[0]),
+        new WPI_TalonFX(PortConstants.RIGHT_DRIVE[1])
     };
 
     newMotor = new WPI_TalonFX(2);
