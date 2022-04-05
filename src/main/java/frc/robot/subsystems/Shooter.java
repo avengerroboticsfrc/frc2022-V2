@@ -79,7 +79,7 @@ public class Shooter extends SubsystemBase {
   public void extendHood(double cm) {
     hood[0].set(cm / HOOD_ACTUATOR_LENGTH_CM);
     hood[1].set(cm / HOOD_ACTUATOR_LENGTH_CM);
-    System.out.println("the hood length is " + cm);
+    System.out.println("Hoodlength is " + getHoodPos()); 
   }
 
   public double getHoodPos() {
