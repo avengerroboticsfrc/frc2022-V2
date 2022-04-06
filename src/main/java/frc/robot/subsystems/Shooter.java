@@ -126,31 +126,31 @@ public class Shooter extends SubsystemBase {
     turretTurnMotor.setSoftLimit(SoftLimitDirection.kReverse, 2400);
     }
   
-    public void getRightPreset(Limelight limelight, Shooter shooter){
-      for(int x = 0; x <= preDistance.length; x++){
-          if(Math.abs(limelight.getDistance() - preDistance[x]) >= 0 && Math.abs(limelight.getDistance() - preDistance[x]) < 0.3){ 
-              shooter.extendHood(preHoodAngle[x]);
-              shooter.spin(preShooterPower[x]);
-      }
-      else if (Math.abs(limelight.getDistance() - preDistance[x]) >= 0.3  && Math.abs(limelight.getDistance() - preDistance[x]) <= 0.5){
-          shooter.extendHood(preHoodAngle[x]);
-          shooter.spin(preShooterPower[x]);
-      }
-      else if (Math.abs(limelight.getDistance() - preDistance[x]) <= 0.7  && Math.abs(limelight.getDistance() - preDistance[x]) > 0.5){
-          shooter.extendHood(preHoodAngle[x]);
-          shooter.spin(preShooterPower[x]);
-      }
-      else if (Math.abs(limelight.getDistance() - preDistance[x]) > 0.7  && Math.abs(limelight.getDistance() - preDistance[x]) < 1){
-          shooter.extendHood(preHoodAngle[x]);
-          shooter.spin(preShooterPower[x]);
+  //   public void getRightPreset(Limelight limelight, Shooter shooter){
+  //     for(int x = 0; x <= preDistance.length; x++){
+  //         if(Math.abs(limelight.getDistance() - preDistance[x]) >= 0 && Math.abs(limelight.getDistance() - preDistance[x]) < 0.3){ 
+  //             shooter.extendHood(preHoodAngle[x]);
+  //             shooter.spin(preShooterPower[x]);
+  //     }
+  //     else if (Math.abs(limelight.getDistance() - preDistance[x]) >= 0.3  && Math.abs(limelight.getDistance() - preDistance[x]) <= 0.5){
+  //         shooter.extendHood(preHoodAngle[x]);
+  //         shooter.spin(preShooterPower[x]);
+  //     }
+  //     else if (Math.abs(limelight.getDistance() - preDistance[x]) <= 0.7  && Math.abs(limelight.getDistance() - preDistance[x]) > 0.5){
+  //         shooter.extendHood(preHoodAngle[x]);
+  //         shooter.spin(preShooterPower[x]);
+  //     }
+  //     else if (Math.abs(limelight.getDistance() - preDistance[x]) > 0.7  && Math.abs(limelight.getDistance() - preDistance[x]) < 1){
+  //         shooter.extendHood(preHoodAngle[x]);
+  //         shooter.spin(preShooterPower[x]);
   
-      }
+  //     }
   
   
-  }
+  // }
   
       
-  }
+  // }
 
   
 

@@ -30,7 +30,7 @@ public class TargetHubCommand extends CommandBase {
   @Override
   public void execute() {
     shooter.turn(limelight.getRotationAdjust());
-    shooter.getRightPreset(limelight, shooter);
+    //shooter.getRightPreset(limelight, shooter);
 
   }
 
