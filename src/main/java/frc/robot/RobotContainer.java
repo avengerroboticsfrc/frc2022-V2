@@ -19,11 +19,8 @@ import frc.robot.commands.driveTypes.ArcadeDrive;
 import frc.robot.commands.driveTypes.DefaultDrive; //Keep Import. Needed For Auton
 import frc.robot.commands.driveTypes.LucaDrive; //Keep Import. Luca Drive 
 import frc.robot.commands.ComplexCommands.AllIndexCommand;
-import frc.robot.commands.ComplexCommands.IntakeAndShootCommandGroup;
-import frc.robot.commands.ComplexCommands.IntakeToIndexCommandGroup;
 import frc.robot.commands.ComplexCommands.PickUpBallCommandGroup;
 import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
-import frc.robot.commands.SimpleCommands.IndexCommand;
 import frc.robot.commands.SimpleCommands.IntakeCommand;
 import frc.robot.commands.SimpleCommands.IntakeExtendCommand;
 import frc.robot.commands.SimpleCommands.IntakeRetractCommand;
