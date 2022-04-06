@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.auton.SimpleDriveandShoot; //Keep Import. Needed For Auton
@@ -102,31 +101,38 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    JoystickButton extendIntake = new JoystickButton(buttonPanel,
-        ButtonConstants.INTAKE_EXTEND);
-    //extendIntake.whenPressed(intake::extend, intake);  //Commented out for testing
-    extendIntake.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.6, 0.5, 0.5));
 
-    JoystickButton retractIntake = new JoystickButton(buttonPanel,
-        ButtonConstants.INTAKE_RETRACT);
-    //retractIntake.whenPressed(intake::retract, intake);
-    //retractIntake.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.7, 0.5, 0.5));
+    JoystickButton raiseLift = new JoystickButton(buttonPanel,ButtonConstants.LIFT_UP);
+    raiseLift.whenHeld(new LiftCommand(lift, -1));
+
+    JoystickButton lowerLift = new JoystickButton(buttonPanel,ButtonConstants.LIFT_DOWN);
+    lowerLift.whenHeld(new LiftCommand(lift, 1));
+
+    JoystickButton extendIntake = new JoystickButton(buttonPanel,ButtonConstants.INTAKE_EXTEND);
+    extendIntake.whenPressed(intake::extend, intake); 
+
+    JoystickButton retractIntake = new JoystickButton(buttonPanel,ButtonConstants.INTAKE_RETRACT);
+    retractIntake.whenPressed(intake::retract, intake);
+
+    JoystickButton runIntakeIn = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_IN);
+    runIntakeIn.whenHeld(new IntakeCommand(intake, 0.5));
+
+    JoystickButton runIntakeOut = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_OUT);
+    runIntakeOut.whenHeld(new IntakeCommand(intake, -0.3));
+
 
     JoystickButton indexUp = new JoystickButton(buttonPanel, ButtonConstants.INDEX_UP);
     indexUp.whenHeld(new AllIndexCommand(intakeToIndex, index, 0.5, 0.5));
-    indexUp.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.8, 0.5, 0.5));
 
     JoystickButton indexOut = new JoystickButton(buttonPanel, ButtonConstants.INDEX_OUT);
     indexOut.whenHeld(new AllIndexCommand(intakeToIndex, index, -0.5, -0.5));
-    indexOut.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.85, 0.5, 0.5));
 
-    JoystickButton runIntakeIn = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_IN);
-    //runIntakeIn.whenHeld(new IntakeCommand(intake, 0.5));
-    runIntakeIn.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.95, 0.5, 0.5));
+    
+    JoystickButton liftForward = new JoystickButton(buttonPanel,ButtonConstants.LIFT_FORWARD);
+     liftForward.whenHeld(new LiftHorizontalCommand(lift, 0.3));
 
-    JoystickButton runIntakeOut = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_OUT);
-    //runIntakeOut.whenHeld(new IntakeCommand(intake, -0.3));
-    runIntakeOut.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.9, 0.5, 0.5));
+    JoystickButton liftBackward = new JoystickButton(buttonPanel,ButtonConstants.LIFT_BACK);
+    liftBackward.whenHeld(new LiftHorizontalCommand(lift, -0.3));
 
     // Shoot button
     JoystickButton shootButton = new JoystickButton(buttonPanel, ButtonConstants.FLYWHEEL_ON);
@@ -135,35 +141,15 @@ public class RobotContainer {
 
     JoystickButton shootWrongBall = new JoystickButton(buttonPanel, ButtonConstants.SHOOT_WRONG_BALL);
     // Null values subject to change
-    shootWrongBall.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.75, .5, .75));
+    shootWrongBall.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.1, .5, .75));
 
     // unused
     //JoystickButton targetHub = new JoystickButton(buttonPanel, ButtonConstants.TARGET_SHOOTER);
     //targetHub.whenHeld(new TargetHubCommand(shooter, limelight));
 
-    // replace these when we calibrate the hood
-    JoystickButton hoodUp = new JoystickButton(buttonPanel,
-       ButtonConstants.HOOD_UP);
-    hoodUp.whileActiveContinuous(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() + 0.1), shooter));
-    JoystickButton hoodDown = new JoystickButton(buttonPanel,
-      ButtonConstants.HOOD_DOWN);
-    hoodDown.whileActiveContinuous(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() - 0.1), shooter));
 
-    JoystickButton raiseLift = new JoystickButton(buttonPanel,
-    ButtonConstants.LIFT_UP);
-    raiseLift.whenHeld(new LiftCommand(lift, -1));
 
-    JoystickButton lowerLift = new JoystickButton(buttonPanel,
-    ButtonConstants.LIFT_DOWN);
-    lowerLift.whenHeld(new LiftCommand(lift, 1));
 
-    //JoystickButton liftForward = new JoystickButton(buttonPanel,
-    //ButtonConstants.LIFT_FORWARD);
-     //liftForward.whenHeld(new LiftHorizontalCommand(lift, 0.3));
-
-     //JoystickButton liftBackward = new JoystickButton(buttonPanel,
-    //ButtonConstants.LIFT_BACK);
-     //liftBackward.whenHeld(new LiftHorizontalCommand(lift, -0.3));
   }
 
   /**
