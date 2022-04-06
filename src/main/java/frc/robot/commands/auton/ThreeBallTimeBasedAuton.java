@@ -14,28 +14,31 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
 public class ThreeBallTimeBasedAuton extends SequentialCommandGroup {
-    public ThreeBallTimeBasedAuton(DriveTrain drive, Intake intake, Index index,  IntakeToIndex intakeToIndex, Shooter shooter, IndexToShooter indexToShooter, double intakePower, double indexPower, double intakeToIndexPower, double shooterPower, double indexToShooterPower, Limelight limelight){
+    public ThreeBallTimeBasedAuton(DriveTrain drive, Intake intake, Index index, IntakeToIndex intakeToIndex,
+            Shooter shooter, IndexToShooter indexToShooter, double intakePower, double indexPower,
+            double intakeToIndexPower, double shooterPower, double indexToShooterPower, Limelight limelight) {
         addCommands(
-            new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, shooterPower, indexPower, indexToShooterPower).withTimeout(3),
-            new RunCommand(() -> drive.tankDrive(0.5, -0.5), drive).withTimeout(0.5),
-            new RunCommand(() -> drive.tankDrive(-0.5, -0.5), drive).withTimeout(1.2),
-            new WaitCommand(1),
-            new RunCommand(() -> drive.tankDrive(0,0), drive),
-            new PickUpBallCommandGroup(intake, intakeToIndex, index, intakePower, intakeToIndexPower, indexPower),
-            new RunCommand(() -> drive.tankDrive(0.5, 0.5), drive).withTimeout(0.5),
-            new WaitCommand(1),
-            new RunCommand(() -> drive.tankDrive(0,0), drive),
-            new RunCommand(() -> drive.tankDrive(-0.5, 0.5), drive).withTimeout(0.15),
-            new WaitCommand(1),
-            new RunCommand(() -> drive.tankDrive(0,0), drive),
-            new RunCommand(() -> drive.tankDrive(-0.5, -0.5), drive).withTimeout(1.6),
-            new PickUpBallCommandGroup(intake, intakeToIndex, index, intakePower, intakeToIndexPower, indexPower),
-            new WaitCommand(1),
-            new RunCommand(() -> drive.tankDrive(0,0), drive),
-            new RunCommand(() -> drive.tankDrive(-0.5, 0.5), drive).withTimeout(.75),
-            new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, shooterPower, indexPower, indexToShooterPower).withTimeout(3)
-        );
+                new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, shooterPower, indexPower,
+                        indexToShooterPower).withTimeout(3),
+                new RunCommand(() -> drive.tankDrive(0.5, -0.5), drive).withTimeout(0.5),
+                new RunCommand(() -> drive.tankDrive(-0.5, -0.5), drive).withTimeout(1.2),
+                new WaitCommand(1),
+                new RunCommand(() -> drive.tankDrive(0, 0), drive),
+                new PickUpBallCommandGroup(intake, intakeToIndex, index, intakePower, intakeToIndexPower, indexPower),
+                new RunCommand(() -> drive.tankDrive(0.5, 0.5), drive).withTimeout(0.5),
+                new WaitCommand(1),
+                new RunCommand(() -> drive.tankDrive(0, 0), drive),
+                new RunCommand(() -> drive.tankDrive(-0.5, 0.5), drive).withTimeout(0.15),
+                new WaitCommand(1),
+                new RunCommand(() -> drive.tankDrive(0, 0), drive),
+                new RunCommand(() -> drive.tankDrive(-0.5, -0.5), drive).withTimeout(1.6),
+                new PickUpBallCommandGroup(intake, intakeToIndex, index, intakePower, intakeToIndexPower, indexPower),
+                new WaitCommand(1),
+                new RunCommand(() -> drive.tankDrive(0, 0), drive),
+                new RunCommand(() -> drive.tankDrive(-0.5, 0.5), drive).withTimeout(.75),
+                new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, shooterPower, indexPower,
+                        indexToShooterPower).withTimeout(3));
 
     }
-    
+
 }
