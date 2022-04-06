@@ -103,11 +103,13 @@ public class RobotContainer {
   private void configureButtonBindings() {
     JoystickButton extendIntake = new JoystickButton(buttonPanel,
         ButtonConstants.INTAKE_EXTEND);
-    extendIntake.whenPressed(intake::extend, intake);
+    //extendIntake.whenPressed(intake::extend, intake);  //Commented out for testing
+    extendIntake.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.6, 0.5, 0.5));
 
     JoystickButton retractIntake = new JoystickButton(buttonPanel,
         ButtonConstants.INTAKE_RETRACT);
-    retractIntake.whenPressed(intake::retract, intake);
+    //retractIntake.whenPressed(intake::retract, intake);
+    retractIntake.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.7, 0.5, 0.5));
 
     JoystickButton indexUp = new JoystickButton(buttonPanel, ButtonConstants.INDEX_UP);
     indexUp.whenHeld(new AllIndexCommand(intakeToIndex, index, 0.5, 0.5));
@@ -116,10 +118,12 @@ public class RobotContainer {
     indexOut.whenHeld(new AllIndexCommand(intakeToIndex, index, -0.5, -0.5));
 
     JoystickButton runIntakeIn = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_IN);
-    runIntakeIn.whenHeld(new IntakeCommand(intake, 0.5));
+    //runIntakeIn.whenHeld(new IntakeCommand(intake, 0.5));
+    runIntakeIn.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.8, 0.5, 0.5));
 
     JoystickButton runIntakeOut = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_OUT);
-    runIntakeOut.whenHeld(new IntakeCommand(intake, -0.3));
+    //runIntakeOut.whenHeld(new IntakeCommand(intake, -0.3));
+    runIntakeOut.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.9, 0.5, 0.5));
 
     // Shoot button
     JoystickButton shootButton = new JoystickButton(buttonPanel, ButtonConstants.FLYWHEEL_ON);
@@ -128,7 +132,7 @@ public class RobotContainer {
 
     JoystickButton shootWrongBall = new JoystickButton(buttonPanel, ButtonConstants.SHOOT_WRONG_BALL);
     // Null values subject to change
-    shootWrongBall.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.2, .5, .5));
+    shootWrongBall.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.5, .5, .5));
 
     // unused
     JoystickButton targetHub = new JoystickButton(buttonPanel, ButtonConstants.TARGET_SHOOTER);
