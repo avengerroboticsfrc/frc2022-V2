@@ -38,6 +38,9 @@ public class Shooter extends SubsystemBase {
   // public static final double[] kTurretGains = { 0, 0, 0, .1705, 0, 1 };
   // kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput;
   public static final double[] kHoodGains = { 0, 0, 0, 0, 0, 0, 1 };
+  public final double[] preDistance = {1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8};
+  public final double[] preHoodAngle = {0,0,0,0,0,0,0,0,0,0,0,0,0};
+  public final double[] preShooterPower = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,};
 
   /**
    * create a new shooter class.
@@ -54,6 +57,7 @@ public class Shooter extends SubsystemBase {
         new Servo(PortConstants.HOOD_SERVOS[0]),
         new Servo(PortConstants.HOOD_SERVOS[1])
     };
+
 
     configureShooter();
   }
@@ -121,6 +125,32 @@ public class Shooter extends SubsystemBase {
     turretTurnMotor.setSoftLimit(SoftLimitDirection.kForward, 2400);
     turretTurnMotor.setSoftLimit(SoftLimitDirection.kReverse, 2400);
     }
+  
+    public void getRightPreset(Limelight limelight, Shooter shooter){
+      for(int x = 0; x <= preDistance.length; x++){
+          if(Math.abs(limelight.getDistance() - preDistance[x]) >= 0 && Math.abs(limelight.getDistance() - preDistance[x]) < 0.3){ 
+              shooter.extendHood(preHoodAngle[x]);
+              shooter.spin(preShooterPower[x]);
+      }
+      else if (Math.abs(limelight.getDistance() - preDistance[x]) >= 0.3  && Math.abs(limelight.getDistance() - preDistance[x]) <= 0.5){
+          shooter.extendHood(preHoodAngle[x]);
+          shooter.spin(preShooterPower[x]);
+      }
+      else if (Math.abs(limelight.getDistance() - preDistance[x]) <= 0.7  && Math.abs(limelight.getDistance() - preDistance[x]) > 0.5){
+          shooter.extendHood(preHoodAngle[x]);
+          shooter.spin(preShooterPower[x]);
+      }
+      else if (Math.abs(limelight.getDistance() - preDistance[x]) > 0.7  && Math.abs(limelight.getDistance() - preDistance[x]) < 1){
+          shooter.extendHood(preHoodAngle[x]);
+          shooter.spin(preShooterPower[x]);
+  
+      }
+  
+  
+  }
+  
+      
+  }
 
   
 

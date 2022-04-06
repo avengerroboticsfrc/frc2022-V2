@@ -16,7 +16,7 @@ public class TargetHubCommand extends CommandBase {
   /**
    * command to target the turret.
    */
-  public TargetHubCommand(Shooter shooter, Limelight limelight, Targeting targeting) {
+  public TargetHubCommand(Shooter shooter, Limelight limelight) {
     this.shooter = shooter;
     this.limelight = limelight;
     addRequirements(shooter, limelight);
@@ -33,9 +33,8 @@ public class TargetHubCommand extends CommandBase {
   @Override
   public void execute() {
     shooter.turn(limelight.getRotationAdjust());
-    targeting.getRightPreset();
-    //TODO: HOOD ADJUST
-    //shooter.extendHood(limelight.getDistance()*.05);
+    shooter.getRightPreset(limelight, shooter);
+
   }
 
   @Override
