@@ -1,15 +1,15 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
+import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -37,6 +37,9 @@ public class Shooter extends SubsystemBase {
   // public static final double[] kTurretGains = { 0, 0, 0, .1705, 0, 1 };
   // kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput;
   public static final double[] kHoodGains = { 0, 0, 0, 0, 0, 0, 1 };
+  public final double[] preDistance = {1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8};
+  public final double[] preHoodAngle = {0,0,0,0,0,0,0,0,0,0,0,0,0};
+  public final double[] preShooterPower = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,};
 
   /**
    * create a new shooter class.
@@ -54,6 +57,7 @@ public class Shooter extends SubsystemBase {
         new Servo(PortConstants.HOOD_SERVOS[1])
     };
 
+
     configureShooter();
   }
 
@@ -69,8 +73,7 @@ public class Shooter extends SubsystemBase {
    * Run the flywheel at a power AND runs the top index wheels.
    */
   public void spin(double power) {
-    flywheelMotor.set(TalonFXControlMode.PercentOutput, power*-1);
-    flywheelMotor2.set(TalonFXControlMode.PercentOutput, power);
+    flywheelMotor.set(TalonFXControlMode.PercentOutput, power);
   }
 
   /**
@@ -79,7 +82,7 @@ public class Shooter extends SubsystemBase {
   public void extendHood(double cm) {
     hood[0].set(cm / HOOD_ACTUATOR_LENGTH_CM);
     hood[1].set(cm / HOOD_ACTUATOR_LENGTH_CM);
-    System.out.println("the hood length is " + cm);
+    System.out.println("Hoodlength is " + getHoodPos()); 
   }
 
   public double getHoodPos() {
@@ -87,6 +90,9 @@ public class Shooter extends SubsystemBase {
   }
 
   private void configureShooter() {
+    flywheelMotor.setInverted(TalonFXInvertType.Clockwise);
+    flywheelMotor2.follow(flywheelMotor);
+    flywheelMotor2.setInverted(TalonFXInvertType.OpposeMaster);
 
     flywheelMotor.configOpenloopRamp(1);
     flywheelMotor2.configOpenloopRamp(1);
@@ -120,4 +126,34 @@ public class Shooter extends SubsystemBase {
     turretTurnMotor.setSoftLimit(SoftLimitDirection.kReverse, 4096);
     m_encoder.setPosition(0);
     }
+  
+  //   public void getRightPreset(Limelight limelight, Shooter shooter){
+  //     for(int x = 0; x <= preDistance.length; x++){
+  //         if(Math.abs(limelight.getDistance() - preDistance[x]) >= 0 && Math.abs(limelight.getDistance() - preDistance[x]) < 0.3){ 
+  //             shooter.extendHood(preHoodAngle[x]);
+  //             shooter.spin(preShooterPower[x]);
+  //     }
+  //     else if (Math.abs(limelight.getDistance() - preDistance[x]) >= 0.3  && Math.abs(limelight.getDistance() - preDistance[x]) <= 0.5){
+  //         shooter.extendHood(preHoodAngle[x]);
+  //         shooter.spin(preShooterPower[x]);
+  //     }
+  //     else if (Math.abs(limelight.getDistance() - preDistance[x]) <= 0.7  && Math.abs(limelight.getDistance() - preDistance[x]) > 0.5){
+  //         shooter.extendHood(preHoodAngle[x]);
+  //         shooter.spin(preShooterPower[x]);
+  //     }
+  //     else if (Math.abs(limelight.getDistance() - preDistance[x]) > 0.7  && Math.abs(limelight.getDistance() - preDistance[x]) < 1){
+  //         shooter.extendHood(preHoodAngle[x]);
+  //         shooter.spin(preShooterPower[x]);
+  
+  //     }
+  
+  
+  // }
+  
+      
+  // }
+
+  
+
+
 }

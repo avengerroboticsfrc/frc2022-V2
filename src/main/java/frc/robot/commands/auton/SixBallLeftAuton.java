@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class SixBallLeftAuton extends SequentialCommandGroup {
   public SixBallLeftAuton(DriveTrain drive, Limelight limelight, Shooter shooter, Intake intake, Index index, IntakeToIndex inIndex, IndexToShooter inShooter, double intakePower, double intakeToIndexPower, double indexPower, double indexToShooterPower, double shooterPower) {
-    Trajectory path = PathPlanner.loadPath("6-ball-left",0.1, 0.2, true);
+    Trajectory path = PathPlanner.loadPath("6-ball-left", 3, 5);
     // Reset odometry to the starting pose of the trajectory.
     drive.resetOdometry(path.getInitialPose());
 

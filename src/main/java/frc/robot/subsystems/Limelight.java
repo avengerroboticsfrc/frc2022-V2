@@ -14,24 +14,30 @@ public class Limelight extends SubsystemBase {
   // distance from the target to the floor
   private static final double GOAL_HEIGHT_METERS = 2.6416;
 
-  // TODO: Find this number
-  private static final double POWER_PER_METER = 0;
-
-  private static final double Kp = -0.1; // Proportional control constant
-  private static final double min_command = 0.00; // Minimum amount to slightly move
+  private static final double KP = -0.1; // Proportional control constant
+  private static final double MIN_COMMAND = 0.05; // Minimum amount to slightly move
 
   private double steering_adjust;
+
   /**
-   * creates a new limelight class.
+   * Creates a limelight instance with a default name of "limelight"
    */
   public Limelight() {
+    this("limelight");
+  }
+
+  /**
+   * Creates a new limelight class with the provided name.
+   */
+  public Limelight(String name) {
     super();
-    table = NetworkTableInstance.getDefault().getTable("limelight");
+
+    table = NetworkTableInstance.getDefault().getTable(name);
     table.getEntry("ledMode").setNumber(0);
     table.getEntry("pipeline").setNumber(0);
   }
 
-  /*
+  /**
    * Updates the NetworkTables values every 20ms.
    */
   @Override
@@ -45,16 +51,14 @@ public class Limelight extends SubsystemBase {
    * uses the targetXOffset value to calculate the rotationAdjust value.
    */
   public double getRotationAdjust() {
-    double tx = table.getEntry("tx").getDouble(0);
-    double heading_error = -tx;
-    if (tx > 1.0)
-    {
-            steering_adjust = Kp*heading_error - min_command;
+    double headingError = getTargetXOffset();
+
+    if (headingError > 1.0) {
+      steering_adjust = -KP * headingError - MIN_COMMAND;
+    } else if (headingError < 1.0) {
+      steering_adjust = -KP * headingError + MIN_COMMAND;
     }
-    else if (tx < 1.0)
-    {
-            steering_adjust = Kp*heading_error + min_command;
-    }
+
     return steering_adjust;
   }
 
@@ -71,11 +75,6 @@ public class Limelight extends SubsystemBase {
     double distance = height / Math.tan(Math.toRadians(angle));
 
     return distance;
-  }
-
-  public double powerFromDistance() {
-    // there's probably some more complicated math behind this. ¯\_(ツ)_/¯
-    return getDistance() * POWER_PER_METER;
   }
 
   private double getTargetXOffset() {
@@ -95,11 +94,11 @@ public class Limelight extends SubsystemBase {
 
   public void disableLights() {
     // Disables LEDs
-    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(0);
+    table.getEntry("ledMode").setNumber(0);
   }
 
   public void enableLights() {
     // Enables LEDs
-    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(3);
+    table.getEntry("ledMode").setNumber(3);
   }
 }

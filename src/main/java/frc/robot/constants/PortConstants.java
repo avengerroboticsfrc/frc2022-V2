@@ -13,8 +13,8 @@ package frc.robot.constants;
  * constants are needed, to reduce verbosity.
  */
 public final class PortConstants {
-  public static final int[] LEFT_DRIVE = { 1, 10 };
-  public static final int[] RIGHT_DRIVE = { 2, 20 };
+  public static final int[] LEFT_DRIVE = { 2, 20 };
+  public static final int[] RIGHT_DRIVE = { 1, 10 };
 
   public static final int FLYWHEEL_MOTOR = 40;
   public static final int FLYWHEEL_MOTOR2 = 41;
@@ -22,6 +22,7 @@ public final class PortConstants {
   public static final int TURRET_TURN_MOTOR = 5;
 
   public static final int VERTICAL_LIFT_MOTORS = 8;
+  public static final int ARM_MOTOR2 = 9;
   public static final int ARM_MOTOR = 7;
 
   public static final int[] INTAKE_PNEUMATICS_PORTS = { 0, 1 };

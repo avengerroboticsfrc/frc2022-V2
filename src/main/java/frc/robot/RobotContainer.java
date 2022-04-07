@@ -6,27 +6,26 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import frc.robot.commands.auton.SimpleDriveandShoot;  //Keep Import. Needed For Auton
-import frc.robot.commands.auton.SixBallLeftAuton;     //Keep Import. Needed For Auton
-import frc.robot.commands.auton.ThreeBallLeftAuton;   //Keep Import. Needed For Auton
-import frc.robot.commands.auton.ThreeBallRightAuton;  //Keep Import. Needed For Auton
-import frc.robot.commands.driveTypes.DefaultDrive;    //Keep Import. Needed For Auton
-import frc.robot.commands.driveTypes.LucaDrive;
-import frc.robot.commands.ComplexCommands.IntakeAndShootCommandGroup;
-import frc.robot.commands.ComplexCommands.IntakeToIndexCommandGroup;
+import frc.robot.commands.auton.SimpleDriveandShoot; //Keep Import. Needed For Auton
+import frc.robot.commands.auton.SixBallLeftAuton; //Keep Import. Needed For Auton
+import frc.robot.commands.auton.ThreeBallLeftAuton; //Keep Import. Needed For Auton
+import frc.robot.commands.auton.ThreeBallRightAuton; //Keep Import. Needed For Auton
+import frc.robot.commands.auton.TwoBallTimeBased; //Keep Import. Needed For Auton
+import frc.robot.commands.driveTypes.ArcadeDrive;
+import frc.robot.commands.driveTypes.DefaultDrive; //Keep Import. Needed For Auton
+import frc.robot.commands.driveTypes.LucaDrive; //Keep Import. Luca Drive 
+import frc.robot.commands.ComplexCommands.AllIndexCommand;
 import frc.robot.commands.ComplexCommands.PickUpBallCommandGroup;
 import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
-import frc.robot.commands.SimpleCommands.IndexCommand;
-import frc.robot.commands.SimpleCommands.BADIndexToFlywheelCommand;
 import frc.robot.commands.SimpleCommands.IntakeCommand;
 import frc.robot.commands.SimpleCommands.IntakeExtendCommand;
 import frc.robot.commands.SimpleCommands.IntakeRetractCommand;
 import frc.robot.commands.SimpleCommands.LiftCommand;
+import frc.robot.commands.SimpleCommands.LiftHorizontalCommand;
 import frc.robot.commands.SimpleCommands.TargetHubCommand;
 import frc.robot.constants.ButtonConstants;
 import frc.robot.subsystems.DriveTrain;
@@ -36,7 +35,6 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.IntakeToIndex;
 import frc.robot.subsystems.Lift;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.MainDrive;
 import frc.robot.subsystems.Shooter;
 
 /**
@@ -68,7 +66,7 @@ public class RobotContainer {
     controller = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
     buttonPanel = new Joystick(ButtonConstants.BUTTON_PANEL_PORT);
 
-    drive = new MainDrive();
+    drive = new DriveTrain();
     index = new Index();
     shooter = new Shooter();
     limelight = new Limelight();
@@ -83,69 +81,70 @@ public class RobotContainer {
   }
 
   private void configureDriveTrain() {
-    // A split-stick arcade command, with forward/backward controlled by the left
-    // hand, and turning controlled by the right. Has a constant turning radius.
-    // Can turn in place with button press.
+    // sets the command to drive the robot.
+    // will run whenever the drivetrain is not being used.
     drive.setDefaultCommand(
         // pass in a reference to a method
-        // new LucaDrive( 
-        //     drive,
-        //     controller::getL2Axis,
-        //     controller::getR2Axis,
-        //     controller::getLeftX,
-        //     controller::getCircleButton
-        // ));
-        new DefaultDrive(drive, controller::getLeftY, controller::getRightY, controller::getR1Button));
+        new LucaDrive( 
+            drive,
+            controller::getL2Axis,
+            controller::getR2Axis,
+            controller::getLeftX,
+            controller::getCircleButton
+        ));
+        // new DefaultDrive(drive, controller::getLeftY, controller::getRightY, controller::getR1Button));
   }
 
   private void configureButtonBindings() {
-    JoystickButton toggleIntake = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_TOGGLE_AND_OPEN);
-    toggleIntake.whenHeld(new IntakeAndShootCommandGroup(shooter, index, limelight, intake, intakeToIndex, indexToShooter, 1, .4, .5, .5, .5));
-    // toggleIntake.whenHeld(new IntakeExtendCommand(intake));
 
-    JoystickButton toggleIntakeRetract = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_RETRACT);
-    toggleIntakeRetract.whenHeld(new IntakeRetractCommand(intake));
-
-    JoystickButton indexUp = new JoystickButton(buttonPanel, ButtonConstants.INDEX_UP);
-    indexUp.whenHeld(new IndexCommand(index, .5));
-
-    JoystickButton indexOut = new JoystickButton(buttonPanel, ButtonConstants.INDEX_OUT);
-    indexOut.whenHeld(new BADIndexToFlywheelCommand(index, .5));
-
-    JoystickButton runIntakeIn = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_IN);
-    runIntakeIn.whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index));
-
-    // JoystickButton runIntakeOut = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_OUT);
-    // runIntakeOut.whenHeld(new IntakeCommand(intake, -.7));
-
-    //Shoot button
-    JoystickButton shootButton = new JoystickButton(buttonPanel, ButtonConstants.FLYWHEEL_ON);
-    shootButton.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 1, .5, .5));//Null values subject to change
-
-    //unused
-    JoystickButton targetHub = new JoystickButton(buttonPanel, ButtonConstants.TARGET_SHOOTER);
-    targetHub.whenHeld(new TargetHubCommand(shooter, limelight));
-
-
-    //unused
-    // replace these when we calibrate the hood
-    JoystickButton hoodUp = new JoystickButton(buttonPanel, ButtonConstants.HOOD_UP);
-    hoodUp.whileActiveContinuous(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() + 0.1), shooter));
-    JoystickButton hoodDown = new JoystickButton(buttonPanel, ButtonConstants.HOOD_DOWN);
-    hoodDown.whileActiveContinuous(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() - 0.1), shooter));
-
-
-    JoystickButton raiseLift = new JoystickButton(buttonPanel, ButtonConstants.LIFT_UP);
+    JoystickButton raiseLift = new JoystickButton(buttonPanel,ButtonConstants.LIFT_UP);
     raiseLift.whenHeld(new LiftCommand(lift, -1));
 
-    JoystickButton lowerLift = new JoystickButton(buttonPanel, ButtonConstants.LIFT_DOWN);
+    JoystickButton lowerLift = new JoystickButton(buttonPanel,ButtonConstants.LIFT_DOWN);
     lowerLift.whenHeld(new LiftCommand(lift, 1));
 
-    // JoystickButton liftForward = new JoystickButton(buttonPanel, ButtonConstants.LIFT_FORWARD);
-    // liftForward.whenHeld(new LiftCommand(lift, 0.3, true));
+    JoystickButton extendIntake = new JoystickButton(buttonPanel,ButtonConstants.INTAKE_EXTEND);
+    extendIntake.whenPressed(intake::extend, intake); 
 
-    // JoystickButton liftBackward = new JoystickButton(buttonPanel, ButtonConstants.LIFT_BACK);
-    // liftBackward.whenHeld(new LiftCommand(lift, -0.3, true));
+    JoystickButton retractIntake = new JoystickButton(buttonPanel,ButtonConstants.INTAKE_RETRACT);
+    retractIntake.whenPressed(intake::retract, intake);
+
+    JoystickButton runIntakeIn = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_IN);
+    runIntakeIn.whenHeld(new IntakeCommand(intake, 0.5));
+
+    JoystickButton runIntakeOut = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_OUT);
+    runIntakeOut.whenHeld(new IntakeCommand(intake, -0.3));
+
+
+    JoystickButton indexUp = new JoystickButton(buttonPanel, ButtonConstants.INDEX_UP);
+    indexUp.whenHeld(new AllIndexCommand(intakeToIndex, index, 0.5, 0.5));
+
+    JoystickButton indexOut = new JoystickButton(buttonPanel, ButtonConstants.INDEX_OUT);
+    indexOut.whenHeld(new AllIndexCommand(intakeToIndex, index, -0.5, -0.5));
+
+    
+    JoystickButton liftForward = new JoystickButton(buttonPanel,ButtonConstants.LIFT_FORWARD);
+     liftForward.whenHeld(new LiftHorizontalCommand(lift, 0.3));
+
+    JoystickButton liftBackward = new JoystickButton(buttonPanel,ButtonConstants.LIFT_BACK);
+    liftBackward.whenHeld(new LiftHorizontalCommand(lift, -0.3));
+
+    // Shoot button
+    JoystickButton shootButton = new JoystickButton(buttonPanel, ButtonConstants.FLYWHEEL_ON);
+    // null values subject to change
+    shootButton.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 1, .5, 1));
+
+    JoystickButton shootWrongBall = new JoystickButton(buttonPanel, ButtonConstants.SHOOT_WRONG_BALL);
+    // Null values subject to change
+    shootWrongBall.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.1, .5, .75));
+
+    // unused
+    //JoystickButton targetHub = new JoystickButton(buttonPanel, ButtonConstants.TARGET_SHOOTER);
+    //targetHub.whenHeld(new TargetHubCommand(shooter, limelight));
+
+
+
+
   }
 
   /**
@@ -154,13 +153,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    //return new SimpleDriveandShoot(drive, shooter, index, limelight);
-    //return new SixBallLeftAuton(drive, limelight, shooter, intake, index);
-    //return new ThreeBallLeftAuton(drive, limelight, shooter, intake, index);
-    //return new ThreeBallRightAuton(drive, limelight, shooter, intake, index);
-    return new SixBallLeftAuton(drive, limelight, shooter, intake, index, intakeToIndex, indexToShooter, 0.0, 0.0, 0.0, 0.0, 0.0);//Null Values subject to chnage
-  }
-  public Command getTeleCommand() {
-    return drive.getDefaultCommand();
+    return new TwoBallTimeBased(drive, intake, index, intakeToIndex, shooter, indexToShooter, limelight);
   }
 }
