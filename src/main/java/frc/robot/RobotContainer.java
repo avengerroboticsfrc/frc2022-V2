@@ -51,7 +51,7 @@ public class RobotContainer {
   private final Index index;
   private final IndexToShooter indexToShooter;
   private final Shooter shooter;
-  private final XboxController controller;
+  private final PS4Controller controller;
   private final Limelight limelight;
   private final Intake intake;
   private final Joystick buttonPanel;
@@ -63,7 +63,7 @@ public class RobotContainer {
   public RobotContainer() {
     System.out.println("Hello, Driver");
 
-    controller = new XboxController(ButtonConstants.CONTROLLER_PORT);
+    controller = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
     buttonPanel = new Joystick(ButtonConstants.BUTTON_PANEL_PORT);
 
     drive = new DriveTrain();
@@ -85,16 +85,14 @@ public class RobotContainer {
     // will run whenever the drivetrain is not being used.
     drive.setDefaultCommand(
         // pass in a reference to a method
-        // new LucaDrive(
-        // drive,
-        // controller::getL2Axis,
-        // controller::getR2Axis,
-        // controller::getLeftX,
-        // controller::getCircleButton
-        // ));
-        // new DefaultDrive(drive, controller::getLeftY, controller::getRightY,
-        // controller::getRightBumper));
-        new ArcadeDrive(drive, controller::getLeftY, controller::getRightX, controller::getRightBumper));
+        new LucaDrive( 
+            drive,
+            controller::getL2Axis,
+            controller::getR2Axis,
+            controller::getLeftX,
+            controller::getCircleButton
+        ));
+        // new DefaultDrive(drive, controller::getLeftY, controller::getRightY, controller::getR1Button));
   }
 
   private void configureButtonBindings() {
