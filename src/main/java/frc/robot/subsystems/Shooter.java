@@ -4,8 +4,10 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -20,11 +22,12 @@ public class Shooter extends SubsystemBase {
   private final TalonFX flywheelMotor2;
   public final CANSparkMax turretTurnMotor;
   private final Servo[] hood;
-  private SparkMaxPIDController m_pidController;
-  private RelativeEncoder m_encoder;
+  public final SparkMaxPIDController m_pidController;
+  public final RelativeEncoder m_encoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
 
   private static final double HOOD_ACTUATOR_LENGTH_CM = 14;
+  private static final double TURRET_GEAR_RATIO = 15;
 
   // Creates turret motor and sets PID values
   public static final int kSlotIdx = 0;
@@ -62,15 +65,18 @@ public class Shooter extends SubsystemBase {
   }
 
   /**
-   * turn the shooter by a certain number of counts.
+   * turn the shooter by a certain number of counts. If there is no target, reset turret position to center.
    */
   public void turn(double counts) {
-    System.out.println(counts*4096);
-    m_pidController.setReference((counts*4096), CANSparkMax.ControlType.kPosition);
+    if(counts == 0){
+      m_pidController.setReference(0, CANSparkMax.ControlType.kPosition);
+    }else{
+    m_pidController.setReference(counts*TURRET_GEAR_RATIO, CANSparkMax.ControlType.kPosition);
+  }
   }
 
   /**
-   * Run the flywheel at a power AND runs the top index wheels.
+   * Run the flywheel at a power.
    */
   public void spin(double power) {
     flywheelMotor.set(TalonFXControlMode.PercentOutput, power);
@@ -102,13 +108,15 @@ public class Shooter extends SubsystemBase {
     hood[0].setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
     hood[1].setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
     // PID coefficients
-    kP = 0.1; 
+    //TODO: CHANGE THESE VALS
+    kP = 1; 
     kI = 1e-4;
     kD = 1; 
     kIz = 0; 
     kFF = 0; 
-    kMaxOutput = .2; 
-    kMinOutput = -.2;
+    kMaxOutput = .3; 
+    kMinOutput = -.3;
+
 
     turretTurnMotor.restoreFactoryDefaults();
     // set PID coefficients
@@ -118,12 +126,13 @@ public class Shooter extends SubsystemBase {
     m_pidController.setIZone(kIz);
     m_pidController.setFF(kFF);
     m_pidController.setOutputRange(kMinOutput, kMaxOutput);
+    turretTurnMotor.setClosedLoopRampRate(.3);
     turretTurnMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     turretTurnMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    turretTurnMotor.setIdleMode(IdleMode.kCoast);
+    turretTurnMotor.setIdleMode(IdleMode.kBrake);
     //TODO: CHANGE THESE VALS
-    turretTurnMotor.setSoftLimit(SoftLimitDirection.kForward, 4096);
-    turretTurnMotor.setSoftLimit(SoftLimitDirection.kReverse, 4096);
+    turretTurnMotor.setSoftLimit(SoftLimitDirection.kForward, 15f);
+    turretTurnMotor.setSoftLimit(SoftLimitDirection.kReverse, -15f);
     m_encoder.setPosition(0);
     }
   

@@ -8,6 +8,7 @@ import frc.robot.subsystems.DriveTrain;
 import java.lang.Math;
 import java.util.function.DoubleSupplier;
 import java.util.function.BooleanSupplier;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 
 public class LucaDrive extends CommandBase {
   private final DriveTrain drive;
@@ -21,6 +22,7 @@ public class LucaDrive extends CommandBase {
   private final double m_maxOutput = 0.7;
   private final double wheelRadiusInMeters = .076;
   private final double kMaxTorque = 4.69 * 2;
+  SlewRateLimiter filter = new SlewRateLimiter(0.5);
 
   /**
    * Creates a new DefaultDrive.

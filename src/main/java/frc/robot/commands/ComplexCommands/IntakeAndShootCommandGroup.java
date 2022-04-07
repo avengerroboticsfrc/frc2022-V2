@@ -15,7 +15,7 @@ import frc.robot.subsystems.Shooter;
 
 public class IntakeAndShootCommandGroup extends SequentialCommandGroup {
   public IntakeAndShootCommandGroup(Shooter shooter, Index index, Limelight limelight, Intake intake,
-      IntakeToIndex intakeToIndex, IndexToShooter indexToShooter, double shooterPower, double indexPower,
+      IntakeToIndex intakeToIndex, IndexToShooter indexToShooter, double indexPower,
       double intakeToIndexPower, double intakePower, double indexToShooterPower) {
     addCommands(
         new IntakeCommand(intake, intakePower).withTimeout(2),
@@ -23,12 +23,12 @@ public class IntakeAndShootCommandGroup extends SequentialCommandGroup {
             new WaitCommand(4),
             new IntakeToIndexCommand(intakeToIndex, intakeToIndexPower),
             new IndexCommand(index, indexPower),
-            new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, shooterPower, indexPower, indexToShooterPower)),
+            new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, indexPower, indexToShooterPower)),
         deadlineWith(
             new IntakeCommand(intake, intakePower),
             new IntakeToIndexCommand(intakeToIndex, intakeToIndexPower),
             new IndexCommand(index, indexPower),
-            new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, shooterPower, indexPower, indexToShooterPower))
+            new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, indexPower, indexToShooterPower))
     );
 
   }

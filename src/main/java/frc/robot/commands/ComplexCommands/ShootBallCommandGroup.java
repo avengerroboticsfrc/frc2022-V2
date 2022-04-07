@@ -18,11 +18,11 @@ public class ShootBallCommandGroup extends SequentialCommandGroup {
    * ball. -k
    */
   public ShootBallCommandGroup(Shooter shooter, Index index, IndexToShooter indexToShooter, Limelight limelight,
-      double shooterPower, double indexPower, double indexToShooterPower) {
+     double indexPower, double indexToShooterPower) {
     addCommands(
         new TargetHubCommand(shooter, limelight).withTimeout(1),
         parallel(
-            new FlywheelCommand(shooter, shooterPower),
+            new FlywheelCommand(shooter, limelight),
             sequence(new WaitCommand(2),
                 parallel(
                     new IndexToShooterCommand(indexToShooter, indexToShooterPower),

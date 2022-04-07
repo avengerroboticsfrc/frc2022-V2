@@ -9,12 +9,7 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
-import frc.robot.commands.auton.SimpleDriveandShoot; //Keep Import. Needed For Auton
-import frc.robot.commands.auton.SixBallLeftAuton; //Keep Import. Needed For Auton
-import frc.robot.commands.auton.ThreeBallLeftAuton; //Keep Import. Needed For Auton
-import frc.robot.commands.auton.ThreeBallRightAuton; //Keep Import. Needed For Auton
-import frc.robot.commands.auton.TwoBallTimeBased; //Keep Import. Needed For Auton
+import frc.robot.commands.auton.TwoBallTimeBased;
 import frc.robot.commands.driveTypes.ArcadeDrive;
 import frc.robot.commands.driveTypes.DefaultDrive; //Keep Import. Needed For Auton
 import frc.robot.commands.driveTypes.LucaDrive; //Keep Import. Luca Drive 
@@ -67,9 +62,9 @@ public class RobotContainer {
     buttonPanel = new Joystick(ButtonConstants.BUTTON_PANEL_PORT);
 
     drive = new DriveTrain();
-    index = new Index();
     shooter = new Shooter();
     limelight = new Limelight();
+    index = new Index();
     intake = new Intake();
     intakeToIndex = new IntakeToIndex();
     indexToShooter = new IndexToShooter();
@@ -97,50 +92,49 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
 
-    JoystickButton raiseLift = new JoystickButton(buttonPanel,ButtonConstants.LIFT_UP);
-    raiseLift.whenHeld(new LiftCommand(lift, -1));
+    // JoystickButton raiseLift = new JoystickButton(buttonPanel,ButtonConstants.LIFT_UP);
+    // raiseLift.whenHeld(new LiftCommand(lift, -1));
 
-    JoystickButton lowerLift = new JoystickButton(buttonPanel,ButtonConstants.LIFT_DOWN);
-    lowerLift.whenHeld(new LiftCommand(lift, 1));
+    // JoystickButton lowerLift = new JoystickButton(buttonPanel,ButtonConstants.LIFT_DOWN);
+    // lowerLift.whenHeld(new LiftCommand(lift, 1));
 
-    JoystickButton extendIntake = new JoystickButton(buttonPanel,ButtonConstants.INTAKE_EXTEND);
-    extendIntake.whenPressed(intake::extend, intake); 
+    // JoystickButton extendIntake = new JoystickButton(buttonPanel,ButtonConstants.INTAKE_EXTEND);
+    // extendIntake.whenPressed(intake::extend, intake); 
 
-    JoystickButton retractIntake = new JoystickButton(buttonPanel,ButtonConstants.INTAKE_RETRACT);
-    retractIntake.whenPressed(intake::retract, intake);
+    // JoystickButton retractIntake = new JoystickButton(buttonPanel,ButtonConstants.INTAKE_RETRACT);
+    // retractIntake.whenPressed(intake::retract, intake);
 
-    JoystickButton runIntakeIn = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_IN);
-    runIntakeIn.whenHeld(new IntakeCommand(intake, 0.5));
+    // JoystickButton runIntakeIn = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_IN);
+    // runIntakeIn.whenHeld(new IntakeCommand(intake, 0.5));
 
-    JoystickButton runIntakeOut = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_OUT);
-    runIntakeOut.whenHeld(new IntakeCommand(intake, -0.3));
+    // JoystickButton runIntakeOut = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_OUT);
+    // runIntakeOut.whenHeld(new IntakeCommand(intake, -0.3));
 
 
-    JoystickButton indexUp = new JoystickButton(buttonPanel, ButtonConstants.INDEX_UP);
-    indexUp.whenHeld(new AllIndexCommand(intakeToIndex, index, 0.5, 0.5));
+    // JoystickButton indexUp = new JoystickButton(buttonPanel, ButtonConstants.INDEX_UP);
+    // indexUp.whenHeld(new AllIndexCommand(intakeToIndex, index, 0.5, 0.5));
 
-    JoystickButton indexOut = new JoystickButton(buttonPanel, ButtonConstants.INDEX_OUT);
-    indexOut.whenHeld(new AllIndexCommand(intakeToIndex, index, -0.5, -0.5));
+    // JoystickButton indexOut = new JoystickButton(buttonPanel, ButtonConstants.INDEX_OUT);
+    // indexOut.whenHeld(new AllIndexCommand(intakeToIndex, index, -0.5, -0.5));
 
     
-    JoystickButton liftForward = new JoystickButton(buttonPanel,ButtonConstants.LIFT_FORWARD);
-     liftForward.whenHeld(new LiftHorizontalCommand(lift, 0.3));
+    // JoystickButton liftForward = new JoystickButton(buttonPanel,ButtonConstants.LIFT_FORWARD);
+    //  liftForward.whenHeld(new LiftHorizontalCommand(lift, 0.3));
 
-    JoystickButton liftBackward = new JoystickButton(buttonPanel,ButtonConstants.LIFT_BACK);
-    liftBackward.whenHeld(new LiftHorizontalCommand(lift, -0.3));
+    // JoystickButton liftBackward = new JoystickButton(buttonPanel,ButtonConstants.LIFT_BACK);
+    // liftBackward.whenHeld(new LiftHorizontalCommand(lift, -0.3));
 
     // Shoot button
     JoystickButton shootButton = new JoystickButton(buttonPanel, ButtonConstants.FLYWHEEL_ON);
     // null values subject to change
-    shootButton.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 1, .5, 1));
+    shootButton.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, .5, .5));
 
-    JoystickButton shootWrongBall = new JoystickButton(buttonPanel, ButtonConstants.SHOOT_WRONG_BALL);
-    // Null values subject to change
-    shootWrongBall.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.1, .5, .75));
+    // JoystickButton shootWrongBall = new JoystickButton(buttonPanel, ButtonConstants.SHOOT_WRONG_BALL);
+    // // Null values subject to change
+    // shootWrongBall.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.1, .5, .75));
 
-    // unused
-    //JoystickButton targetHub = new JoystickButton(buttonPanel, ButtonConstants.TARGET_SHOOTER);
-    //targetHub.whenHeld(new TargetHubCommand(shooter, limelight));
+    // JoystickButton targetHub = new JoystickButton(buttonPanel, ButtonConstants.TARGET_SHOOTER);
+    // targetHub.whenHeld(new TargetHubCommand(shooter, limelight));
 
 
 

@@ -26,7 +26,7 @@ public class TwoBallTimeBased extends SequentialCommandGroup {
             .withTimeout(2),
         new RunCommand(() -> drive.tankDrive(0.5, -0.5), drive).withTimeout(1.6),
         parallel(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight,
-            0.73, 0.5,
+            0.5,
             0.5),
             new RunCommand(() -> drive.tankDrive(0, 0), drive)).withTimeout(8));
   }
