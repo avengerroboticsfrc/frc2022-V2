@@ -14,11 +14,13 @@ import frc.robot.commands.driveTypes.ArcadeDrive;
 import frc.robot.commands.driveTypes.DefaultDrive; //Keep Import. Needed For Auton
 import frc.robot.commands.driveTypes.LucaDrive; //Keep Import. Luca Drive 
 import frc.robot.commands.ComplexCommands.AllIndexCommand;
+import frc.robot.commands.ComplexCommands.IntakeToIndexCommandGroup;
 import frc.robot.commands.ComplexCommands.PickUpBallCommandGroup;
 import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
 import frc.robot.commands.SimpleCommands.IntakeCommand;
 import frc.robot.commands.SimpleCommands.IntakeExtendCommand;
 import frc.robot.commands.SimpleCommands.IntakeRetractCommand;
+import frc.robot.commands.SimpleCommands.IntakeToIndexCommand;
 import frc.robot.commands.SimpleCommands.LiftCommand;
 import frc.robot.commands.SimpleCommands.LiftHorizontalCommand;
 import frc.robot.commands.SimpleCommands.TargetHubCommand;
@@ -105,10 +107,10 @@ public class RobotContainer {
     retractIntake.whenPressed(intake::retract, intake);
 
     JoystickButton runIntakeIn = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_IN);
-    runIntakeIn.whenHeld(new IntakeCommand(intake, 0.5));
+    runIntakeIn.whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index));
 
     JoystickButton runIntakeOut = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_OUT);
-    runIntakeOut.whenHeld(new IntakeCommand(intake, -0.3));
+    runIntakeOut.whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index));
 
 
     JoystickButton indexUp = new JoystickButton(buttonPanel, ButtonConstants.INDEX_UP);
