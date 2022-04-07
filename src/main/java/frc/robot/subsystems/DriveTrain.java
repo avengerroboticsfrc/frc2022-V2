@@ -191,6 +191,10 @@ public class DriveTrain extends SubsystemBase {
     gyro.calibrate();
   }
 
+  public void zeroHeading() {
+    gyro.reset();
+  }
+
   public Rotation2d getHeading(){
     return Rotation2d.fromDegrees(-gyro.getAngle());
   }
