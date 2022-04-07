@@ -73,7 +73,7 @@ public class LucaDrive extends CommandBase {
     //   // Hold inputs at end due to how it cycles
     //   heldSpeed2 = speed2;
 
-    drive.curvatureDrive(speed*.3, rotate, turn.getAsBoolean());
+    drive.curvatureDrive(-speed*.5, rotate, turn.getAsBoolean());
     }
 
   public void curvatureDrive(double xSpeed, double zRotation, boolean allowTurnInPlace) {
