@@ -92,37 +92,37 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
 
-    // JoystickButton raiseLift = new JoystickButton(buttonPanel,ButtonConstants.LIFT_UP);
-    // raiseLift.whenHeld(new LiftCommand(lift, -1));
+    JoystickButton raiseLift = new JoystickButton(buttonPanel,ButtonConstants.LIFT_UP);
+    raiseLift.whenHeld(new LiftCommand(lift, -1));
 
-    // JoystickButton lowerLift = new JoystickButton(buttonPanel,ButtonConstants.LIFT_DOWN);
-    // lowerLift.whenHeld(new LiftCommand(lift, 1));
+    JoystickButton lowerLift = new JoystickButton(buttonPanel,ButtonConstants.LIFT_DOWN);
+    lowerLift.whenHeld(new LiftCommand(lift, 1));
 
-    // JoystickButton extendIntake = new JoystickButton(buttonPanel,ButtonConstants.INTAKE_EXTEND);
-    // extendIntake.whenPressed(intake::extend, intake); 
+    JoystickButton extendIntake = new JoystickButton(buttonPanel,ButtonConstants.INTAKE_EXTEND);
+    extendIntake.whenPressed(intake::extend, intake); 
 
-    // JoystickButton retractIntake = new JoystickButton(buttonPanel,ButtonConstants.INTAKE_RETRACT);
-    // retractIntake.whenPressed(intake::retract, intake);
+    JoystickButton retractIntake = new JoystickButton(buttonPanel,ButtonConstants.INTAKE_RETRACT);
+    retractIntake.whenPressed(intake::retract, intake);
 
-    // JoystickButton runIntakeIn = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_IN);
-    // runIntakeIn.whenHeld(new IntakeCommand(intake, 0.5));
+    JoystickButton runIntakeIn = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_IN);
+    runIntakeIn.whenHeld(new IntakeCommand(intake, 0.5));
 
-    // JoystickButton runIntakeOut = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_OUT);
-    // runIntakeOut.whenHeld(new IntakeCommand(intake, -0.3));
+    JoystickButton runIntakeOut = new JoystickButton(buttonPanel, ButtonConstants.INTAKE_OUT);
+    runIntakeOut.whenHeld(new IntakeCommand(intake, -0.3));
 
 
-    // JoystickButton indexUp = new JoystickButton(buttonPanel, ButtonConstants.INDEX_UP);
-    // indexUp.whenHeld(new AllIndexCommand(intakeToIndex, index, 0.5, 0.5));
+    JoystickButton indexUp = new JoystickButton(buttonPanel, ButtonConstants.INDEX_UP);
+    indexUp.whenHeld(new AllIndexCommand(intakeToIndex, index, 0.5, 0.5));
 
-    // JoystickButton indexOut = new JoystickButton(buttonPanel, ButtonConstants.INDEX_OUT);
-    // indexOut.whenHeld(new AllIndexCommand(intakeToIndex, index, -0.5, -0.5));
+    JoystickButton indexOut = new JoystickButton(buttonPanel, ButtonConstants.INDEX_OUT);
+    indexOut.whenHeld(new AllIndexCommand(intakeToIndex, index, -0.5, -0.5));
 
     
-    // JoystickButton liftForward = new JoystickButton(buttonPanel,ButtonConstants.LIFT_FORWARD);
-    //  liftForward.whenHeld(new LiftHorizontalCommand(lift, 0.3));
+    JoystickButton liftForward = new JoystickButton(buttonPanel,ButtonConstants.LIFT_FORWARD);
+     liftForward.whenHeld(new LiftHorizontalCommand(lift, 1));
 
-    // JoystickButton liftBackward = new JoystickButton(buttonPanel,ButtonConstants.LIFT_BACK);
-    // liftBackward.whenHeld(new LiftHorizontalCommand(lift, -0.3));
+    JoystickButton liftBackward = new JoystickButton(buttonPanel,ButtonConstants.LIFT_BACK);
+    liftBackward.whenHeld(new LiftHorizontalCommand(lift, -1));
 
     // Shoot button
     JoystickButton shootButton = new JoystickButton(buttonPanel, ButtonConstants.FLYWHEEL_ON);

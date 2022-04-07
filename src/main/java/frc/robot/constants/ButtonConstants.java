@@ -36,15 +36,15 @@ public class ButtonConstants {
   public static final int LIFT_BACK = 10;
 
   // TESTING buttons for calibration
-  public static final int HOOD_UP = 9;
-  public static final int HOOD_DOWN = 10;
+  //public static final int HOOD_UP = 9;
+  //public static final int HOOD_DOWN = 10;
   public static final int HOOD_MIN = -1;
   public static final int HOOD_MAX = -1;
 
 
   // can combine these later
   public static final int TARGET_SHOOTER = 12;
-  public static final int SHOOT_BALL = 10;
+  //public static final int SHOOT_BALL = 10;
   // public static final int HOOD_PRE_1 = -1;
   // public static final int HOOD_PRE_2 = -1;
   // public static final int HOOD_PRE_3 = -1;

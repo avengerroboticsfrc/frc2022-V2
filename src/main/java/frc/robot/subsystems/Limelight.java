@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Limelight extends SubsystemBase {
   public final NetworkTable table;
   // how many degrees back is your limelight rotated from perfectly vertical?
-  private static final double LIMELIGHT_MOUNT_ANGLE_DEGREES = 17.00;
+  private static final double LIMELIGHT_MOUNT_ANGLE_DEGREES = 20.00;
   // distance from the center of the Limelight lens to the floor
   private static final double LIMELIGHT_LENS_HEIGHT_METERS = 0.669925;
   // distance from the target to the floor
