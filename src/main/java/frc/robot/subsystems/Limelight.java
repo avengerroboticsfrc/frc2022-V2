@@ -18,7 +18,7 @@ public class Limelight extends SubsystemBase {
   private static final double POWER_PER_METER = 0;
 
   private static final double Kp = -0.1; // Proportional control constant
-  private static final double min_command = 0.05; // Minimum amount to slightly move
+  private static final double min_command = 0.00; // Minimum amount to slightly move
 
   private double steering_adjust;
   /**

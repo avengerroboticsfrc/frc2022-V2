@@ -4,11 +4,11 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 
 public class DriveConstants {
   // Voltage
-  public static final double KS_VOLTS = 0.73098;
-  public static final double KV_VOLT_SECONDS_PER_METER = 2.505;
-  public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0.3608;
+  public static final double KS_VOLTS = 0.6439;
+  public static final double KV_VOLT_SECONDS_PER_METER = 2.603;
+  public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0.83348;
 
-  public static final double KP_DRIVE_VELOCITY = 3.4718;
+  public static final double KP_DRIVE_VELOCITY = 3.9733;
 
   // Differential Drive Kinematics
   public static final double K_TRACK_WIDTH_METERS = 0.53;

@@ -61,8 +61,8 @@ public class Shooter extends SubsystemBase {
    * turn the shooter by a certain number of counts.
    */
   public void turn(double counts) {
-    m_pidController.setReference(counts, CANSparkMax.ControlType.kPosition);
-    m_encoder.setPosition(counts);
+    System.out.println(counts*4096);
+    m_pidController.setReference((counts*4096), CANSparkMax.ControlType.kPosition);
   }
 
   /**
@@ -95,15 +95,16 @@ public class Shooter extends SubsystemBase {
 
     hood[0].setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
     hood[1].setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
-        // PID coefficients
+    // PID coefficients
     kP = 0.1; 
     kI = 1e-4;
     kD = 1; 
     kIz = 0; 
     kFF = 0; 
-    kMaxOutput = 1; 
-    kMinOutput = -1;
+    kMaxOutput = .2; 
+    kMinOutput = -.2;
 
+    turretTurnMotor.restoreFactoryDefaults();
     // set PID coefficients
     m_pidController.setP(kP);
     m_pidController.setI(kI);
@@ -113,9 +114,10 @@ public class Shooter extends SubsystemBase {
     m_pidController.setOutputRange(kMinOutput, kMaxOutput);
     turretTurnMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     turretTurnMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-    turretTurnMotor.setIdleMode(IdleMode.kBrake);
+    turretTurnMotor.setIdleMode(IdleMode.kCoast);
     //TODO: CHANGE THESE VALS
-    turretTurnMotor.setSoftLimit(SoftLimitDirection.kForward, 2400);
-    turretTurnMotor.setSoftLimit(SoftLimitDirection.kReverse, 2400);
+    turretTurnMotor.setSoftLimit(SoftLimitDirection.kForward, 4096);
+    turretTurnMotor.setSoftLimit(SoftLimitDirection.kReverse, 4096);
+    m_encoder.setPosition(0);
     }
 }

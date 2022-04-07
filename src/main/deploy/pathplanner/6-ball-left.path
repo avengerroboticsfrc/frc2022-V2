@@ -85,7 +85,7 @@
       "isLocked": false
     }
   ],
-  "maxVelocity": 3.0,
-  "maxAcceleration": 5.0,
-  "isReversed": null
+  "maxVelocity": 0.1,
+  "maxAcceleration": 0.2,
+  "isReversed": 1
 }
