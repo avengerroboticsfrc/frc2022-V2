@@ -1,10 +1,7 @@
 package frc.robot.commands.auton;
 
-import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
-
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ComplexCommands.PickUpBallCommandGroup;
 import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
 import frc.robot.subsystems.DriveTrain;
