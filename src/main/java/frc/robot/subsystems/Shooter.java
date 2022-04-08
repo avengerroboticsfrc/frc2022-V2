@@ -83,7 +83,7 @@ public class Shooter extends SubsystemBase {
    * takes in RPM. sets velocity.
    */
   public void setRPM(double rpm) {
-    double output = (rpm * 600) / 2048;
+    double output = (rpm * 2048) / 600;
     flywheelMotor.set(TalonFXControlMode.Velocity, output);
   }
 

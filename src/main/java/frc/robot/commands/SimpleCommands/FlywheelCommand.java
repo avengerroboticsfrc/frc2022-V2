@@ -3,7 +3,6 @@ package frc.robot.commands.SimpleCommands;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Limelight;
-import java.lang.Math.*;
 import java.util.HashMap;
 
 public class FlywheelCommand extends CommandBase {

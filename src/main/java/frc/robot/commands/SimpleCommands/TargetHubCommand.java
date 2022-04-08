@@ -1,8 +1,5 @@
 package frc.robot.commands.SimpleCommands;
 
-import com.revrobotics.SparkMaxLimitSwitch;
-import com.revrobotics.CANSparkMax.ControlType;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
