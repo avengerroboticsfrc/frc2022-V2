@@ -4,16 +4,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
 public class DataTestingFlywheelCommand extends CommandBase {
+  private final Shooter shooter;
+  private final double shooterPower;
 
-    private final Shooter shooter;
-    private final double shooterPower;
-
-
-    public DataTestingFlywheelCommand(Shooter shooter, double shooterPower){
-        this.shooter = shooter;
-        this.shooterPower = shooterPower;
-        addRequirements(shooter);
-    }
+  public DataTestingFlywheelCommand(Shooter shooter, double shooterRPM) {
+    this.shooter = shooter;
+    this.shooterPower = shooterRPM;
+    addRequirements(shooter);
+  }
 
   @Override
   public void initialize() {
@@ -21,17 +19,17 @@ public class DataTestingFlywheelCommand extends CommandBase {
 
   @Override
   public void execute() {
-    shooter.spin(shooterPower);
+    shooter.setRPM(shooterPower);
   }
 
   @Override
   public void end(boolean interrupted) {
-    shooter.spin(0);
+    shooter.setRPM(0);
   }
 
   @Override
   public boolean isFinished() {
     return false;
   }
-    
+
 }
