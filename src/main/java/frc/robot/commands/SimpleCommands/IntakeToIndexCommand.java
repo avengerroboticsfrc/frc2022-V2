@@ -1,8 +1,6 @@
 package frc.robot.commands.SimpleCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Index;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.IntakeToIndex;
 
 public class IntakeToIndexCommand extends CommandBase  {
