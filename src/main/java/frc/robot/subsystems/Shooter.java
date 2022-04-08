@@ -68,11 +68,11 @@ public class Shooter extends SubsystemBase {
    * turn the shooter by a certain number of counts. If there is no target, reset turret position to center.
    */
   public void turn(double counts) {
-    if(counts == 0){
-      m_pidController.setReference(0, CANSparkMax.ControlType.kPosition);
-    }else{
+    // if(counts == 0){
+    //   m_pidController.setReference(0, CANSparkMax.ControlType.kPosition);
+    // }else{
     m_pidController.setReference(counts*TURRET_GEAR_RATIO, CANSparkMax.ControlType.kPosition);
-  }
+  //}
   }
 
   /**
@@ -109,10 +109,10 @@ public class Shooter extends SubsystemBase {
     hood[1].setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
     // PID coefficients
     //TODO: CHANGE THESE VALS
-    kP = 1; 
+    kP = .4; 
     kI = 1e-4;
     kD = 1; 
-    kIz = 0; 
+    kIz = 20; 
     kFF = 0; 
     kMaxOutput = .3; 
     kMinOutput = -.3;
@@ -121,12 +121,12 @@ public class Shooter extends SubsystemBase {
     turretTurnMotor.restoreFactoryDefaults();
     // set PID coefficients
     m_pidController.setP(kP);
-    m_pidController.setI(kI);
-    m_pidController.setD(kD);
-    m_pidController.setIZone(kIz);
-    m_pidController.setFF(kFF);
+    // m_pidController.setI(kI);
+    // m_pidController.setD(kD);
+    // m_pidController.setIZone(kIz);
+    // m_pidController.setFF(kFF);
     m_pidController.setOutputRange(kMinOutput, kMaxOutput);
-    turretTurnMotor.setClosedLoopRampRate(.3);
+    // turretTurnMotor.setClosedLoopRampRate();
     turretTurnMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     turretTurnMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     turretTurnMotor.setIdleMode(IdleMode.kBrake);

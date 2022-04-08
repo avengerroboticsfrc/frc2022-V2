@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -11,13 +12,12 @@ public class Limelight extends SubsystemBase {
   // how many degrees back is your limelight rotated from perfectly vertical?
   private static final double LIMELIGHT_MOUNT_ANGLE_DEGREES = 20.00;
   // distance from the center of the Limelight lens to the floor
-  private static final double LIMELIGHT_LENS_HEIGHT_METERS = 0.669925;
+  private static final double LIMELIGHT_LENS_HEIGHT_METERS = 0.79;
   // distance from the target to the floor
   private static final double GOAL_HEIGHT_METERS = 2.6416;
 
-  private static final double KP = -0.1; // Proportional control constant
-  private static final double MIN_COMMAND = 0.0; // Minimum amount to slightly move
-
+  private static final double Kp = -0.4; // Proportional control constant
+  private static final double min_command = 0; // Minimum amount to slightly move
   private double steering_adjust;
 
   /**
@@ -49,15 +49,17 @@ public class Limelight extends SubsystemBase {
    * uses the targetXOffset value to calculate the rotationAdjust value.
    */
   public double getRotationAdjust() {
-    double headingError = table.getEntry("tx").getDouble(0);
-
-    if (headingError > 1.0) {
-      steering_adjust = -KP * headingError - MIN_COMMAND;
-    } else if (headingError < 1.0) {
-      steering_adjust = -KP * headingError + MIN_COMMAND;
+    double tx = table.getEntry("tx").getDouble(0);
+    double heading_error = -tx;
+    if (tx > 1.0)
+    {
+            steering_adjust = Kp*heading_error - min_command;
     }
-
-    return steering_adjust;
+    else if (tx < 1.0)
+    {
+            steering_adjust = Kp*heading_error + min_command;
+    }
+    return -steering_adjust;
   }
 
   /**
@@ -71,8 +73,7 @@ public class Limelight extends SubsystemBase {
 
     // tan = opp / hypot; divide opp to get adj.
     double distance = height / Math.tan(Math.toRadians(angle));
-
-    return distance;
+    return Units.metersToInches(distance);
   }
 
   public void disableLights() {

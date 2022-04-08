@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ComplexCommands.PickUpBallCommandGroup;
 import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
+import frc.robot.commands.SimpleCommands.IntakeExtendCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.IndexToShooter;
@@ -17,6 +18,7 @@ public class TwoBallTimeBased extends SequentialCommandGroup {
       Shooter shooter,
       IndexToShooter indexToShooter, Limelight limelight) {
     addCommands(
+        new IntakeExtendCommand(intake),
         new RunCommand(() -> drive.tankDrive(0.5, 0.5), drive).withTimeout(1.5),
         parallel(new RunCommand(() -> drive.tankDrive(0.5, 0.5), drive).withTimeout(1)
             .andThen(() -> drive.tankDrive(0, 0)),

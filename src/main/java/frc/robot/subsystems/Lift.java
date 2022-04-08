@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
@@ -20,6 +21,7 @@ public class Lift extends SubsystemBase {
 
     liftArmMotor2.follow(liftArmMotor);
     liftArmMotor.setInverted(true);
+    verticalMotor.setNeutralMode(NeutralMode.Brake);
   }
 
   public void vertical(double power) {

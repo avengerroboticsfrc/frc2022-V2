@@ -98,7 +98,8 @@ public class RobotContainer {
     raiseLift.whenHeld(new LiftCommand(lift, -1));
 
     JoystickButton lowerLift = new JoystickButton(buttonPanel,ButtonConstants.LIFT_DOWN);
-    lowerLift.whenHeld(new LiftCommand(lift, 1));
+    lowerLift.whenHeld(new IntakeCommand(intake, .7));
+    // lowerLift.whenHeld(new LiftCommand(lift, 1));
 
     JoystickButton extendIntake = new JoystickButton(buttonPanel,ButtonConstants.INTAKE_EXTEND);
     extendIntake.whenPressed(intake::extend, intake); 
@@ -129,14 +130,14 @@ public class RobotContainer {
     // Shoot button
     JoystickButton shootButton = new JoystickButton(buttonPanel, ButtonConstants.FLYWHEEL_ON);
     // null values subject to change
-    shootButton.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, .5, .5));
+    shootButton.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, .5, 1));
 
     // JoystickButton shootWrongBall = new JoystickButton(buttonPanel, ButtonConstants.SHOOT_WRONG_BALL);
     // // Null values subject to change
     // shootWrongBall.whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.1, .5, .75));
 
-    // JoystickButton targetHub = new JoystickButton(buttonPanel, ButtonConstants.TARGET_SHOOTER);
-    // targetHub.whenHeld(new TargetHubCommand(shooter, limelight));
+    JoystickButton targetHub = new JoystickButton(buttonPanel, ButtonConstants.TARGET_SHOOTER);
+    targetHub.whenHeld(new TargetHubCommand(shooter, limelight));
 
 
 
