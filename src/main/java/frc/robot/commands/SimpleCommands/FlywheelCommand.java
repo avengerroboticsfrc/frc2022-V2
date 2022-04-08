@@ -42,7 +42,6 @@ public class FlywheelCommand extends CommandBase {
 
   @Override
   public void execute() {
-
     // If it doesn't work how it's supposed to, 
     // comment out the enhanced for loop
     // for (Integer i : dataTable.keySet()) {
@@ -56,7 +55,13 @@ public class FlywheelCommand extends CommandBase {
     // if (keyValue.intValue() != -1) {
     //   shooter.spin(dataTable.get(keyValue).doubleValue());
     // } else {
-      shooter.spin(.75);
+    //   shooter.setRPM(stupidEquationThatWeCameUpWith);
+    // }
+
+    // RPM RANGES FROM 0 <---> 6380 !!!
+    shooter.setRPM(6380);
+    // FALLBACK CODE!!!
+    shooter.spin(.75);
   }
 
   @Override
