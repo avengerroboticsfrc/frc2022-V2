@@ -21,11 +21,11 @@ public class ButtonConstants {
   public static final int INTAKE_RETRACT = 4;
   public static final int INTAKE_EXTEND = 3;
 
-  public static final int INTAKE_OUT = 6;
-  public static final int INTAKE_IN = 5;
+  public static final int INTAKE_OUT = 8;
+  public static final int INTAKE_IN = 7;
 
-  public static final int INDEX_UP = 7;
-  public static final int INDEX_OUT = 8;
+  public static final int INDEX_UP = 5;
+  public static final int INDEX_OUT = 6;
 
   public static final int FLYWHEEL_ON = 11;
   public static final int SHOOT_WRONG_BALL = 12;

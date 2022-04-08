@@ -64,10 +64,10 @@ public class DriveTrain extends SubsystemBase {
     rightMotors[0].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
     rightMotors[1].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
-    leftMotors[0].configOpenloopRamp(0);
-    leftMotors[1].configOpenloopRamp(0);
-    rightMotors[0].configOpenloopRamp(0);
-    rightMotors[1].configOpenloopRamp(0);
+    leftMotors[0].configOpenloopRamp(.5);
+    leftMotors[1].configOpenloopRamp(.5);
+    rightMotors[0].configOpenloopRamp(.5);
+    rightMotors[1].configOpenloopRamp(.5);
 
     leftMotors[1].follow(leftMotors[0]);
     rightMotors[1].follow(rightMotors[0]);
@@ -75,10 +75,10 @@ public class DriveTrain extends SubsystemBase {
     rightMotors[0].setInverted(true);
     rightMotors[1].setInverted(InvertType.FollowMaster);
 
-    leftMotors[0].setNeutralMode(NeutralMode.Brake);
-    leftMotors[1].setNeutralMode(NeutralMode.Brake);
-    rightMotors[0].setNeutralMode(NeutralMode.Brake);
-    rightMotors[1].setNeutralMode(NeutralMode.Brake);
+    leftMotors[0].setNeutralMode(NeutralMode.Coast);
+    leftMotors[1].setNeutralMode(NeutralMode.Coast);
+    rightMotors[0].setNeutralMode(NeutralMode.Coast);
+    rightMotors[1].setNeutralMode(NeutralMode.Coast);
 
     driveTrain = new DifferentialDrive(
       leftMotors[0],

@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.auton.SimpleDriveandShoot;
 import frc.robot.commands.auton.TwoBallTimeBased;
 import frc.robot.commands.driveTypes.ArcadeDrive;
 import frc.robot.commands.driveTypes.DefaultDrive; //Keep Import. Needed For Auton
@@ -17,6 +18,7 @@ import frc.robot.commands.ComplexCommands.DataTestingCommandGroup;
 import frc.robot.commands.ComplexCommands.IntakeToIndexCommandGroup;
 import frc.robot.commands.ComplexCommands.PickUpBallCommandGroup;
 import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
+import frc.robot.commands.ComplexCommands.WrongBallCommandGroup;
 import frc.robot.commands.SimpleCommands.IntakeCommand;
 import frc.robot.commands.SimpleCommands.IntakeExtendCommand;
 import frc.robot.commands.SimpleCommands.IntakeRetractCommand;
@@ -112,8 +114,8 @@ public class RobotContainer {
       lowerLift.whenHeld(new LiftCommand(lift, 1));
       extendIntake.whenPressed(intake::extend, intake); 
       retractIntake.whenPressed(intake::retract, intake);
-      runIntakeOut.whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index));
-      runIntakeIn.whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index));
+      runIntakeOut.whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index, indexToShooter));
+      runIntakeIn.whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index, indexToShooter));
       indexUp.whenHeld(new AllIndexCommand(intakeToIndex, index, 0.5, 0.5));
       indexOut.whenHeld(new AllIndexCommand(intakeToIndex, index, -0.5, -0.5));
       liftForward.whenHeld(new LiftHorizontalCommand(lift, 1));
@@ -145,6 +147,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new TwoBallTimeBased(drive, intake, index, intakeToIndex, shooter, indexToShooter, limelight);
+    return new SimpleDriveandShoot(drive, shooter, index, limelight, intakeToIndex, indexToShooter, .5, .5);
   }
 }
