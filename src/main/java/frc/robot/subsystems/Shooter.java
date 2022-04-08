@@ -4,14 +4,11 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
-import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -40,9 +37,9 @@ public class Shooter extends SubsystemBase {
   // public static final double[] kTurretGains = { 0, 0, 0, .1705, 0, 1 };
   // kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput;
   public static final double[] kHoodGains = { 0, 0, 0, 0, 0, 0, 1 };
-  public final double[] preDistance = {1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8};
-  public final double[] preHoodAngle = {0,0,0,0,0,0,0,0,0,0,0,0,0};
-  public final double[] preShooterPower = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,};
+  public final double[] preDistance = { 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8 };
+  public final double[] preHoodAngle = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+  public final double[] preShooterPower = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, };
 
   /**
    * create a new shooter class.
@@ -60,19 +57,19 @@ public class Shooter extends SubsystemBase {
         new Servo(PortConstants.HOOD_SERVOS[1])
     };
 
-
     configureShooter();
   }
 
   /**
-   * turn the shooter by a certain number of counts. If there is no target, reset turret position to center.
+   * turn the shooter by a certain number of counts. If there is no target, reset
+   * turret position to center.
    */
   public void turn(double counts) {
-    if(counts == 0){
+    if (counts == 0) {
       m_pidController.setReference(0, CANSparkMax.ControlType.kPosition);
-    }else{
-    m_pidController.setReference(counts*TURRET_GEAR_RATIO, CANSparkMax.ControlType.kPosition);
-  }
+    } else {
+      m_pidController.setReference(counts * TURRET_GEAR_RATIO, CANSparkMax.ControlType.kPosition);
+    }
   }
 
   /**
@@ -83,12 +80,20 @@ public class Shooter extends SubsystemBase {
   }
 
   /**
+   * takes in RPM. sets velocity.
+   */
+  public void setRPM(double rpm) {
+    double output = (rpm * 600) / 2048;
+    flywheelMotor.set(TalonFXControlMode.Velocity, output);
+  }
+
+  /**
    * Set the hood's position in cm.
    */
   public void extendHood(double cm) {
     hood[0].set(cm / HOOD_ACTUATOR_LENGTH_CM);
     hood[1].set(cm / HOOD_ACTUATOR_LENGTH_CM);
-    System.out.println("Hoodlength is " + getHoodPos()); 
+    System.out.println("Hoodlength is " + getHoodPos());
   }
 
   public double getHoodPos() {
@@ -103,20 +108,17 @@ public class Shooter extends SubsystemBase {
     flywheelMotor.configOpenloopRamp(1);
     flywheelMotor2.configOpenloopRamp(1);
 
-
-
     hood[0].setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
     hood[1].setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
     // PID coefficients
-    //TODO: CHANGE THESE VALS
-    kP = 1; 
+    // TODO: CHANGE THESE VALS
+    kP = 1;
     kI = 1e-4;
-    kD = 1; 
-    kIz = 0; 
-    kFF = 0; 
-    kMaxOutput = .3; 
+    kD = 1;
+    kIz = 0;
+    kFF = 0;
+    kMaxOutput = .3;
     kMinOutput = -.3;
-
 
     turretTurnMotor.restoreFactoryDefaults();
     // set PID coefficients
@@ -130,39 +132,9 @@ public class Shooter extends SubsystemBase {
     turretTurnMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     turretTurnMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     turretTurnMotor.setIdleMode(IdleMode.kBrake);
-    //TODO: CHANGE THESE VALS
+    // TODO: CHANGE THESE VALS
     turretTurnMotor.setSoftLimit(SoftLimitDirection.kForward, 15f);
     turretTurnMotor.setSoftLimit(SoftLimitDirection.kReverse, -15f);
     m_encoder.setPosition(0);
-    }
-  
-  //   public void getRightPreset(Limelight limelight, Shooter shooter){
-  //     for(int x = 0; x <= preDistance.length; x++){
-  //         if(Math.abs(limelight.getDistance() - preDistance[x]) >= 0 && Math.abs(limelight.getDistance() - preDistance[x]) < 0.3){ 
-  //             shooter.extendHood(preHoodAngle[x]);
-  //             shooter.spin(preShooterPower[x]);
-  //     }
-  //     else if (Math.abs(limelight.getDistance() - preDistance[x]) >= 0.3  && Math.abs(limelight.getDistance() - preDistance[x]) <= 0.5){
-  //         shooter.extendHood(preHoodAngle[x]);
-  //         shooter.spin(preShooterPower[x]);
-  //     }
-  //     else if (Math.abs(limelight.getDistance() - preDistance[x]) <= 0.7  && Math.abs(limelight.getDistance() - preDistance[x]) > 0.5){
-  //         shooter.extendHood(preHoodAngle[x]);
-  //         shooter.spin(preShooterPower[x]);
-  //     }
-  //     else if (Math.abs(limelight.getDistance() - preDistance[x]) > 0.7  && Math.abs(limelight.getDistance() - preDistance[x]) < 1){
-  //         shooter.extendHood(preHoodAngle[x]);
-  //         shooter.spin(preShooterPower[x]);
-  
-  //     }
-  
-  
-  // }
-  
-      
-  // }
-
-  
-
-
+  }
 }
