@@ -16,8 +16,8 @@ public class Limelight extends SubsystemBase {
   // distance from the target to the floor
   private static final double GOAL_HEIGHT_METERS = 2.6416;
 
-  private static final double Kp = -0.4; // Proportional control constant
-  private static final double min_command = 0; // Minimum amount to slightly move
+  private static final double Kp = 0.05; // Proportional control constant
+  private static final double min_command = 0.0; // Minimum amount to slightly move
   private double steering_adjust;
 
   /**
@@ -59,7 +59,7 @@ public class Limelight extends SubsystemBase {
     {
             steering_adjust = Kp*heading_error + min_command;
     }
-    return -steering_adjust;
+    return steering_adjust;
   }
 
   /**

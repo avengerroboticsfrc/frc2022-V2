@@ -47,7 +47,7 @@ public class FlywheelCommand extends CommandBase {
     // comment out the enhanced for loop
     // for (Integer i : dataTable.keySet()) {
     //   if (i.intValue() == (int)limelight.getDistance() || 
-    //       i.intValue() + 1 == (int)limelight.getDistance() || 
+    //       i.intValue() + 1 == (int)limelight.getDistance() ||   
     //       i.intValue() - 1 == (int)limelight.getDistance()) {
     //     keyValue = i;
     //   }
@@ -56,7 +56,7 @@ public class FlywheelCommand extends CommandBase {
     // if (keyValue.intValue() != -1) {
     //   shooter.spin(dataTable.get(keyValue).doubleValue());
     // } else {
-      shooter.spin(.47);
+      shooter.spin(.75);
   }
 
   @Override

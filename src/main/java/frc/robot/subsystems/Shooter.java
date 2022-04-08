@@ -83,8 +83,8 @@ public class Shooter extends SubsystemBase {
    * takes in RPM. sets velocity.
    */
   public void setRPM(double rpm) {
-    double output = (rpm * 600) / 2048;
-    flywheelMotor.set(TalonFXControlMode.Velocity, output);
+    double output = (rpm * 2048) / 600;
+    flywheelMotor.set(TalonFXControlMode.Velocity, 1);
   }
 
   /**
@@ -112,13 +112,13 @@ public class Shooter extends SubsystemBase {
     hood[1].setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
     // PID coefficients
     // TODO: CHANGE THESE VALS
-    kP = 1;
+    kP = .1;
     kI = 1e-4;
     kD = 1;
     kIz = 0;
     kFF = 0;
-    kMaxOutput = .3;
-    kMinOutput = -.3;
+    kMaxOutput = .5;
+    kMinOutput = -.5;
 
     turretTurnMotor.restoreFactoryDefaults();
     // set PID coefficients
@@ -128,13 +128,13 @@ public class Shooter extends SubsystemBase {
     // m_pidController.setIZone(kIz);
     // m_pidController.setFF(kFF);
     m_pidController.setOutputRange(kMinOutput, kMaxOutput);
-    // turretTurnMotor.setClosedLoopRampRate();
+    turretTurnMotor.setClosedLoopRampRate(.5);
     turretTurnMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     turretTurnMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     turretTurnMotor.setIdleMode(IdleMode.kBrake);
     // TODO: CHANGE THESE VALS
-    turretTurnMotor.setSoftLimit(SoftLimitDirection.kForward, 15f);
-    turretTurnMotor.setSoftLimit(SoftLimitDirection.kReverse, -15f);
+    turretTurnMotor.setSoftLimit(SoftLimitDirection.kForward, 24f);
+    turretTurnMotor.setSoftLimit(SoftLimitDirection.kReverse, -24f);
     m_encoder.setPosition(0);
   }
 }

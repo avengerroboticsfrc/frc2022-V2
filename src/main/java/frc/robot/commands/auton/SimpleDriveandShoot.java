@@ -24,7 +24,7 @@ public class SimpleDriveandShoot extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new RunCommand(() -> drive.tankDrive(.5, .5), drive).withTimeout(1.5),
+      new RunCommand(() -> drive.tankDrive(-.5, -.5), drive).withTimeout(1.5),
       new WaitCommand(1),
       new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, indexPower, indexToShooterPower)
     );

@@ -64,10 +64,10 @@ public class DriveTrain extends SubsystemBase {
     rightMotors[0].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
     rightMotors[1].configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
-    leftMotors[0].configOpenloopRamp(1);
-    leftMotors[1].configOpenloopRamp(01);
-    rightMotors[0].configOpenloopRamp(01);
-    rightMotors[1].configOpenloopRamp(01);
+    leftMotors[0].configOpenloopRamp(.5);
+    leftMotors[1].configOpenloopRamp(.5);
+    rightMotors[0].configOpenloopRamp(.5);
+    rightMotors[1].configOpenloopRamp(.5);
 
     leftMotors[1].follow(leftMotors[0]);
     rightMotors[1].follow(rightMotors[0]);
