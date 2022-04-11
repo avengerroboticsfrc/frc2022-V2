@@ -18,20 +18,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.auton.TwoBallTimeBased;
-import frc.robot.commands.driveTypes.ArcadeDrive;
-import frc.robot.commands.driveTypes.DefaultDrive; //Keep Import. Needed For Auton
-import frc.robot.commands.driveTypes.LucaDrive; //Keep Import. Luca Drive 
+import frc.robot.commands.driveTypes.LucaDrive; 
 import frc.robot.commands.ComplexCommands.AllIndexCommand;
 import frc.robot.commands.ComplexCommands.DataTestingCommandGroup;
-import frc.robot.commands.ComplexCommands.FridayRamseteCommand;
 import frc.robot.commands.ComplexCommands.PickUpBallCommandGroup;
 import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
 import frc.robot.commands.SimpleCommands.IntakeCommand;
 import frc.robot.commands.SimpleCommands.IntakeExtendCommand;
 import frc.robot.commands.SimpleCommands.IntakeRetractCommand;
 import frc.robot.commands.SimpleCommands.IntakeToIndexCommand;
-import frc.robot.commands.SimpleCommands.LiftCommand;
-import frc.robot.commands.SimpleCommands.LiftHorizontalCommand;
 import frc.robot.constants.ButtonConstants;
 import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.DriveTrain;
