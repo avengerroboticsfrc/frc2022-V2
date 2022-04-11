@@ -171,7 +171,7 @@ public class DriveTrain extends SubsystemBase {
     leftMotors[0].setSelectedSensorPosition(0);
     leftMotors[1].setSelectedSensorPosition(0);
     rightMotors[0].setSelectedSensorPosition(0);
-    rightMotors[0].setSelectedSensorPosition(0);
+    rightMotors[1].setSelectedSensorPosition(0);
   }
 
   /**
