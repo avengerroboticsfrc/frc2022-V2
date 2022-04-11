@@ -1,6 +1,6 @@
 ## FRC 2022
 
-**Welcome to the Codebase for 2022 Rapid React**
+**FRC Team 7451 AvengerRobotics' Robot Code for the 2022 Season**
 
 FRC 7451 AvengerRobotics
 
