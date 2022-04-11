@@ -1,5 +1,8 @@
 package frc.robot.commands.SimpleCommands;
 
+import com.revrobotics.SparkMaxLimitSwitch;
+import com.revrobotics.CANSparkMax.ControlType;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
@@ -22,23 +25,19 @@ public class TargetHubCommand extends CommandBase {
 
   @Override
   public void initialize() {
-    System.out.println("Enable");
-    System.out.println("Limelight ON");
     limelight.enableLights();
   }
 
   @Override
   public void execute() {
     shooter.turn(limelight.getRotationAdjust());
-    //TODO: HOOD ADJUST
-    //shooter.extendHood(limelight.getDistance()*.05);
   }
 
   @Override
   public void end(boolean interrupted) {
     System.out.println("Limelight OFF");
     limelight.disableLights();
-    shooter.turn(0);
+    shooter.turretTurnMotor.stopMotor();
   }
 
   @Override

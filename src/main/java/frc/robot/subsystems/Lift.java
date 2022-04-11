@@ -9,12 +9,17 @@ import frc.robot.constants.PortConstants;
 public class Lift extends SubsystemBase {
   private VictorSPX verticalMotor;
   private VictorSPX liftArmMotor;
+  private VictorSPX liftArmMotor2;
 
   public Lift() {
     super();
 
     verticalMotor = new VictorSPX(PortConstants.VERTICAL_LIFT_MOTORS);
     liftArmMotor = new VictorSPX(PortConstants.ARM_MOTOR);
+    liftArmMotor2 = new VictorSPX(PortConstants.ARM_MOTOR2);
+
+    liftArmMotor2.follow(liftArmMotor);
+    liftArmMotor.setInverted(true);
   }
 
   public void vertical(double power) {
@@ -23,5 +28,6 @@ public class Lift extends SubsystemBase {
 
   public void turn(double power) {
     liftArmMotor.set(VictorSPXControlMode.PercentOutput, power);
+    liftArmMotor2.set(VictorSPXControlMode.PercentOutput, power);
    }
 }

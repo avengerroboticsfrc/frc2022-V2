@@ -37,6 +37,7 @@ public class DefaultDrive extends CommandBase {
 
   @Override
   public void execute() {
-    double scalar = turbo.getAsBoolean() ? 0.8 : 0.4;
+    double scalar = turbo.getAsBoolean() ? 0.7 : 0.4;
+    drive.tankDrive(left.getAsDouble() * -scalar, right.getAsDouble() * -scalar);
   }
 }

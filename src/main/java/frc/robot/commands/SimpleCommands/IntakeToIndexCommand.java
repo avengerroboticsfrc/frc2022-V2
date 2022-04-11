@@ -12,8 +12,8 @@ public class IntakeToIndexCommand extends CommandBase  {
     this.power = power;
     addRequirements(inIndex);
   }
-  
-  @Override
+
+@Override
   public void initialize() {
   }
 

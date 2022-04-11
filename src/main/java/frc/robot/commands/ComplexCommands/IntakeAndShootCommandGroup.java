@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.SimpleCommands.IndexCommand;
-import frc.robot.commands.SimpleCommands.IndexToShooterCommand;
 import frc.robot.commands.SimpleCommands.IntakeCommand;
 import frc.robot.commands.SimpleCommands.IntakeToIndexCommand;
 import frc.robot.subsystems.Index;
@@ -16,19 +15,20 @@ import frc.robot.subsystems.Shooter;
 
 public class IntakeAndShootCommandGroup extends SequentialCommandGroup {
   public IntakeAndShootCommandGroup(Shooter shooter, Index index, Limelight limelight, Intake intake,
-      IntakeToIndex intakeToIndex, IndexToShooter indexToShooter, double shooterPower, double indexPower,
+      IntakeToIndex intakeToIndex, IndexToShooter indexToShooter, double indexPower,
       double intakeToIndexPower, double intakePower, double indexToShooterPower) {
     addCommands(
         new IntakeCommand(intake, intakePower).withTimeout(2),
-        deadline(
+        new ParallelDeadlineGroup(
             new WaitCommand(4),
             new IntakeToIndexCommand(intakeToIndex, intakeToIndexPower),
-            new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, shooterPower, indexPower, indexToShooterPower)),
-        deadline(
-            new WaitCommand(4),
+            new IndexCommand(index, indexPower),
+            new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, indexPower, indexToShooterPower)),
+        deadlineWith(
             new IntakeCommand(intake, intakePower),
             new IntakeToIndexCommand(intakeToIndex, intakeToIndexPower),
-            new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, shooterPower, indexPower, indexToShooterPower))
+            new IndexCommand(index, indexPower),
+            new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, indexPower, indexToShooterPower))
     );
 
   }

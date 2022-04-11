@@ -13,28 +13,19 @@ import frc.robot.subsystems.Shooter;
 
 public class ShootBallCommandGroup extends SequentialCommandGroup {
 
+  /**
+   * target while the flywheel spins up. wait to seconds to reach speed. shoot
+   * ball. -k
+   */
   public ShootBallCommandGroup(Shooter shooter, Index index, IndexToShooter indexToShooter, Limelight limelight,
-      double shooterPower, double indexPower, double indexToShooterPower) {
+     double indexPower, double indexToShooterPower) {
     addCommands(
-        deadline(new WaitCommand(1), new TargetHubCommand(shooter, limelight)),
+        new TargetHubCommand(shooter, limelight).withTimeout(1),
         parallel(
-            new FlywheelCommand(shooter, shooterPower),
+            new FlywheelCommand(shooter, limelight),
             sequence(new WaitCommand(2),
                 parallel(
                     new IndexToShooterCommand(indexToShooter, indexToShooterPower),
-                    new IndexCommand(index, indexPower))))
-
-    );
-
-    // deadline(
-    // new WaitCommand(1),
-    // new TargetHubCommand(shooter, limelight)),
-    // deadline(
-    // new WaitCommand(1),
-    // new FlywheelCommand(shooter, shooterPower)),
-    // parallel(
-    // new IndexCommand(index, indexPower),
-    // new IndexToShooterCommand(indexToShooter, indexToShooterPower)
-    // )
+                    new IndexCommand(index, indexPower)))));
   }
 }

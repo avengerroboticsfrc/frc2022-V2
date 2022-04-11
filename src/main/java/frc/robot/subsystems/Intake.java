@@ -20,8 +20,8 @@ public class Intake extends SubsystemBase {
   private static boolean isExtended;
 
   // Creating Compressor and Solenoid Classes
-  // private final Compressor compressor;
-  // private final DoubleSolenoid intakeSolenoid;
+  private final Compressor compressor;
+  private final DoubleSolenoid intakeSolenoid;
 
   // Creating Intake Motors
   private final CANSparkMax intakeMotor;
@@ -34,12 +34,12 @@ public class Intake extends SubsystemBase {
 
     // init subsystem class
 
-    // compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
-    // intakeSolenoid = new DoubleSolenoid(
-    //   PneumaticsModuleType.CTREPCM,
-    //   PortConstants.INTAKE_PNEUMATICS_PORTS[0],
-    //   PortConstants.INTAKE_PNEUMATICS_PORTS[1]
-    // );
+    compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
+    intakeSolenoid = new DoubleSolenoid(
+    PneumaticsModuleType.CTREPCM,
+    PortConstants.INTAKE_PNEUMATICS_PORTS[0],
+    PortConstants.INTAKE_PNEUMATICS_PORTS[1]
+    );
     intakeMotor = new CANSparkMax(12, MotorType.kBrushless);
 
     intakeMotor.setIdleMode(IdleMode.kCoast);
@@ -48,18 +48,18 @@ public class Intake extends SubsystemBase {
 
   // Method Stoping Pneumatics System
   public void stop() {
-    // compressor.disable();
+    compressor.disable();
   }
   
   // Method Extending Intake with Solenoids & Pneumatic System
   public void extend() {
-    // intakeSolenoid.set(Value.kForward);
+    intakeSolenoid.set(Value.kForward);
     isExtended = true;
   }
 
   // Method Retracting Intake with Solenoids & Pneumatic System
   public void retract() {
-    // intakeSolenoid.set(Value.kReverse);
+    intakeSolenoid.set(Value.kReverse);
     isExtended = false;
   }
 
@@ -80,9 +80,10 @@ public class Intake extends SubsystemBase {
   public void power(double speed) {
     //TODO: FIX
     intakeMotor.set(speed);
-    // if (isExtended) {
-    //   intakeMotor.set(speed);
-    // } else {
-    //   intakeMotor.set(0);
+    if (isExtended) {
+      intakeMotor.set(speed);
+    } else {
+     intakeMotor.set(0);
     }
   }
+}

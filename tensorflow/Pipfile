@@ -8,6 +8,7 @@ tensorflow-macos = "*"
 tensorflow-metal = "*"
 opencv-python = "*"
 pillow = "*"
+matplotlib = "*"
 
 [dev-packages]
 

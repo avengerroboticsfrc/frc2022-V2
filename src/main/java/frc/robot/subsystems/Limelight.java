@@ -1,60 +1,61 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
-  private final NetworkTable table;
+  public final NetworkTable table;
   // how many degrees back is your limelight rotated from perfectly vertical?
-  private static final double LIMELIGHT_MOUNT_ANGLE_DEGREES = 17.00;
+  private static final double LIMELIGHT_MOUNT_ANGLE_DEGREES = 20.00;
   // distance from the center of the Limelight lens to the floor
   private static final double LIMELIGHT_LENS_HEIGHT_METERS = 0.669925;
   // distance from the target to the floor
   private static final double GOAL_HEIGHT_METERS = 2.6416;
 
-  // TODO: Find this number
-  private static final double POWER_PER_METER = 0;
-
-  private static final double Kp = -0.1; // Proportional control constant
-  private static final double min_command = 0.05; // Minimum amount to slightly move
+  private static final double KP = -0.1; // Proportional control constant
+  private static final double MIN_COMMAND = 0.0; // Minimum amount to slightly move
 
   private double steering_adjust;
+
   /**
-   * creates a new limelight class.
+   * Creates a new limelight class with the provided name.
    */
   public Limelight() {
-    super();
-    table = NetworkTableInstance.getDefault().getTable("limelight");
-    table.getEntry("ledMode").setNumber(0);
-    table.getEntry("pipeline").setNumber(0);
-  }
+    table = NetworkTableInstance.getDefault().getTable("limelight-b");
 
-  /*
-   * Updates the NetworkTables values every 20ms.
-   */
-  @Override
-  public void periodic() {
-    SmartDashboard.putNumber("LimelightX", getTargetXOffset());
-    SmartDashboard.putNumber("LimelightY", getTargetYOffset());
-    SmartDashboard.putNumber("LimelightArea", getTargetArea());
+    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("pipeline").setNumber(0);
+
+    // NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    // NetworkTableEntry tx = table.getEntry("tx");
+    // NetworkTableEntry ty = table.getEntry("ty");
+    // NetworkTableEntry ta = table.getEntry("ta");
+
+    // //read values periodically
+    // double x = tx.getDouble(0.0);
+    // double y = ty.getDouble(0.0);
+    // double area = ta.getDouble(0.0);
+
+    // //post to smart dashboard periodically
+    // SmartDashboard.putNumber("LimelightX", x);
+    // SmartDashboard.putNumber("LimelightY", y);
+    // SmartDashboard.putNumber("LimelightArea", area);
+    // NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
   }
 
   /**
    * uses the targetXOffset value to calculate the rotationAdjust value.
    */
   public double getRotationAdjust() {
-    double tx = table.getEntry("tx").getDouble(0);
-    double heading_error = -tx;
-    if (tx > 1.0)
-    {
-            steering_adjust = Kp*heading_error - min_command;
+    double headingError = table.getEntry("tx").getDouble(0);
+
+    if (headingError > 1.0) {
+      steering_adjust = -KP * headingError - MIN_COMMAND;
+    } else if (headingError < 1.0) {
+      steering_adjust = -KP * headingError + MIN_COMMAND;
     }
-    else if (tx < 1.0)
-    {
-            steering_adjust = Kp*heading_error + min_command;
-    }
+
     return steering_adjust;
   }
 
@@ -62,7 +63,7 @@ public class Limelight extends SubsystemBase {
    * Calculates the distance to the hub using the targetYOffset.
    */
   public double getDistance() {
-    double targetOffsetAngle_Vertical = getTargetYOffset();
+    double targetOffsetAngle_Vertical = table.getEntry("ty").getDouble(0);
 
     double angle = LIMELIGHT_MOUNT_ANGLE_DEGREES + targetOffsetAngle_Vertical;
     double height = GOAL_HEIGHT_METERS - LIMELIGHT_LENS_HEIGHT_METERS;
@@ -71,26 +72,6 @@ public class Limelight extends SubsystemBase {
     double distance = height / Math.tan(Math.toRadians(angle));
 
     return distance;
-  }
-
-  public double powerFromDistance() {
-    // there's probably some more complicated math behind this. ¯\_(ツ)_/¯
-    return getDistance() * POWER_PER_METER;
-  }
-
-  private double getTargetXOffset() {
-    // returns 0 if no target
-    return table.getEntry("tx").getDouble(0);
-  }
-
-  private double getTargetYOffset() {
-    // returns 0 if no target
-    return table.getEntry("ty").getDouble(0);
-  }
-
-  private double getTargetArea() {
-    // returns 0 if no target
-    return table.getEntry("ta").getDouble(0);
   }
 
   public void disableLights() {

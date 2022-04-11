@@ -35,5 +35,6 @@
     "pathweaver",
     "Ramsete",
     "Tele"
-  ]
+  ],
+  "python.formatting.provider": "black"
 }

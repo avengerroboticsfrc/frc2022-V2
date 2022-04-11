@@ -1,9 +1,17 @@
 package frc.robot.subsystems;
 
+import frc.robot.constants.DriveConstants;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.ctre.phoenix.motorcontrol.can.SlotConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
+import com.ctre.phoenix.sensors.SensorVelocityMeasPeriod;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -11,6 +19,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -21,11 +30,39 @@ public class Shooter extends SubsystemBase {
   private final TalonFX flywheelMotor2;
   public final CANSparkMax turretTurnMotor;
   private final Servo[] hood;
-  private SparkMaxPIDController m_pidController;
-  private RelativeEncoder m_encoder;
+  public final SparkMaxPIDController m_pidController;
+  public final RelativeEncoder m_encoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
 
   private static final double HOOD_ACTUATOR_LENGTH_CM = 14;
+  private static final double TURRET_GEAR_RATIO = 15;
+  private static final int startupCanTimeout = 100; // milliseconds
+
+  private static final TalonFXConfiguration SHOOTER_CONFIGURATION = new TalonFXConfiguration(); //Creating configuration for talon shooter motord
+  private static final int shooterPIDSlot = 0; // Configuring PID slot on roborio for the shooter's talon config
+  private static final SimpleMotorFeedforward FEEDFORWARD = 
+    new SimpleMotorFeedforward(0.0, 0.0, 0.0); //Values will change: (ks, kv, ka) values
+
+
+    static {
+      final var shooterCurrentLimit = new SupplyCurrentLimitConfiguration();
+      shooterCurrentLimit.currentLimit = 30; // Amps
+      shooterCurrentLimit.triggerThresholdCurrent = 40; // Amps
+      shooterCurrentLimit.triggerThresholdTime = 0.2; // sec
+      shooterCurrentLimit.enable = true;
+      SHOOTER_CONFIGURATION.supplyCurrLimit = shooterCurrentLimit;
+  
+      // TODO: Tune
+      final var velocityLoopConfig = new SlotConfiguration();
+      velocityLoopConfig.kP = 0.3;
+      velocityLoopConfig.kI = 0.0;
+      velocityLoopConfig.kD = 0.0;
+      velocityLoopConfig.kF = 0.000;
+      SHOOTER_CONFIGURATION.slot0 = velocityLoopConfig;
+  
+      SHOOTER_CONFIGURATION.velocityMeasurementPeriod = SensorVelocityMeasPeriod.Period_2Ms;
+      SHOOTER_CONFIGURATION.velocityMeasurementWindow = 4;
+    }
 
   // Creates turret motor and sets PID values
   public static final int kSlotIdx = 0;
@@ -38,6 +75,9 @@ public class Shooter extends SubsystemBase {
   // public static final double[] kTurretGains = { 0, 0, 0, .1705, 0, 1 };
   // kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput;
   public static final double[] kHoodGains = { 0, 0, 0, 0, 0, 0, 1 };
+  public final double[] preDistance = { 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8 };
+  public final double[] preHoodAngle = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+  public final double[] preShooterPower = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, };
 
   /**
    * create a new shooter class.
@@ -58,55 +98,54 @@ public class Shooter extends SubsystemBase {
     configureShooter();
   }
 
+//Shooter Methods
   /**
-   * turn the shooter by a certain number of counts.
-   */
-  public void turn(double counts) {
-    m_pidController.setReference(counts, CANSparkMax.ControlType.kPosition);
-    m_encoder.setPosition(counts);
-  }
-
-  /**
-   * Run the flywheel at a power AND runs the top index wheels.
+   * Run the flywheel at a power.
    */
   public void spin(double power) {
     flywheelMotor.set(TalonFXControlMode.PercentOutput, power);
   }
-
-  /**
-   * Set the hood's position in cm.
+  
+  /** 
+   *  @param RPM of mechanism
    */
-  public void extendHood(double cm) {
-    hood[0].set(cm / HOOD_ACTUATOR_LENGTH_CM);
-    hood[1].set(cm / HOOD_ACTUATOR_LENGTH_CM);
-    System.out.println("the hood length is " + cm);
+  public void setVelocity(double rpm){
+    flywheelMotor.set(
+      ControlMode.Velocity, 
+      DriveConstants.RPMToFalcon(rpm, 1), // 1 is the gear ratio on the shooter from the falcon to the flywheel
+      DemandType.ArbitraryFeedForward, 
+       FEEDFORWARD.calculate(rpm/60));
+
   }
 
-  public double getHoodPos() {
-    return hood[0].get() * HOOD_ACTUATOR_LENGTH_CM;
-  }
+
 
   private void configureShooter() {
+    flywheelMotor.configAllSettings(SHOOTER_CONFIGURATION, startupCanTimeout);
     flywheelMotor.setInverted(TalonFXInvertType.Clockwise);
     flywheelMotor2.follow(flywheelMotor);
     flywheelMotor2.setInverted(TalonFXInvertType.OpposeMaster);
+    flywheelMotor.selectProfileSlot(shooterPIDSlot, 0);
 
-    flywheelMotor.configOpenloopRamp(1);
-    flywheelMotor2.configOpenloopRamp(1);
+      // CAN Bus Usage Optimisation.
+      flywheelMotor2.setStatusFramePeriod(StatusFrame.Status_1_General, 255);
+      flywheelMotor2.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, 255);
 
 
 
     hood[0].setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
     hood[1].setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
-        // PID coefficients
-    kP = 0.1; 
+    // PID coefficients
+    // TODO: CHANGE THESE VALS
+    kP = 1;
     kI = 1e-4;
-    kD = 1; 
-    kIz = 0; 
-    kFF = 0; 
-    kMaxOutput = 1; 
-    kMinOutput = -1;
+    kD = 1;
+    kIz = 0;
+    kFF = 0;
+    kMaxOutput = .3;
+    kMinOutput = -.3;
 
+    turretTurnMotor.restoreFactoryDefaults();
     // set PID coefficients
     m_pidController.setP(kP);
     m_pidController.setI(kI);
@@ -114,11 +153,40 @@ public class Shooter extends SubsystemBase {
     m_pidController.setIZone(kIz);
     m_pidController.setFF(kFF);
     m_pidController.setOutputRange(kMinOutput, kMaxOutput);
+    turretTurnMotor.setClosedLoopRampRate(.3);
     turretTurnMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     turretTurnMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     turretTurnMotor.setIdleMode(IdleMode.kBrake);
-    //TODO: CHANGE THESE VALS
-    turretTurnMotor.setSoftLimit(SoftLimitDirection.kForward, 2400);
-    turretTurnMotor.setSoftLimit(SoftLimitDirection.kReverse, 2400);
+    // TODO: CHANGE THESE VALS
+    turretTurnMotor.setSoftLimit(SoftLimitDirection.kForward, 15f);
+    turretTurnMotor.setSoftLimit(SoftLimitDirection.kReverse, -15f);
+    m_encoder.setPosition(0);
+  }
+
+ 
+//Hood Methods
+    /**
+   * Set the hood's position in cm.
+   */
+  public void extendHood(double cm) {
+    hood[0].set(cm / HOOD_ACTUATOR_LENGTH_CM);
+    hood[1].set(cm / HOOD_ACTUATOR_LENGTH_CM);
+    System.out.println("Hoodlength is " + getHoodPos());
+  }
+
+  public double getHoodPos() {
+    return hood[0].get() * HOOD_ACTUATOR_LENGTH_CM;
+  }
+  
+  /**
+   * turn the shooter by a certain number of counts. If there is no target, reset
+   * turret position to center.
+   */
+  public void turn(double counts) {
+    if (counts == 0) {
+      m_pidController.setReference(0, CANSparkMax.ControlType.kPosition);
+    } else {
+      m_pidController.setReference(counts * TURRET_GEAR_RATIO, CANSparkMax.ControlType.kPosition);
     }
+  }
 }
