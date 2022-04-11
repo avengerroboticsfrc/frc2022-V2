@@ -4,9 +4,18 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.PathPlanner;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.auton.TwoBallTimeBased;
 import frc.robot.commands.driveTypes.ArcadeDrive;
@@ -14,6 +23,7 @@ import frc.robot.commands.driveTypes.DefaultDrive; //Keep Import. Needed For Aut
 import frc.robot.commands.driveTypes.LucaDrive; //Keep Import. Luca Drive 
 import frc.robot.commands.ComplexCommands.AllIndexCommand;
 import frc.robot.commands.ComplexCommands.DataTestingCommandGroup;
+import frc.robot.commands.ComplexCommands.FridayRamseteCommand;
 import frc.robot.commands.ComplexCommands.PickUpBallCommandGroup;
 import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
 import frc.robot.commands.SimpleCommands.IntakeCommand;
@@ -23,6 +33,7 @@ import frc.robot.commands.SimpleCommands.IntakeToIndexCommand;
 import frc.robot.commands.SimpleCommands.LiftCommand;
 import frc.robot.commands.SimpleCommands.LiftHorizontalCommand;
 import frc.robot.constants.ButtonConstants;
+import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.IndexToShooter;
@@ -147,6 +158,46 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new TwoBallTimeBased(drive, intake, index, intakeToIndex, shooter, indexToShooter, limelight);
+    var autoVoltageConstraint =
+      new DifferentialDriveVoltageConstraint(
+        new SimpleMotorFeedforward(
+          DriveConstants.KS_VOLTS,
+          DriveConstants.KV_VOLT_SECONDS_PER_METER,
+          DriveConstants.KA_VOLT_SECONDS_SQUARED_PER_METER),
+      DriveConstants.K_DRIVE_KINEMATICS, 
+      10);
+    
+    TrajectoryConfig config =
+      new TrajectoryConfig(
+          DriveConstants.K_MAX_SPEED_METER_PER_SECOND, 
+          DriveConstants.K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
+        .setKinematics(DriveConstants.K_DRIVE_KINEMATICS)
+        .addConstraint(autoVoltageConstraint);
+    
+    Trajectory path = PathPlanner.loadPath("2-Ball-Path-Blue", 3, 5);
+
+    RamseteCommand ramseteCommand =
+    new RamseteCommand(
+        path,
+        drive::getPose,
+        new RamseteController(DriveConstants.K_RAMSETE, DriveConstants.K_RAMSETE_ZETA),
+        new SimpleMotorFeedforward(
+            DriveConstants.KS_VOLTS,
+            DriveConstants.KV_VOLT_SECONDS_PER_METER,
+            DriveConstants.KA_VOLT_SECONDS_SQUARED_PER_METER),
+        DriveConstants.K_DRIVE_KINEMATICS,
+        drive::getWheelSpeeds,
+        new PIDController(DriveConstants.KP_DRIVE_VELOCITY, 0, 0),
+        new PIDController(DriveConstants.KP_DRIVE_VELOCITY, 0, 0),
+        // RamseteCommand passes volts to the callback
+        drive::tankDriveVolts,
+        drive);
+
+
+    drive.resetOdometry(path.getInitialPose());
+    
+    return ramseteCommand.andThen(() -> drive.tankDriveVolts(0, 0));
+
+
   }
 }
