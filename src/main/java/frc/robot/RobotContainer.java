@@ -169,7 +169,7 @@ public class RobotContainer {
         .setKinematics(DriveConstants.K_DRIVE_KINEMATICS)
         .addConstraint(autoVoltageConstraint);
     
-    Trajectory path = PathPlanner.loadPath("2-Ball-Path-Blue", 3, 5);
+    Trajectory path = PathPlanner.loadPath("6-ball-left", 3, 5);
 
     RamseteCommand ramseteCommand =
     new RamseteCommand(
@@ -190,7 +190,7 @@ public class RobotContainer {
 
 
     drive.resetOdometry(path.getInitialPose());
-    
+
     return ramseteCommand.andThen(() -> drive.tankDriveVolts(0, 0));
 
 
