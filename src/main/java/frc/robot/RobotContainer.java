@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.auton.FiveBallAuton.FiveBallAutonBlue;
 import frc.robot.commands.auton.TwoBallTimeBased;
 import frc.robot.commands.driveTypes.ArcadeDrive;
 import frc.robot.commands.driveTypes.DefaultDrive; //Keep Import. Needed For Auton
@@ -158,46 +159,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    var autoVoltageConstraint =
-      new DifferentialDriveVoltageConstraint(
-        new SimpleMotorFeedforward(
-          DriveConstants.KS_VOLTS,
-          DriveConstants.KV_VOLT_SECONDS_PER_METER,
-          DriveConstants.KA_VOLT_SECONDS_SQUARED_PER_METER),
-      DriveConstants.K_DRIVE_KINEMATICS, 
-      10);
-    
-    TrajectoryConfig config =
-      new TrajectoryConfig(
-          DriveConstants.K_MAX_SPEED_METER_PER_SECOND, 
-          DriveConstants.K_MAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
-        .setKinematics(DriveConstants.K_DRIVE_KINEMATICS)
-        .addConstraint(autoVoltageConstraint);
-    
-    Trajectory path = PathPlanner.loadPath("6-ball-left", 3, 5);
+    return new FiveBallAutonBlue(drive, limelight, shooter, intake, index, intakeToIndex, indexToShooter, 0, 0, 0, 0, 0); //null values
 
-    RamseteCommand ramseteCommand =
-    new RamseteCommand(
-        path,
-        drive::getPose,
-        new RamseteController(DriveConstants.K_RAMSETE, DriveConstants.K_RAMSETE_ZETA),
-        new SimpleMotorFeedforward(
-            DriveConstants.KS_VOLTS,
-            DriveConstants.KV_VOLT_SECONDS_PER_METER,
-            DriveConstants.KA_VOLT_SECONDS_SQUARED_PER_METER),
-        DriveConstants.K_DRIVE_KINEMATICS,
-        drive::getWheelSpeeds,
-        new PIDController(DriveConstants.KP_DRIVE_VELOCITY, 0, 0),
-        new PIDController(DriveConstants.KP_DRIVE_VELOCITY, 0, 0),
-        // RamseteCommand passes volts to the callback
-        drive::tankDriveVolts,
-        drive);
-
-
-    drive.resetOdometry(path.getInitialPose());
-
-    return ramseteCommand.andThen(() -> drive.tankDriveVolts(0, 0));
-
-
-  }
+}
 }
