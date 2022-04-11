@@ -104,7 +104,8 @@ public class DriveTrain extends SubsystemBase {
   * @return The pose.
   */
   public Pose2d getPose() {
-    return pose;
+    //return pose
+    return odometry.getPoseMeters();
   }
 
 
@@ -170,7 +171,7 @@ public class DriveTrain extends SubsystemBase {
     leftMotors[0].setSelectedSensorPosition(0);
     leftMotors[1].setSelectedSensorPosition(0);
     rightMotors[0].setSelectedSensorPosition(0);
-    rightMotors[0].setSelectedSensorPosition(0);
+    rightMotors[1].setSelectedSensorPosition(0);
   }
 
   /**
@@ -221,7 +222,12 @@ public class DriveTrain extends SubsystemBase {
     rightMotors[0].set(rightVolts/12);
   }
 
+  public double getTurnRate() {
+    return -gyro.getRate();
+  }
+  }
 
 
 
-}
+
+
