@@ -15,7 +15,7 @@ import frc.robot.constants.DriveConstants;
 import frc.robot.subsystems.DriveTrain;
 
 public class SixBAutonTrajectory1 extends CommandBase {
-    public Command SixBallAutonBlue1(DriveTrain drive) {
+    public SixBAutonTrajectory1(DriveTrain drive) {
         var autoVoltageConstraint =
           new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(
@@ -52,8 +52,5 @@ public class SixBAutonTrajectory1 extends CommandBase {
             drive);
         
         drive.resetOdometry(path1.getInitialPose());
-    
-        return ramseteCommand1.andThen(() -> drive.tankDriveVolts(0, 0));
-
-    }
+          }
 }
