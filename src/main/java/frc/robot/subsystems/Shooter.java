@@ -126,6 +126,7 @@ public class Shooter extends SubsystemBase {
     flywheelMotor2.follow(flywheelMotor);
     flywheelMotor2.setInverted(TalonFXInvertType.OpposeMaster);
     flywheelMotor.selectProfileSlot(shooterPIDSlot, 0);
+    
 
       // CAN Bus Usage Optimisation.
       flywheelMotor2.setStatusFramePeriod(StatusFrame.Status_1_General, 255);
@@ -181,9 +182,8 @@ public class Shooter extends SubsystemBase {
   public void stopShooter(){
     flywheelMotor.set(
       ControlMode.Velocity, 
-      DriveConstants.RPMToFalcon(0, 1), // 1 is the gear ratio on the shooter from the falcon to the flywheel
-      DemandType.ArbitraryFeedForward, 
-       FEEDFORWARD.calculate(0));
+      0);
+    flywheelMotor.set(ControlMode.PercentOutput, 0);
   }
   
   /**
