@@ -14,19 +14,6 @@ public class FlywheelCommand extends CommandBase {
 
   private static final HashMap<Integer, Double> dataTable = new HashMap<Integer, Double>() {{
     put(Integer.valueOf(120), Double.valueOf(0.5));
-    put(Integer.valueOf(125), Double.valueOf(0.52));
-    put(Integer.valueOf(132), Double.valueOf(0.57));
-    put(Integer.valueOf(138), Double.valueOf(0.57));
-    put(Integer.valueOf(144), Double.valueOf(0.6));
-    put(Integer.valueOf(150), Double.valueOf(0.6));
-    put(Integer.valueOf(156), Double.valueOf(0.65));
-    put(Integer.valueOf(162), Double.valueOf(0.65));
-    put(Integer.valueOf(168), Double.valueOf(0.7));
-    put(Integer.valueOf(174), Double.valueOf(0.7));
-    put(Integer.valueOf(180), Double.valueOf(0.72));
-    put(Integer.valueOf(186), Double.valueOf(0.9));
-    put(Integer.valueOf(192), Double.valueOf(0.9));
-    put(Integer.valueOf(204), Double.valueOf(0.95));
   }};
 
   public FlywheelCommand(Shooter shooter, Limelight limelight) {
@@ -59,7 +46,11 @@ public class FlywheelCommand extends CommandBase {
     // }
 
     // RPM RANGES FROM 0 <---> 6380 !!!
-    shooter.setRPM(6380);
+    // int rpm = 5000;
+    // System.out.println("Distance    RPM");
+    // System.out.println(limelight.getDistance() + " " + rpm);
+    // shooter.setRPM(rpm);
+
     // FALLBACK CODE!!!
     shooter.spin(.75);
   }
@@ -67,6 +58,7 @@ public class FlywheelCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.spin(0);
+    //shooter.setRPM(0);
     limelight.disableLights();
   }
 

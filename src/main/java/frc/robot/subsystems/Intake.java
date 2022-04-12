@@ -80,10 +80,6 @@ public class Intake extends SubsystemBase {
   public void power(double speed) {
     //TODO: FIX
     intakeMotor.set(speed);
-    if (isExtended) {
-      intakeMotor.set(speed);
-    } else {
-     intakeMotor.set(0);
     }
   }
-}
+

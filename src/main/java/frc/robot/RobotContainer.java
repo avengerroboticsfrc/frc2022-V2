@@ -89,18 +89,19 @@ public class RobotContainer {
             controller::getL2Axis,
             controller::getR2Axis,
             controller::getLeftX,
-            controller::getCircleButton
+            controller::getCircleButton,
+            controller::getSquareButton
         ));
         // new DefaultDrive(drive, controller::getLeftY, controller::getRightY, controller::getR1Button));
   }
 
   private void configureButtonBindings() {
 
-    JoystickButton raiseLift = new JoystickButton(controller, 4);
+    JoystickButton raiseLift = new JoystickButton(buttonPanel, ButtonConstants.LIFT_UP);
     raiseLift.whenHeld(new LiftCommand(lift, -1));
     //raiseLift.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 3000));
 
-    JoystickButton lowerLift = new JoystickButton(controller, 2);
+    JoystickButton lowerLift = new JoystickButton(buttonPanel, ButtonConstants.LIFT_DOWN);
     lowerLift.whenHeld(new LiftCommand(lift, 1));
     //lowerLift.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 3280));
 

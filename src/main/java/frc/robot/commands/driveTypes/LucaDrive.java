@@ -12,6 +12,7 @@ public class LucaDrive extends CommandBase {
   private final DoubleSupplier rotation;
   private final BooleanSupplier turn;
   private final DoubleSupplier reverse;
+  private final BooleanSupplier turbo;
   private double heldSpeed2 = 0;
   private final double decayVar = 0.965;
 
@@ -23,24 +24,25 @@ public class LucaDrive extends CommandBase {
    * @param rotation  The control input for turning
    */
   public LucaDrive(DriveTrain subsystem, DoubleSupplier reverse, DoubleSupplier forward, DoubleSupplier rotation,
-      BooleanSupplier turn) {
+      BooleanSupplier turn, BooleanSupplier turbo) {
     super();
     this.drive = subsystem;
     this.reverse = reverse;
     this.forward = forward;
     this.rotation = rotation;
     this.turn = turn;
+    this.turbo = turbo;
 
     addRequirements(drive);
   }
 
   @Override
   public void execute() {
-    double speed = ((reverse.getAsDouble() * -1 + (forward.getAsDouble())) * .5);
+    double turboOn = turbo.getAsBoolean() ? 10 : 0;
+    double sped = ((reverse.getAsDouble()*-1 + forward.getAsDouble()));
     double rotate = rotation.getAsDouble();
-
+    double speed = sped*.4;
     double val = turn.getAsBoolean() ? .6 : 1;
-    double speed2 = (speed > 0 ? Math.pow(speed, 2) : -Math.pow(speed, 2)) * .65;
     double val2 = Math.pow(rotate, 3);
 
     // System.out.println("Real Speed" + speed2);
@@ -49,18 +51,20 @@ public class LucaDrive extends CommandBase {
     // Robot keeps moving, exponentially decreasing speed
 
     if (turn.getAsBoolean()) {
-      drive.curvatureDrive(speed2, val2 * val, turn.getAsBoolean());
-    } else if (heldSpeed2 * speed2 < 0 && (Math.abs(heldSpeed2) < Math.abs(speed2))) {
-      heldSpeed2 *= decayVar;
-      drive.curvatureDrive(heldSpeed2, (val2 * val), turn.getAsBoolean());
-    } else {
-      if (Math.abs(speed2) < 0.2) {
+      drive.curvatureDrive(speed+turboOn, val2 * val, turn.getAsBoolean());
+    } 
+    // else if (heldSpeed2 * speed < 0 && (Math.abs(heldSpeed2) < Math.abs(speed))) {
+    //   heldSpeed2 *= decayVar;
+    //   drive.curvatureDrive(heldSpeed2, (val2 * val), turn.getAsBoolean());
+    // } 
+    else {
+      if (Math.abs(speed) < 0.2) {
         heldSpeed2 *= decayVar;
-        drive.curvatureDrive(heldSpeed2, (val2 * val), turn.getAsBoolean());
+        drive.curvatureDrive(heldSpeed2+turboOn, (val2 * val), turn.getAsBoolean());
       } else {
-        drive.curvatureDrive((speed2), (val2 * val), turn.getAsBoolean());
+        drive.curvatureDrive((speed+turboOn), (val2 * val), turn.getAsBoolean());
         // Hold inputs at end due to how it cycles
-        heldSpeed2 = speed2;
+        heldSpeed2 = speed;
       }
     }
   }
