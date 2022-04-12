@@ -41,7 +41,7 @@ public class Shooter extends SubsystemBase {
   private static final TalonFXConfiguration SHOOTER_CONFIGURATION = new TalonFXConfiguration(); //Creating configuration for talon shooter motord
   private static final int shooterPIDSlot = 0; // Configuring PID slot on roborio for the shooter's talon config
   private static final SimpleMotorFeedforward FEEDFORWARD = 
-    new SimpleMotorFeedforward(0.0, 0.0, 0.0); //Values will change: (ks, kv, ka) values
+    new SimpleMotorFeedforward(0.23393, 0.39004, 0.019617); //Values will change: (ks, kv, ka) values
 
 
     static {
@@ -54,7 +54,7 @@ public class Shooter extends SubsystemBase {
   
       // TODO: Tune
       final var velocityLoopConfig = new SlotConfiguration();
-      velocityLoopConfig.kP = 0.3;
+      velocityLoopConfig.kP = 0.35791;
       velocityLoopConfig.kI = 0.0;
       velocityLoopConfig.kD = 0.0;
       velocityLoopConfig.kF = 0.000;
@@ -70,15 +70,6 @@ public class Shooter extends SubsystemBase {
   public static final int kTimeoutMs = 30;
   public static boolean kSensorPhase = false;
   public static boolean kMotorInvert = false;
-  // kP, kI, kD, kF, kIzone, kPeakOutput;
-  public static final double[] kTurretGains = { 0, 0, 0, 0, 0, 1 };
-  // public static final double[] kTurretGains = { 0, 0, 0, .1705, 0, 1 };
-  // kP, kI, kD, kIz, kFF, kMinOutput, kMaxOutput;
-  public static final double[] kHoodGains = { 0, 0, 0, 0, 0, 0, 1 };
-  public final double[] preDistance = { 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8 };
-  public final double[] preHoodAngle = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-  public final double[] preShooterPower = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, };
-
   /**
    * create a new shooter class.
    * init the motors, configure them.
@@ -126,6 +117,8 @@ public class Shooter extends SubsystemBase {
     flywheelMotor2.follow(flywheelMotor);
     flywheelMotor2.setInverted(TalonFXInvertType.OpposeMaster);
     flywheelMotor.selectProfileSlot(shooterPIDSlot, 0);
+    
+    
 
       // CAN Bus Usage Optimisation.
       flywheelMotor2.setStatusFramePeriod(StatusFrame.Status_1_General, 255);
@@ -176,6 +169,13 @@ public class Shooter extends SubsystemBase {
 
   public double getHoodPos() {
     return hood[0].get() * HOOD_ACTUATOR_LENGTH_CM;
+  }
+
+  public void stopShooter(){
+    flywheelMotor.set(
+      ControlMode.Velocity, 
+      0);
+    flywheelMotor.set(ControlMode.PercentOutput, 0);
   }
   
   /**

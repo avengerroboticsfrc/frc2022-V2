@@ -20,7 +20,7 @@ public class WrongBallCommandGroup extends SequentialCommandGroup {
     addCommands(
         parallel(
             new DirectFlywheelCommand(shooter, ShooterPower),
-            sequence(new WaitCommand(.5),
+            sequence(new WaitCommand(0.2),
                 parallel(
                     new IndexToShooterCommand(indexToShooter, indexToShooterPower),
                     new IndexCommand(index, indexPower)))));
