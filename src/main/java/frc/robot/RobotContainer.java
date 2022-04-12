@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.auton.FiveBallAuton.FiveBallAutonBlue;
+import frc.robot.commands.auton.FiveBallAuto;
 import frc.robot.commands.auton.TwoBallTimeBased;
 import frc.robot.commands.driveTypes.LucaDrive; 
 import frc.robot.commands.ComplexCommands.AllIndexCommand;
@@ -47,6 +48,7 @@ import frc.robot.subsystems.Shooter;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private static final double intakePower = 0;
   // The robot's subsystems and commands are defined here...
   private final DriveTrain drive;
   private final IntakeToIndex intakeToIndex;
@@ -164,7 +166,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new FiveBallAutonBlue(drive, limelight, shooter, intake, index, intakeToIndex, indexToShooter, 0, 0, 0, 0, 0); //null values
+    return new FiveBallAuto(drive, limelight, shooter, intake, index, intakeToIndex, indexToShooter, 0, 0, 0, 0, 0);
 
 }
 }
