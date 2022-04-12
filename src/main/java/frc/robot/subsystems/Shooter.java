@@ -177,6 +177,14 @@ public class Shooter extends SubsystemBase {
   public double getHoodPos() {
     return hood[0].get() * HOOD_ACTUATOR_LENGTH_CM;
   }
+
+  public void stopShooter(){
+    flywheelMotor.set(
+      ControlMode.Velocity, 
+      DriveConstants.RPMToFalcon(0, 1), // 1 is the gear ratio on the shooter from the falcon to the flywheel
+      DemandType.ArbitraryFeedForward, 
+       FEEDFORWARD.calculate(0));
+  }
   
   /**
    * turn the shooter by a certain number of counts. If there is no target, reset

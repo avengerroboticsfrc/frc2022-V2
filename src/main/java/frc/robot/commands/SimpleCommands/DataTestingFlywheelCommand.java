@@ -29,7 +29,7 @@ public class DataTestingFlywheelCommand extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    shooter.setVelocity(0);
+    shooter.stopShooter();
   }
 
   @Override
