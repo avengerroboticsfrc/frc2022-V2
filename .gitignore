@@ -164,7 +164,6 @@ bin/
 # Tensorflow/Python
 *.tflite
 !model.zip
-training
 tensorflow/venv/
 tensorflow/src/__pycache__/
 frame.png
