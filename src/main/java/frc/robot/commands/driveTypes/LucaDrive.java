@@ -1,5 +1,6 @@
 package frc.robot.commands.driveTypes;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 import java.lang.Math;
@@ -15,6 +16,10 @@ public class LucaDrive extends CommandBase {
   private final BooleanSupplier turbo;
   private double heldSpeed2 = 0;
   private final double decayVar = 0.965;
+  private final SlewRateLimiter speedFilter;
+  private final SlewRateLimiter turnFilter;
+
+
 
   /**
    * Creates a new DefaultDrive.
@@ -32,40 +37,51 @@ public class LucaDrive extends CommandBase {
     this.rotation = rotation;
     this.turn = turn;
     this.turbo = turbo;
-
+    speedFilter = new SlewRateLimiter(1);
+    turnFilter = new SlewRateLimiter(2);
     addRequirements(drive);
   }
 
   @Override
-  public void execute() {
-    double turboOn = turbo.getAsBoolean() ? 10 : 0;
-    double sped = ((reverse.getAsDouble()*-1 + forward.getAsDouble()));
-    double rotate = rotation.getAsDouble();
-    double speed = sped*.4;
-    double val = turn.getAsBoolean() ? .6 : 1;
-    double val2 = Math.pow(rotate, 3);
-
-    // System.out.println("Real Speed" + speed2);
-    // System.out.println("Held Speed" + heldSpeed2);
-    // If you stop putting in inputs
-    // Robot keeps moving, exponentially decreasing speed
-
-    if (turn.getAsBoolean()) {
-      drive.curvatureDrive(speed+turboOn, val2 * val, turn.getAsBoolean());
-    } 
-    // else if (heldSpeed2 * speed < 0 && (Math.abs(heldSpeed2) < Math.abs(speed))) {
-    //   heldSpeed2 *= decayVar;
-    //   drive.curvatureDrive(heldSpeed2, (val2 * val), turn.getAsBoolean());
-    // } 
-    else {
-      if (Math.abs(speed) < 0.2) {
-        heldSpeed2 *= decayVar;
-        drive.curvatureDrive(heldSpeed2+turboOn, (val2 * val), turn.getAsBoolean());
-      } else {
-        drive.curvatureDrive((speed+turboOn), (val2 * val), turn.getAsBoolean());
-        // Hold inputs at end due to how it cycles
-        heldSpeed2 = speed;
-      }
-    }
+  public void execute(){
+  double speed = speedFilter.calculate(((reverse.getAsDouble()*-1) + forward.getAsDouble())*.25);
+  double turnMultiplier = turn.getAsBoolean() ? .5 : 1;
+  double rotate = turnFilter.calculate(rotation.getAsDouble()*.5);
+  System.out.println(rotate);
+  drive.curvatureDrive(speed, rotate*turnMultiplier, turn.getAsBoolean());
   }
 }
+
+//   @Override
+//   public void execute() {
+//     double turboOn = turbo.getAsBoolean() ? 10 : 0;
+//     double sped = ((reverse.getAsDouble()*-1 + forward.getAsDouble()));
+//     double rotate = rotation.getAsDouble();
+//     double speed = sped*.4;
+//     double val = turn.getAsBoolean() ? .6 : 1;
+//     double val2 = Math.pow(rotate, 3);
+
+//     // System.out.println("Real Speed" + speed2);
+//     // System.out.println("Held Speed" + heldSpeed2);
+//     // If you stop putting in inputs
+//     // Robot keeps moving, exponentially decreasing speed
+
+//     if (turn.getAsBoolean()) {
+//       drive.curvatureDrive(speed+turboOn, val2 * val, turn.getAsBoolean());
+//     } 
+//     // else if (heldSpeed2 * speed < 0 && (Math.abs(heldSpeed2) < Math.abs(speed))) {
+//     //   heldSpeed2 *= decayVar;
+//     //   drive.curvatureDrive(heldSpeed2, (val2 * val), turn.getAsBoolean());
+//     // } 
+//     else {
+//       if (Math.abs(speed) < 0.2) {
+//         heldSpeed2 *= decayVar;
+//         drive.curvatureDrive(heldSpeed2+turboOn, (val2 * val), turn.getAsBoolean());
+//       } else {
+//         drive.curvatureDrive((speed+turboOn), (val2 * val), turn.getAsBoolean());
+//         // Hold inputs at end due to how it cycles
+//         heldSpeed2 = speed;
+//       }
+//     }
+//   }
+// }

@@ -15,6 +15,7 @@ import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstrai
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.auton.FiveBallAuto;
@@ -117,9 +118,10 @@ public class RobotContainer {
 
     //ARMS
     JoystickButton liftForward = new JoystickButton(buttonPanel,ButtonConstants.LIFT_FORWARD);
-    liftForward.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 5280));
+    //liftForward.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 350));
+    liftForward.whenHeld(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() -0.1)));
     JoystickButton liftBackward = new JoystickButton(buttonPanel,ButtonConstants.LIFT_BACK);
-    liftBackward.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 5565));
+    liftBackward.whenHeld(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() + 0.1)));
     //liftBackward.whenHeld(new LiftHorizontalCommand(lift, -1));
     //liftForward.whenHeld(new LiftHorizontalCommand(lift, 1));
     //ARMS
@@ -127,9 +129,9 @@ public class RobotContainer {
     
     //INTAKE EXTRACT/RETRACT 
     JoystickButton extendIntake = new JoystickButton(buttonPanel,ButtonConstants.INTAKE_EXTEND);
-    extendIntake.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 3570));
+    extendIntake.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 1000));
     JoystickButton retractIntake = new JoystickButton(buttonPanel,ButtonConstants.INTAKE_RETRACT);
-    retractIntake.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 3855));
+    retractIntake.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 500));
     //retractIntake.whenPressed(intake::retract, intake);
     //extendIntake.whenPressed(intake::extend, intake); 
     //INTAKE EXTRACT/RETRACT 
@@ -158,7 +160,7 @@ public class RobotContainer {
     // Shoot button
     JoystickButton shootButton = new JoystickButton(buttonPanel, ButtonConstants.FLYWHEEL_ON);
     // null values subject to change
-    shootButton.whenHeld(new DataTestingFlywheelCommand(shooter, 100));
+    shootButton.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 1));
 
 
     //Shoot with limelight
@@ -182,7 +184,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new FiveBallAuto(drive, limelight, shooter, intake, index, intakeToIndex, indexToShooter, 0, 0, 0, 0, 0);
+    return new FiveBallAuto(drive, limelight, shooter, intake, index, intakeToIndex, indexToShooter, 0.1, 0.1, 0.1, 0.1, 1000);
 
 }
 }
