@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
@@ -25,6 +26,7 @@ import frc.robot.commands.SimpleCommands.IntakeCommand;
 import frc.robot.commands.SimpleCommands.IntakeToIndexCommand;
 import frc.robot.commands.SimpleCommands.LiftCommand;
 import frc.robot.constants.ButtonConstants;
+import frc.robot.constants.ButtonConstants.ControllerType;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.IndexToShooter;
@@ -48,7 +50,7 @@ public class RobotContainer {
   private final Index index;
   private final IndexToShooter indexToShooter;
   private final Shooter shooter;
-  private final XboxController controller;
+  private final GenericHID controller;
   private final Limelight limelight;
   private final Intake intake;
   private final Joystick buttonPanel;
@@ -60,7 +62,12 @@ public class RobotContainer {
   public RobotContainer() {
     System.out.println("Hello, Driver");
 
-    controller = new XboxController(ButtonConstants.CONTROLLER_PORT);
+    if (ButtonConstants.CONTROLLER_TYPE == ControllerType.PS4) {
+      controller = new PS4Controller(ButtonConstants.CONTROLLER_PORT);
+    } else {
+      controller = new XboxController(ButtonConstants.CONTROLLER_PORT);
+    }
+
     buttonPanel = new Joystick(ButtonConstants.BUTTON_PANEL_PORT);
 
     drive = new DriveTrain();
@@ -80,17 +87,28 @@ public class RobotContainer {
   private void configureDriveTrain() {
     // sets the command to drive the robot.
     // will run whenever the drivetrain is not being used.
-    drive.setDefaultCommand(
-        // pass in a reference to a method
-        // new LucaDrive(
-        //     drive,
-        //     controller::getL2Axis,
-        //     controller::getR2Axis,
-        //     controller::getLeftX,
-        //     controller::getCircleButton,
-        //     controller::getSquareButton));
-    new DefaultDrive(drive, controller::getLeftY, controller::getRightY,
-    controller::getRightBumper));
+
+    switch (ButtonConstants.CONTROLLER_TYPE) {
+      case PS4:
+        drive.setDefaultCommand(
+            new LucaDrive(
+                drive,
+                ((PS4Controller) controller)::getL2Axis,
+                ((PS4Controller) controller)::getR2Axis,
+                ((PS4Controller) controller)::getLeftX,
+                ((PS4Controller) controller)::getCircleButton,
+                ((PS4Controller) controller)::getSquareButton));
+        break;
+
+      case Xbox:
+        drive.setDefaultCommand(
+            new DefaultDrive(
+                drive,
+                ((XboxController) controller)::getLeftY,
+                ((XboxController) controller)::getRightY,
+                ((XboxController) controller)::getRightBumper));
+        break;
+    }
   }
 
   private void configureButtonBindings() {
@@ -131,7 +149,8 @@ public class RobotContainer {
       indexOut.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 4500));
       liftForward.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 5000));
       liftBackward.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 6300));
-      shootButton.whileActiveContinuous(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() + 0.1), shooter));
+      shootButton
+          .whileActiveContinuous(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() + 0.1), shooter));
       shootWrongBall
           .whileActiveContinuous(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() - 0.1), shooter));
     }
@@ -159,7 +178,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new FiveBallAuto(drive, limelight, shooter, intake, index, intakeToIndex, indexToShooter, 0.1, 0.1, 0.1, 0.1, 1000);
-
+    return new FiveBallAuto(drive, limelight, shooter, intake, index, intakeToIndex, indexToShooter, 0.1, 0.1, 0.1, 0.1,
+        1000);
   }
 }

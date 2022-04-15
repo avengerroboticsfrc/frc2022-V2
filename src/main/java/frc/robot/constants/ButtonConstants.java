@@ -4,7 +4,7 @@ public class ButtonConstants {
   public static final int CONTROLLER_PORT = 0;
   public static final int BUTTON_PANEL_PORT = 1;
 
-  public static final ControllerType CONTROLLER_TYPE = ControllerType.PS4;
+  public static final ControllerType CONTROLLER_TYPE = ControllerType.Xbox;
 
   /*
    * Button Panel Mapping
