@@ -7,9 +7,10 @@ package frc.robot.commands.SimpleCommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ExampleSubsystem;
 
-/** An example command that uses an example subsystem. 
- * Do not include @SuppressWarnings in new command.
-*/
+/**
+ * An example command that uses an example subsystem. Do not include @SuppressWarnings in new
+ * command.
+ */
 public class ExampleCommand extends CommandBase {
   @SuppressWarnings({"unused"})
   private final ExampleSubsystem m_subsystem;

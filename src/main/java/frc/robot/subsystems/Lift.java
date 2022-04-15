@@ -31,5 +31,5 @@ public class Lift extends SubsystemBase {
   public void turn(double power) {
     liftArmMotor.set(VictorSPXControlMode.PercentOutput, power);
     liftArmMotor2.set(VictorSPXControlMode.PercentOutput, power);
-   }
+  }
 }

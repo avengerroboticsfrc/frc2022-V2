@@ -16,16 +16,13 @@ public class ArcadeDrive extends CommandBase {
    * Creates a new DefaultDrive.
    *
    * @param subsystem The drive subsystem this command wil run on.
-   * @param left      The control input for driving backwards
-   * @param right     The control input for turning
-   * @param turbo     The button input for toggling the robot speed
+   * @param left The control input for driving backwards
+   * @param right The control input for turning
+   * @param turbo The button input for toggling the robot speed
    */
-  public ArcadeDrive(
-      DriveTrain subsystem,
-      DoubleSupplier left,
-      DoubleSupplier right,
+  public ArcadeDrive(DriveTrain subsystem, DoubleSupplier left, DoubleSupplier right,
       BooleanSupplier turbo) {
-        super();
+    super();
 
     this.drive = subsystem;
     this.forward = left;

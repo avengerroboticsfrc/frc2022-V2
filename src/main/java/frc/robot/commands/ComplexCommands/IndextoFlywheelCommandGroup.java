@@ -8,15 +8,16 @@ import frc.robot.commands.SimpleCommands.IndexToShooterCommand;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.IndexToShooter;
 
-public class IndextoFlywheelCommandGroup extends SequentialCommandGroup{
+public class IndextoFlywheelCommandGroup extends SequentialCommandGroup {
 
-    public IndextoFlywheelCommandGroup(Index index, IndexToShooter inShooter, double indexPower, double indexToShooterPower) {
-        addCommands(
-      deadlineWith(new ParallelDeadlineGroup(
-        new WaitCommand(2), 
-        new IndexCommand(index, indexPower),
-        new IndexToShooterCommand(inShooter, indexToShooterPower) ))
-    
+  public IndextoFlywheelCommandGroup(Index index, IndexToShooter inShooter, double indexPower,
+      double indexToShooterPower) {
+    addCommands(
+        deadlineWith(new ParallelDeadlineGroup(
+            new WaitCommand(2),
+            new IndexCommand(index, indexPower),
+            new IndexToShooterCommand(inShooter, indexToShooterPower)))
+
     );
-      }
+  }
 }

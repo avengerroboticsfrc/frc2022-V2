@@ -1,6 +1,5 @@
 package frc.robot.commands.SimpleCommands;
 
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
@@ -8,19 +7,20 @@ public class DataTestingFlywheelCommand extends CommandBase {
   private final Shooter shooter;
   private final double rpm;
 
-/**
- * @param shooter
- * @param shooterRPM
- */
-  public DataTestingFlywheelCommand(Shooter shooter, double shooterRPM) {
+  /**
+   * runs the shooter at an RPM.
+   * 
+   * @param shooter the shooter
+   * @param shooterRpm the rpm
+   */
+  public DataTestingFlywheelCommand(Shooter shooter, double shooterRpm) {
     this.shooter = shooter;
-    this.rpm = shooterRPM;
+    this.rpm = shooterRpm;
     addRequirements(shooter);
   }
 
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   @Override
   public void execute() {

@@ -9,7 +9,7 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
-public class MoveAndTargetCommand extends CommandBase {
+public class MoveToTargetCommand extends CommandBase {
   private final Limelight limelight;
   private final DriveTrain drive;
   private final Shooter shooter;
@@ -18,11 +18,10 @@ public class MoveAndTargetCommand extends CommandBase {
   private static final Map<Double, Double[]> distanceValues = new HashMap<Double, Double[]>();
 
   /**
-   * This command will turn the body of the robot AND move forward/back to the
-   * CLOSEST point where we have a measurement of an angle and power to
-   * successfully score in the upper hub.
+   * This command will turn the body of the robot AND move forward/back to the CLOSEST point where
+   * we have a measurement of an angle and power to successfully score in the upper hub.
    */
-  public MoveAndTargetCommand(DriveTrain drive, Limelight limelight, Shooter shooter) {
+  public MoveToTargetCommand(DriveTrain drive, Limelight limelight, Shooter shooter) {
     super();
 
     this.drive = drive;
@@ -31,7 +30,7 @@ public class MoveAndTargetCommand extends CommandBase {
 
     // add distances from the hub + power/angle that we found to work on the
     // turret
-    distanceValues.put(2.13, new Double[] { 0.0, 0.73 });
+    distanceValues.put(2.13, new Double[] {0.0, 0.73});
   }
 
   @Override
@@ -40,8 +39,7 @@ public class MoveAndTargetCommand extends CommandBase {
 
     // find the closest distance in our map to the distance from the hub.
     Double[] distances = (Double[]) distanceValues.keySet().toArray();
-    Arrays.sort(
-        distances,
+    Arrays.sort(distances,
         // sorts for the lowest difference between the points
         (a, b) -> (int) (10 * (Math.abs(a - distanceM) - Math.abs(b - distanceM))));
 

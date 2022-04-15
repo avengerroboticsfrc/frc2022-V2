@@ -12,15 +12,12 @@ import frc.robot.subsystems.Shooter;
 
 public class DataTestingCommandGroup extends SequentialCommandGroup {
 
-/*Command Group to get Data for shooter.*/
-  public DataTestingCommandGroup(Shooter shooter, Index index, IndexToShooter indexToShooter, Limelight limelight,
-     double indexPower, double indexToShooterPower, double ShooterPower) {
-    addCommands(
-        parallel(
-            new DataTestingFlywheelCommand(shooter, ShooterPower),
-            sequence(new WaitCommand(2),
-                parallel(
-                    new IndexToShooterCommand(indexToShooter, indexToShooterPower),
-                    new IndexCommand(index, indexPower)))));
+  /* Command Group to get Data for shooter. */
+  public DataTestingCommandGroup(Shooter shooter, Index index, IndexToShooter indexToShooter,
+      Limelight limelight, double indexPower, double indexToShooterPower, double ShooterPower) {
+    addCommands(parallel(new DataTestingFlywheelCommand(shooter, ShooterPower),
+        sequence(new WaitCommand(2),
+            parallel(new IndexToShooterCommand(indexToShooter, indexToShooterPower),
+                new IndexCommand(index, indexPower)))));
   }
 }

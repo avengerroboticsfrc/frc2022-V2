@@ -8,14 +8,10 @@ import frc.robot.subsystems.IntakeToIndex;
 import frc.robot.subsystems.Index;
 
 public class AllIndexCommand extends SequentialCommandGroup {
-    public AllIndexCommand(IntakeToIndex intakeToIndex, Index index, double intakeToIndexPower, double indexPower){
-        addCommands(
-            new ParallelCommandGroup(
-                new IndexCommand(index, indexPower),
-                new IntakeToIndexCommand(intakeToIndex, intakeToIndexPower)
-            )
-        );  
+  public AllIndexCommand(IntakeToIndex intakeToIndex, Index index, double intakeToIndexPower,
+      double indexPower) {
+    addCommands(new ParallelCommandGroup(new IndexCommand(index, indexPower),
+        new IntakeToIndexCommand(intakeToIndex, intakeToIndexPower)));
 
-
-    }
+  }
 }

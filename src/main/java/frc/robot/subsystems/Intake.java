@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-//More Imports
+// More Imports
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.PortConstants;
 
-//Creating Intake Class with SubsystemBase as an extension
+// Creating Intake Class with SubsystemBase as an extension
 public class Intake extends SubsystemBase {
   private static boolean isExtended;
 
@@ -36,10 +36,9 @@ public class Intake extends SubsystemBase {
 
     compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
     intakeSolenoid = new DoubleSolenoid(
-    PneumaticsModuleType.CTREPCM,
-    PortConstants.INTAKE_PNEUMATICS_PORTS[0],
-    PortConstants.INTAKE_PNEUMATICS_PORTS[1]
-    );
+        PneumaticsModuleType.CTREPCM,
+        PortConstants.INTAKE_PNEUMATICS_PORTS[0],
+        PortConstants.INTAKE_PNEUMATICS_PORTS[1]);
     intakeMotor = new CANSparkMax(12, MotorType.kBrushless);
 
     intakeMotor.setIdleMode(IdleMode.kCoast);
@@ -50,7 +49,7 @@ public class Intake extends SubsystemBase {
   public void stop() {
     compressor.disable();
   }
-  
+
   // Method Extending Intake with Solenoids & Pneumatic System
   public void extend() {
     intakeSolenoid.set(Value.kForward);
@@ -78,8 +77,7 @@ public class Intake extends SubsystemBase {
    * set the power of the intake.
    */
   public void power(double speed) {
-    //TODO: FIX
+    // TODO: FIX
     intakeMotor.set(speed);
-    }
   }
-
+}

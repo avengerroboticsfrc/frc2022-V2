@@ -16,16 +16,13 @@ public class DefaultDrive extends CommandBase {
    * Creates a new DefaultDrive.
    *
    * @param subsystem The drive subsystem this command wil run on.
-   * @param left      The control input for driving lefts/backwards
-   * @param right     The control input for turning
-   * @param turbo     The button input for toggling the robot speed
+   * @param left The control input for driving lefts/backwards
+   * @param right The control input for turning
+   * @param turbo The button input for toggling the robot speed
    */
-  public DefaultDrive(
-      DriveTrain subsystem,
-      DoubleSupplier left,
-      DoubleSupplier right,
+  public DefaultDrive(DriveTrain subsystem, DoubleSupplier left, DoubleSupplier right,
       BooleanSupplier turbo) {
-        super();
+    super();
 
     this.drive = subsystem;
     this.left = left;

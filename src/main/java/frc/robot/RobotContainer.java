@@ -11,20 +11,17 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.auton.FiveBallAuto;
-import frc.robot.commands.auton.SimpleDriveandShoot;
-import frc.robot.commands.auton.FiveBallAuto;
-import frc.robot.commands.auton.TwoBallTimeBased;
-import frc.robot.commands.driveTypes.DefaultDrive;
-import frc.robot.commands.driveTypes.LucaDrive;
+
 import frc.robot.commands.ComplexCommands.AllIndexCommand;
 import frc.robot.commands.ComplexCommands.DataTestingCommandGroup;
 import frc.robot.commands.ComplexCommands.IntakeToIndexCommandGroup;
-import frc.robot.commands.ComplexCommands.PickUpBallCommandGroup;
 import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
-import frc.robot.commands.SimpleCommands.IntakeCommand;
-import frc.robot.commands.SimpleCommands.IntakeToIndexCommand;
 import frc.robot.commands.SimpleCommands.LiftCommand;
+import frc.robot.commands.auton.FiveBallAuto;
+import frc.robot.commands.auton.SimpleDriveandShoot;
+import frc.robot.commands.auton.TwoBallTimeBased;
+import frc.robot.commands.driveTypes.DefaultDrive;
+import frc.robot.commands.driveTypes.LucaDrive;
 import frc.robot.constants.ButtonConstants;
 import frc.robot.constants.ButtonConstants.ControllerType;
 import frc.robot.subsystems.DriveTrain;
@@ -37,11 +34,10 @@ import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
 /**
- * This class is where the bulk of the robot should be declared. Since
- * Command-based is a "declarative" paradigm, very little robot logic should
- * actually be handled in the {@link Robot} periodic methods (other than the
- * scheduler calls). Instead, the structure of the robot (including subsystems,
- * commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
@@ -90,23 +86,19 @@ public class RobotContainer {
 
     switch (ButtonConstants.CONTROLLER_TYPE) {
       case PS4:
-        drive.setDefaultCommand(
-            new LucaDrive(
-                drive,
-                ((PS4Controller) controller)::getL2Axis,
-                ((PS4Controller) controller)::getR2Axis,
-                ((PS4Controller) controller)::getLeftX,
-                ((PS4Controller) controller)::getCircleButton,
-                ((PS4Controller) controller)::getSquareButton));
+        drive.setDefaultCommand(new LucaDrive(drive, ((PS4Controller) controller)::getL2Axis,
+            ((PS4Controller) controller)::getR2Axis, ((PS4Controller) controller)::getLeftX,
+            ((PS4Controller) controller)::getCircleButton,
+            ((PS4Controller) controller)::getSquareButton));
         break;
 
       case Xbox:
-        drive.setDefaultCommand(
-            new DefaultDrive(
-                drive,
-                ((XboxController) controller)::getLeftY,
-                ((XboxController) controller)::getRightY,
-                ((XboxController) controller)::getRightBumper));
+        drive.setDefaultCommand(new DefaultDrive(drive, ((XboxController) controller)::getLeftY,
+            ((XboxController) controller)::getRightY,
+            ((XboxController) controller)::getRightBumper));
+        break;
+
+      default:
         break;
     }
   }
@@ -123,7 +115,8 @@ public class RobotContainer {
     JoystickButton indexOut = new JoystickButton(buttonPanel, ButtonConstants.INDEX_OUT);
     JoystickButton liftBackward = new JoystickButton(buttonPanel, ButtonConstants.LIFT_BACK);
     JoystickButton shootButton = new JoystickButton(buttonPanel, ButtonConstants.FLYWHEEL_ON);
-    JoystickButton shootWrongBall = new JoystickButton(buttonPanel, ButtonConstants.SHOOT_WRONG_BALL);
+    JoystickButton shootWrongBall =
+        new JoystickButton(buttonPanel, ButtonConstants.SHOOT_WRONG_BALL);
 
     boolean drivingMode = false;
 
@@ -132,27 +125,39 @@ public class RobotContainer {
       lowerLift.whenHeld(new LiftCommand(lift, 1));
       extendIntake.whenPressed(intake::extend, intake);
       retractIntake.whenPressed(intake::retract, intake);
-      runIntakeOut.whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index, indexToShooter));
-      runIntakeIn.whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index, indexToShooter));
+      runIntakeOut
+          .whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index, indexToShooter));
+      runIntakeIn
+          .whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index, indexToShooter));
       indexUp.whenHeld(new AllIndexCommand(intakeToIndex, index, 0.5, 0.5));
       indexOut.whenHeld(new AllIndexCommand(intakeToIndex, index, -0.5, -0.5));
-      shootButton.whenHeld(
-          new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5));
-    } else {
-      raiseLift.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 1000));
-      lowerLift.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 1500));
-      extendIntake.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 2000));
-      retractIntake.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 2500));
-      runIntakeIn.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 3000));
-      runIntakeOut.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 3500));
-      indexUp.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 4000));
-      indexOut.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 4500));
-      liftForward.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 5000));
-      liftBackward.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 6300));
       shootButton
-          .whileActiveContinuous(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() + 0.1), shooter));
-      shootWrongBall
-          .whileActiveContinuous(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() - 0.1), shooter));
+          .whenHeld(new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5));
+    } else {
+      raiseLift.whenHeld(
+          new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 1000));
+      lowerLift.whenHeld(
+          new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 1500));
+      extendIntake.whenHeld(
+          new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 2000));
+      retractIntake.whenHeld(
+          new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 2500));
+      runIntakeIn.whenHeld(
+          new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 3000));
+      runIntakeOut.whenHeld(
+          new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 3500));
+      indexUp.whenHeld(
+          new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 4000));
+      indexOut.whenHeld(
+          new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 4500));
+      liftForward.whenHeld(
+          new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 5000));
+      liftBackward.whenHeld(
+          new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 6300));
+      shootButton.whileActiveContinuous(
+          new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() + 0.1), shooter));
+      shootWrongBall.whileActiveContinuous(
+          new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() - 0.1), shooter));
     }
 
     // shootButton.whenHeld(new DataTestingFlywheelCommand(shooter, 100));
@@ -178,7 +183,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new FiveBallAuto(drive, limelight, shooter, intake, index, intakeToIndex, indexToShooter, 0.1, 0.1, 0.1, 0.1,
-        1000);
+    return new FiveBallAuto(drive, limelight, shooter, intake, index, intakeToIndex, indexToShooter,
+        0.1, 0.1, 0.1, 0.1, 1000);
   }
 }

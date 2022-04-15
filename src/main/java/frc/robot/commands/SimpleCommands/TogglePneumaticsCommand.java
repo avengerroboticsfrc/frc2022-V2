@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
 public class TogglePneumaticsCommand extends CommandBase {
-    private final Intake intake;
+  private final Intake intake;
 
   public TogglePneumaticsCommand(Intake intake) {
     this.intake = intake;
@@ -12,8 +12,7 @@ public class TogglePneumaticsCommand extends CommandBase {
   }
 
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   @Override
   public void execute() {
@@ -22,7 +21,7 @@ public class TogglePneumaticsCommand extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-      intake.retract();
+    intake.retract();
   }
 
   // Returns true when the command should end.
@@ -31,6 +30,3 @@ public class TogglePneumaticsCommand extends CommandBase {
     return true;
   }
 }
-
-    
-

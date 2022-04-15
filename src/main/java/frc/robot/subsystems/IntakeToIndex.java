@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.constants.PortConstants;
 
-//Creates index class 
+// Creates index class
 public class IntakeToIndex extends SubsystemBase {
   // Creates the index motor
   // private final WPI_VictorSPX indexMotor;

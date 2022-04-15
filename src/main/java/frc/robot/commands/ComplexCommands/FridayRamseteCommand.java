@@ -58,7 +58,8 @@ public class FridayRamseteCommand extends CommandBase {
    * because WPILib didn't make it possible to implement a method to pause a
    * trajectory easily
    */
-  public FridayRamseteCommand(Trajectory trajectory, DriveTrain drive, Map<Double, Command> commands) {
+  public FridayRamseteCommand(Trajectory trajectory, DriveTrain drive,
+      Map<Double, Command> commands) {
     super();
 
     this.trajectory = trajectory;
@@ -153,7 +154,7 @@ public class FridayRamseteCommand extends CommandBase {
   }
 
   /**
-   * rounds the number to the hundredths place
+   * rounds the number to the hundredths place.
    */
   private double roundTime(double time) {
     return (double) Math.round(time * 100) / 100;

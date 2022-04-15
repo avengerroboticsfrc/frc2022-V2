@@ -16,7 +16,6 @@ public class Limelight extends SubsystemBase {
 
   private static final double Kp = 0.05; // Proportional control constant
   private static final double min_command = 0.0; // Minimum amount to slightly move
-  private double steering_adjust;
 
   /**
    * Creates a new limelight class with the provided name.
@@ -37,10 +36,11 @@ public class Limelight extends SubsystemBase {
    */
   public double getRotationAdjust() {
     double tx = table.getEntry("tx").getDouble(0);
+    double steering_adjust;
     double heading_error = -tx;
     if (tx > 1.0) {
       steering_adjust = Kp * heading_error - min_command;
-    } else if (tx < 1.0) {
+    } else {
       steering_adjust = Kp * heading_error + min_command;
     }
     return steering_adjust;

@@ -31,11 +31,12 @@ public class DriveTrain extends SubsystemBase {
   private final Gyro gyro = new ADXRS450_Gyro();
 
   DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
-  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(DriveConstants.K_TRACK_WIDTH_METERS);
-  SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(DriveConstants.KS_VOLTS, DriveConstants.KV_VOLT_SECONDS_PER_METER, DriveConstants.KA_VOLT_SECONDS_SQUARED_PER_METER);
+  DifferentialDriveKinematics kinematics =
+      new DifferentialDriveKinematics(DriveConstants.K_TRACK_WIDTH_METERS);
+  SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(DriveConstants.KS_VOLTS,
+      DriveConstants.KV_VOLT_SECONDS_PER_METER, DriveConstants.KA_VOLT_SECONDS_SQUARED_PER_METER);
   PIDController leftPIDController = new PIDController(DriveConstants.KP_DRIVE_VELOCITY, 0, 0);
-  PIDController rightPIDController = new PIDController(DriveConstants.KP_DRIVE_VELOCITY,0,0);
-
+  PIDController rightPIDController = new PIDController(DriveConstants.KP_DRIVE_VELOCITY, 0, 0);
 
   /**
    * this method is called when the DriveTrainSubsystem class is initialized.
@@ -43,14 +44,10 @@ public class DriveTrain extends SubsystemBase {
   public DriveTrain() {
     super();
 
-    this.leftMotors = new WPI_TalonFX[] {
-        new WPI_TalonFX(PortConstants.LEFT_DRIVE[0]),
-        new WPI_TalonFX(PortConstants.LEFT_DRIVE[1])
-    };
-    this.rightMotors = new WPI_TalonFX[] {
-        new WPI_TalonFX(PortConstants.RIGHT_DRIVE[0]),
-        new WPI_TalonFX(PortConstants.RIGHT_DRIVE[1])
-    };
+    this.leftMotors = new WPI_TalonFX[] {new WPI_TalonFX(PortConstants.LEFT_DRIVE[0]),
+        new WPI_TalonFX(PortConstants.LEFT_DRIVE[1])};
+    this.rightMotors = new WPI_TalonFX[] {new WPI_TalonFX(PortConstants.RIGHT_DRIVE[0]),
+        new WPI_TalonFX(PortConstants.RIGHT_DRIVE[1])};
 
     newMotor = new WPI_TalonFX(2);
 
@@ -80,51 +77,48 @@ public class DriveTrain extends SubsystemBase {
     rightMotors[0].setNeutralMode(NeutralMode.Brake);
     rightMotors[1].setNeutralMode(NeutralMode.Brake);
 
-    driveTrain = new DifferentialDrive(
-      leftMotors[0],
-      rightMotors[0]);
-      
+    driveTrain = new DifferentialDrive(leftMotors[0], rightMotors[0]);
+
     resetEncoders();
   }
 
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    pose = odometry.update(
-      getHeading(),
-      leftMotors[0].getSelectedSensorVelocity()/5.95 * 2 * Math.PI * Units.inchesToMeters(3)/60,
-      rightMotors[0].getSelectedSensorVelocity()/5.95 * 2 * Math.PI * Units.inchesToMeters(3)/60
-    );
+    pose = odometry.update(getHeading(),
+        leftMotors[0].getSelectedSensorVelocity() / 5.95 * 2 * Math.PI * Units.inchesToMeters(3)
+            / 60,
+        rightMotors[0].getSelectedSensorVelocity() / 5.95 * 2 * Math.PI * Units.inchesToMeters(3)
+            / 60);
     SmartDashboard.putNumber("Gyro Rotation (Degrees)", gyro.getRotation2d().getDegrees());
   }
 
   /**
-  * Returns the currently-estimated pose of the robot.
-
-  * @return The pose.
-  */
+   * Returns the currently-estimated pose of the robot.
+   * 
+   * @return The pose.
+   */
   public Pose2d getPose() {
-    //return pose
+    // return pose
     return odometry.getPoseMeters();
   }
 
-
   /**
    * Returns the current wheel speeds of the robot.
-
+   * 
    * @return The current wheel speeds.
    */
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(
-        leftMotors[0].getSelectedSensorVelocity()/5.95 * 2 * Math.PI * Units.inchesToMeters(3)/60,
-        rightMotors[0].getSelectedSensorVelocity()/5.95 * 2 * Math.PI * Units.inchesToMeters(3)/60
-      );
+        leftMotors[0].getSelectedSensorVelocity() / 5.95 * 2 * Math.PI * Units.inchesToMeters(3)
+            / 60,
+        rightMotors[0].getSelectedSensorVelocity() / 5.95 * 2 * Math.PI * Units.inchesToMeters(3)
+            / 60);
   }
-
 
   /**
    * Resets the odometry to the specified pose.
-
+   * 
    * @param pose The pose to which to set the odometry.
    */
   public void resetOdometry(Pose2d pose) {
@@ -134,13 +128,13 @@ public class DriveTrain extends SubsystemBase {
 
   /**
    * Controls the left and right sides of the drive directly with voltages.
-
+   * 
    * @param leftVolts the commanded left output
    * @param rightVolts the commanded right output
    */
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    leftMotors[0].setVoltage(leftVolts/12);
-    rightMotors[0].setVoltage(rightVolts/12);
+    leftMotors[0].setVoltage(leftVolts / 12);
+    rightMotors[0].setVoltage(rightVolts / 12);
     driveTrain.feed();
   }
 
@@ -151,16 +145,15 @@ public class DriveTrain extends SubsystemBase {
     driveTrain.arcadeDrive(speed, rotation);
   }
 
-  public void tankDrive(double leftTrain, double rightTrain)  {
+  public void tankDrive(double leftTrain, double rightTrain) {
     driveTrain.tankDrive(leftTrain, rightTrain);
   }
 
   /**
    * Curvature drive method for differential drivetrain.
-
-   * The rotation argument controls the curvature of the robot's path rather thanS
-   * its rate of heading change. This makes the robot more controllable at high
-   * speeds.
+   * 
+   * <p>The rotation argument controls the curvature of the robot's path rather than its rate of
+   * heading change. This makes the robot more controllable at high speeds.
    */
   public void curvatureDrive(double speed, double rotation, boolean turn) {
     driveTrain.curvatureDrive(speed, rotation, turn);
@@ -176,16 +169,13 @@ public class DriveTrain extends SubsystemBase {
 
   /**
    * Gets the average distance of the two encoders.
-
+   * 
    * @return the average of the two encoder readings
    */
   public double getAverageEncoderDistance() {
-    return (
-        leftMotors[0].getSelectedSensorPosition()
-        + leftMotors[1].getSelectedSensorPosition()
+    return (leftMotors[0].getSelectedSensorPosition() + leftMotors[1].getSelectedSensorPosition()
         + rightMotors[0].getSelectedSensorPosition() * -1
-        + rightMotors[1].getSelectedSensorPosition() * -1
-      ) / 4;
+        + rightMotors[1].getSelectedSensorPosition() * -1) / 4;
   }
 
   public void gyroCalibrate() {
@@ -196,20 +186,19 @@ public class DriveTrain extends SubsystemBase {
     gyro.reset();
   }
 
-  public Rotation2d getHeading(){
+  public Rotation2d getHeading() {
     return Rotation2d.fromDegrees(-gyro.getAngle());
   }
 
- 
   public SimpleMotorFeedforward getFeedforward() {
     return feedForward;
   }
 
-  public PIDController getLeftPIDController(){
+  public PIDController getLeftPIDController() {
     return leftPIDController;
   }
 
-  public PIDController getRightPIDController(){
+  public PIDController getRightPIDController() {
     return rightPIDController;
   }
 
@@ -218,16 +207,11 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void setOutput(double leftVolts, double rightVolts) {
-    leftMotors[0].set(leftVolts/12);
-    rightMotors[0].set(rightVolts/12);
+    leftMotors[0].set(leftVolts / 12);
+    rightMotors[0].set(rightVolts / 12);
   }
 
   public double getTurnRate() {
     return -gyro.getRate();
   }
-  }
-
-
-
-
-
+}

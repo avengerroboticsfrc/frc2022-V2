@@ -88,6 +88,6 @@ wpi.java.configureExecutableTasks(jar)
 wpi.java.configureTestTasks(test)
 
 checkstyle {
-    configFile file('google_checks.xml');
+    configFile file('style/google_checks.xml');
     toolVersion '8.18';
 }

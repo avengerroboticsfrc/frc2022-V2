@@ -7,7 +7,6 @@ public class LiftCommand extends CommandBase {
   private final Lift lift;
   private final double power;
 
-  
   public LiftCommand(Lift lift, double power, boolean angle) {
     super();
 

@@ -24,11 +24,8 @@ public class DriveConstants {
   public static final double K_RAMSETE_ZETA = 0.7;
   public static final double MAX_DRIVE_VOLTAGE = 7;
 
-
-
-
-  //Shooter Constants; Did not wanna create a new class
-    /**
+  // Shooter Constants; Did not wanna create a new class
+  /**
    * @param velocityCounts Falcon Velocity Counts
    * @param gearRatio Gear Ratio between Falcon and Mechanism (set to 1 for Falcon RPM)
    * @return RPM of Mechanism

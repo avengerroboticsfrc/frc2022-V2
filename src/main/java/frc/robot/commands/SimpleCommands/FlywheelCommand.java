@@ -1,20 +1,13 @@
 package frc.robot.commands.SimpleCommands;
 
-import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Limelight;
-import java.lang.Math.*;
-import java.util.Arrays;
-import java.util.HashMap;
+import frc.robot.subsystems.Shooter;
 
 public class FlywheelCommand extends CommandBase {
 
   private final Shooter shooter;
   private final Limelight limelight;
-
-  private static final HashMap<Integer, Double> dataTable = new HashMap<Integer, Double>() {{
-    put(Integer.valueOf(120), Double.valueOf(0.5));
-  }};
 
   public FlywheelCommand(Shooter shooter, Limelight limelight) {
     this.shooter = shooter;

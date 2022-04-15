@@ -31,10 +31,12 @@
     "Auton",
     "Ballto",
     "DOESNT",
+    "Luca",
     "odometry",
     "pathweaver",
     "Ramsete",
     "Tele"
   ],
-  "python.formatting.provider": "black"
+  "python.formatting.provider": "black",
+  "java.format.settings.url": "style/eclipse-formatter.xml"
 }
