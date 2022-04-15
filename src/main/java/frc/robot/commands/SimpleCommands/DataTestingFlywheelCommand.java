@@ -6,7 +6,7 @@ import frc.robot.subsystems.Shooter;
 
 public class DataTestingFlywheelCommand extends CommandBase {
   private final Shooter shooter;
-  private final double shooterPower;
+  private final double rpm;
 
 /**
  * @param shooter
@@ -14,7 +14,7 @@ public class DataTestingFlywheelCommand extends CommandBase {
  */
   public DataTestingFlywheelCommand(Shooter shooter, double shooterRPM) {
     this.shooter = shooter;
-    this.shooterPower = shooterRPM;
+    this.rpm = shooterRPM;
     addRequirements(shooter);
   }
 
@@ -24,11 +24,12 @@ public class DataTestingFlywheelCommand extends CommandBase {
 
   @Override
   public void execute() {
-    shooter.setVelocity(shooterPower);
+    shooter.setVelocity(rpm);
   }
 
   @Override
   public void end(boolean interrupted) {
+
     shooter.stopShooter();
   }
 
