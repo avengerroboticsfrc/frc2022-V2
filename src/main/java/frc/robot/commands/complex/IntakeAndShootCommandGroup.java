@@ -1,11 +1,11 @@
-package frc.robot.commands.ComplexCommands;
+package frc.robot.commands.complex;
 
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.SimpleCommands.IndexCommand;
-import frc.robot.commands.SimpleCommands.IntakeCommand;
-import frc.robot.commands.SimpleCommands.IntakeToIndexCommand;
+import frc.robot.commands.simple.IndexCommand;
+import frc.robot.commands.simple.IntakeCommand;
+import frc.robot.commands.simple.IntakeToIndexCommand;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.IndexToShooter;
 import frc.robot.subsystems.Intake;

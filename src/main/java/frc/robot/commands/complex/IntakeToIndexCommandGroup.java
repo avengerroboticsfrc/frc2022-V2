@@ -1,10 +1,10 @@
-package frc.robot.commands.ComplexCommands;
+package frc.robot.commands.complex;
 
-import frc.robot.commands.SimpleCommands.IndexCommand;
-import frc.robot.commands.SimpleCommands.IndexToShooterCommand;
-import frc.robot.commands.SimpleCommands.IntakeCommand;
-import frc.robot.commands.SimpleCommands.IntakeToIndexCommand;
 import frc.robot.subsystems.IntakeToIndex;
+import frc.robot.commands.simple.IndexCommand;
+import frc.robot.commands.simple.IndexToShooterCommand;
+import frc.robot.commands.simple.IntakeCommand;
+import frc.robot.commands.simple.IntakeToIndexCommand;
 import frc.robot.subsystems.Index;
 import frc.robot.subsystems.IndexToShooter;
 import frc.robot.subsystems.Intake;

@@ -1,4 +1,4 @@
-package frc.robot.commands.SimpleCommands;
+package frc.robot.commands.simple;
 
 import java.util.Arrays;
 import java.util.HashMap;
