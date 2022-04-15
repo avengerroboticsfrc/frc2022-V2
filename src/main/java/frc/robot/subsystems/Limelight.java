@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -25,7 +24,12 @@ public class Limelight extends SubsystemBase {
   public Limelight() {
     table = NetworkTableInstance.getDefault().getTable("limelight-b");
 
-    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("pipeline").setNumber(0);
+    table.getEntry("pipeline").setNumber(0);
+  }
+
+  @Override
+  public void periodic() {
+    System.out.println(getDistance());
   }
 
   /**
@@ -34,13 +38,10 @@ public class Limelight extends SubsystemBase {
   public double getRotationAdjust() {
     double tx = table.getEntry("tx").getDouble(0);
     double heading_error = -tx;
-    if (tx > 1.0)
-    {
-            steering_adjust = Kp*heading_error - min_command;
-    }
-    else if (tx < 1.0)
-    {
-            steering_adjust = Kp*heading_error + min_command;
+    if (tx > 1.0) {
+      steering_adjust = Kp * heading_error - min_command;
+    } else if (tx < 1.0) {
+      steering_adjust = Kp * heading_error + min_command;
     }
     return steering_adjust;
   }
@@ -61,11 +62,11 @@ public class Limelight extends SubsystemBase {
 
   public void disableLights() {
     // Disables LEDs
-    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(0);
+    table.getEntry("ledMode").setNumber(0);
   }
 
   public void enableLights() {
     // Enables LEDs
-    NetworkTableInstance.getDefault().getTable("limelight-b").getEntry("ledMode").setNumber(3);
+    table.getEntry("ledMode").setNumber(3);
   }
 }
