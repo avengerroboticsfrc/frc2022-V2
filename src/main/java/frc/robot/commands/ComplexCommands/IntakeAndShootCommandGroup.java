@@ -22,12 +22,12 @@ public class IntakeAndShootCommandGroup extends SequentialCommandGroup {
         new ParallelDeadlineGroup(
             new WaitCommand(4),
             new IntakeToIndexCommand(intakeToIndex, intakeToIndexPower),
-            new IndexCommand(index, indexPower),
+            //new IndexCommand(index, indexPower),
             new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, indexPower, indexToShooterPower)),
         deadlineWith(
             new IntakeCommand(intake, intakePower),
             new IntakeToIndexCommand(intakeToIndex, intakeToIndexPower),
-            new IndexCommand(index, indexPower),
+            //new IndexCommand(index, indexPower),
             new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, indexPower, indexToShooterPower))
     );
 
