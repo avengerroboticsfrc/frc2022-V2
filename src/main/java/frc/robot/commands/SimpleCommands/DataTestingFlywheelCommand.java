@@ -1,20 +1,19 @@
 package frc.robot.commands.SimpleCommands;
 
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 
 public class DataTestingFlywheelCommand extends CommandBase {
   private final Shooter shooter;
-  private final double rpm;
+  // private final double rpm;
 
-/**
- * @param shooter
- * @param shooterRPM
- */
+  /**
+   * @param shooter
+   * @param shooterRPM
+   */
   public DataTestingFlywheelCommand(Shooter shooter, double shooterRPM) {
     this.shooter = shooter;
-    this.rpm = shooterRPM;
+    // this.rpm = shooterRPM;
     addRequirements(shooter);
   }
 
@@ -39,6 +38,3 @@ public class DataTestingFlywheelCommand extends CommandBase {
   }
 
 }
-
-
-

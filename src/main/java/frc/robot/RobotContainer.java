@@ -85,16 +85,15 @@ public class RobotContainer {
     // sets the command to drive the robot.
     // will run whenever the drivetrain is not being used.
 
-        drive.setDefaultCommand(
-            new LucaDrive(
-                drive,
-                (controller)::getL2Axis,
-                (controller)::getR2Axis,
-                (controller)::getLeftX,
-                (controller)::getCircleButton,
-                (controller)::getSquareButton));
-    }
-  
+    drive.setDefaultCommand(
+        new LucaDrive(
+            drive,
+            (controller)::getL2Axis,
+            (controller)::getR2Axis,
+            (controller)::getLeftX,
+            (controller)::getCircleButton,
+            (controller)::getSquareButton));
+  }
 
   private void configureButtonBindings() {
     JoystickButton raiseLift = new JoystickButton(buttonPanel, ButtonConstants.LIFT_UP);
@@ -111,36 +110,48 @@ public class RobotContainer {
     JoystickButton shootWrongBall = new JoystickButton(buttonPanel, 10);
     JoystickButton shootFallback = new JoystickButton(buttonPanel, 11);
 
-       raiseLift.whenHeld(new LiftCommand(lift, -1));
-       lowerLift.whenHeld(new LiftCommand(lift, 1));
-       extendIntake.whenPressed(intake::extend, intake);
-       retractIntake.whenPressed(intake::retract, intake);
-       runIntakeOut.whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index, indexToShooter));
-       runIntakeIn.whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index, indexToShooter));
-       indexUp.whenHeld(new AllIndexCommand(intakeToIndex, index, 0.5, 0.5));
-       indexOut.whenHeld(new AllIndexCommand(intakeToIndex, index, -0.5, -0.5));
-       shootButton.whenHeld(
-           new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5));
-      shootWrongBall.whenHeld(new WrongBallCommandGroup(shooter, index, indexToShooter, limelight, .5, .5, .3));
-      shootFallback.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, .5, .5, .75));
+    raiseLift.whenHeld(new LiftCommand(lift, -1));
+    lowerLift.whenHeld(new LiftCommand(lift, 1));
+    extendIntake.whenPressed(intake::extend, intake);
+    retractIntake.whenPressed(intake::retract, intake);
+    runIntakeOut.whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index, indexToShooter));
+    runIntakeIn.whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index, indexToShooter));
+    indexUp.whenHeld(new AllIndexCommand(intakeToIndex, index, 0.5, 0.5));
+    indexOut.whenHeld(new AllIndexCommand(intakeToIndex, index, -0.5, -0.5));
+    shootButton.whenHeld(
+        new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5));
+    shootWrongBall.whenHeld(new WrongBallCommandGroup(shooter, index, indexToShooter, limelight, .5, .5, .3));
+    shootFallback.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, .5, .5, .75));
 
-      // raiseLift.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 1000));
-      // lowerLift.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 1500));
-      // extendIntake.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 2000));
-      // retractIntake.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 2500));
-      // runIntakeIn.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 3000));
-      // runIntakeOut.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 3500));
-      // indexUp.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 4000));
-      // indexOut.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 4500));
-      // liftForward.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 5000));
-      // liftBackward.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5, 6300));
-      //       shootButton.whenHeld(
-      //     new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5));
-      // shootButton
-      //     .whileActiveContinuous(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() + 0.1), shooter));
-      // shootWrongBall
-      //     .whileActiveContinuous(new InstantCommand(() -> shooter.extendHood(shooter.getHoodPos() - 0.1), shooter));
-
+    // raiseLift.whenHeld(new DataTestingCommandGroup(shooter, index,
+    // indexToShooter, limelight, 0.5, 0.5, 1000));
+    // lowerLift.whenHeld(new DataTestingCommandGroup(shooter, index,
+    // indexToShooter, limelight, 0.5, 0.5, 1500));
+    // extendIntake.whenHeld(new DataTestingCommandGroup(shooter, index,
+    // indexToShooter, limelight, 0.5, 0.5, 2000));
+    // retractIntake.whenHeld(new DataTestingCommandGroup(shooter, index,
+    // indexToShooter, limelight, 0.5, 0.5, 2500));
+    // runIntakeIn.whenHeld(new DataTestingCommandGroup(shooter, index,
+    // indexToShooter, limelight, 0.5, 0.5, 3000));
+    // runIntakeOut.whenHeld(new DataTestingCommandGroup(shooter, index,
+    // indexToShooter, limelight, 0.5, 0.5, 3500));
+    // indexUp.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter,
+    // limelight, 0.5, 0.5, 4000));
+    // indexOut.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter,
+    // limelight, 0.5, 0.5, 4500));
+    // liftForward.whenHeld(new DataTestingCommandGroup(shooter, index,
+    // indexToShooter, limelight, 0.5, 0.5, 5000));
+    // liftBackward.whenHeld(new DataTestingCommandGroup(shooter, index,
+    // indexToShooter, limelight, 0.5, 0.5, 6300));
+    // shootButton.whenHeld(
+    // new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.5,
+    // 0.5));
+    // shootButton
+    // .whileActiveContinuous(new InstantCommand(() ->
+    // shooter.extendHood(shooter.getHoodPos() + 0.1), shooter));
+    // shootWrongBall
+    // .whileActiveContinuous(new InstantCommand(() ->
+    // shooter.extendHood(shooter.getHoodPos() - 0.1), shooter));
 
     // shootButton.whenHeld(new DataTestingFlywheelCommand(shooter, 100));
 
