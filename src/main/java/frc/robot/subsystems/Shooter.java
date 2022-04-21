@@ -130,7 +130,7 @@ public class Shooter extends SubsystemBase {
     hood[1].setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
     // PID coefficients
     // TODO: CHANGE THESE VALS
-    kP = .1;
+    kP = .2;
     kI = 1e-4;
     kD = 1;
     kIz = 0;
