@@ -52,7 +52,7 @@ public class LucaDrive extends CommandBase {
 
 
   if(turn.getAsBoolean()){
-    drive.curvatureDrive(speed*.4, rotation.getAsDouble()*.2, turn.getAsBoolean());
+    drive.curvatureDrive(speed*.6, rotation.getAsDouble()*.2, turn.getAsBoolean());
   }else{
     drive.curvatureDrive(speed, rotate*turnMultiplier, turn.getAsBoolean());
   }

@@ -53,7 +53,7 @@ public class FlywheelCommand extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    shooter.spin(0);
+    shooter.stopShooter();
     //shooter.setRPM(0);
     limelight.disableLights();
   }

@@ -23,7 +23,7 @@ public class ShootBallCommandGroup extends SequentialCommandGroup {
     addCommands(
         new TargetHubCommand(shooter, limelight).withTimeout(1),
         parallel(
-            new DataTestingFlywheelCommand(shooter, 1000),
+            new FlywheelCommand(shooter, limelight),
             sequence(new WaitCommand(1),
                 parallel(
                     new IndexToShooterCommand(indexToShooter, indexToShooterPower),

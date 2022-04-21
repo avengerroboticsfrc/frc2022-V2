@@ -24,7 +24,7 @@ public class DataTestingFlywheelCommand extends CommandBase {
 
   @Override
   public void execute() {
-    shooter.setVelocity(rpm);
+    shooter.spin(.75);
   }
 
   @Override
@@ -39,3 +39,6 @@ public class DataTestingFlywheelCommand extends CommandBase {
   }
 
 }
+
+
+

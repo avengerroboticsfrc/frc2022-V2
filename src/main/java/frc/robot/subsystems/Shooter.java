@@ -130,7 +130,7 @@ public class Shooter extends SubsystemBase {
     hood[1].setBounds(2.0, 1.8, 1.5, 1.2, 1.0);
     // PID coefficients
     // TODO: CHANGE THESE VALS
-    kP = .2;
+    kP = .05;
     kI = 1e-4;
     kD = 1;
     kIz = 0;
@@ -146,7 +146,7 @@ public class Shooter extends SubsystemBase {
     // m_pidController.setIZone(kIz);
     // m_pidController.setFF(kFF);
     m_pidController.setOutputRange(kMinOutput, kMaxOutput);
-    turretTurnMotor.setClosedLoopRampRate(.5);
+    // turretTurnMotor.setClosedLoopRampRate(.5);
     turretTurnMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
     turretTurnMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
     turretTurnMotor.setIdleMode(IdleMode.kBrake);
