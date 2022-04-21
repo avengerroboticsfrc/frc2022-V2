@@ -36,5 +36,6 @@
     "Ramsete",
     "Tele"
   ],
-  "python.formatting.provider": "black"
+  "python.formatting.provider": "black",
+  "wpilib.offline": true
 }

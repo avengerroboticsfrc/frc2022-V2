@@ -8,14 +8,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class Limelight extends SubsystemBase {
   public final NetworkTable table;
   // how many degrees back is your limelight rotated from perfectly vertical?
-  private static final double LIMELIGHT_MOUNT_ANGLE_DEGREES = 20.00;
+  private static final double LIMELIGHT_MOUNT_ANGLE_DEGREES = 35.00;
   // distance from the center of the Limelight lens to the floor
   private static final double LIMELIGHT_LENS_HEIGHT_METERS = 0.79;
   // distance from the target to the floor
   private static final double GOAL_HEIGHT_METERS = 2.6416;
 
-  private static final double Kp = 0.05; // Proportional control constant
-  private static final double min_command = 0.0; // Minimum amount to slightly move
+  private static final double Kp = 0.2; // Proportional control constant
+  private static final double min_command = 0.05; // Minimum amount to slightly move
   private double steering_adjust;
 
   /**

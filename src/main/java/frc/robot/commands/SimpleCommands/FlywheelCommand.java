@@ -12,10 +12,6 @@ public class FlywheelCommand extends CommandBase {
   private final Shooter shooter;
   private final Limelight limelight;
 
-  private static final HashMap<Integer, Double> dataTable = new HashMap<Integer, Double>() {{
-    put(Integer.valueOf(120), Double.valueOf(0.5));
-  }};
-
   public FlywheelCommand(Shooter shooter, Limelight limelight) {
     this.shooter = shooter;
     this.limelight = limelight;
@@ -29,36 +25,20 @@ public class FlywheelCommand extends CommandBase {
 
   @Override
   public void execute() {
-    // If it doesn't work how it's supposed to, 
-    // comment out the enhanced for loop
-    // for (Integer i : dataTable.keySet()) {
-    //   if (i.intValue() == (int)limelight.getDistance() || 
-    //       i.intValue() + 1 == (int)limelight.getDistance() ||   
-    //       i.intValue() - 1 == (int)limelight.getDistance()) {
-    //     keyValue = i;
-    //   }
-    // }
-
-    // if (keyValue.intValue() != -1) {
-    //   shooter.spin(dataTable.get(keyValue).doubleValue());
-    // } else {
-    //   shooter.setRPM(stupidEquationThatWeCameUpWith);
-    // }
-
-    // RPM RANGES FROM 0 <---> 6380 !!!
-    // int rpm = 5000;
-    // System.out.println("Distance    RPM");
-    // System.out.println(limelight.getDistance() + " " + rpm);
-    // shooter.setRPM(rpm);
+    double distance = limelight.getDistance();
+   
+    double velocity = (6990 + -62.5 * distance) + (0.203 * Math.pow(distance, 2));
+    shooter.setVelocity(velocity);
+    System.out.println(velocity);
 
     // FALLBACK CODE!!!
-    shooter.spin(.75);
+    //shooter.spin(.75);
   }
 
   @Override
   public void end(boolean interrupted) {
     shooter.spin(0);
-    //shooter.setRPM(0);
+    // shooter.setRPM(0);
     limelight.disableLights();
   }
 

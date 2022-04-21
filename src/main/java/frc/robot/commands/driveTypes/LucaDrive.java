@@ -44,11 +44,16 @@ public class LucaDrive extends CommandBase {
 
   @Override
   public void execute(){
-  double speed = speedFilter.calculate(((reverse.getAsDouble()*-1) + forward.getAsDouble())*.25);
+  double speed = speedFilter.calculate(((reverse.getAsDouble()*-1) + forward.getAsDouble())*.35);
   double turnMultiplier = turn.getAsBoolean() ? .5 : 1;
   double rotate = turnFilter.calculate(rotation.getAsDouble()*.5);
-  System.out.println(rotate);
-  drive.curvatureDrive(speed, rotate*turnMultiplier, turn.getAsBoolean());
+
+
+  if(turn.getAsBoolean()){
+    drive.curvatureDrive(speed*.4, rotation.getAsDouble()*.2, turn.getAsBoolean());
+  }else{
+    drive.curvatureDrive(speed, rotate*turnMultiplier, turn.getAsBoolean());
+  }
   }
 }
 

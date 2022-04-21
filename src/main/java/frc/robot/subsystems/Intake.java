@@ -34,9 +34,10 @@ public class Intake extends SubsystemBase {
 
     // init subsystem class
 
-    compressor = new Compressor(0, PneumaticsModuleType.CTREPCM);
+    compressor = new Compressor(39, PneumaticsModuleType.REVPH);
     intakeSolenoid = new DoubleSolenoid(
-    PneumaticsModuleType.CTREPCM,
+    39,
+    PneumaticsModuleType.REVPH,
     PortConstants.INTAKE_PNEUMATICS_PORTS[0],
     PortConstants.INTAKE_PNEUMATICS_PORTS[1]
     );
