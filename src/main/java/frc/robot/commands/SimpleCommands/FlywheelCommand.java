@@ -13,7 +13,9 @@ public class FlywheelCommand extends CommandBase {
   private final Limelight limelight;
 
   private static final HashMap<Integer, Double> dataTable = new HashMap<Integer, Double>() {{
-    put(Integer.valueOf(120), Double.valueOf(0.5));
+    put(Integer.valueOf(62), Double.valueOf(2500));
+    put(Integer.valueOf(82), Double.valueOf(4000)));
+    put(Integer.valueOf(104), Double.valueOf(4500));
   }};
 
   public FlywheelCommand(Shooter shooter, Limelight limelight) {
@@ -29,30 +31,24 @@ public class FlywheelCommand extends CommandBase {
 
   @Override
   public void execute() {
+    Integer keyValue = Integer.valueOf(-1);
     // If it doesn't work how it's supposed to, 
     // comment out the enhanced for loop
-    // for (Integer i : dataTable.keySet()) {
-    //   if (i.intValue() == (int)limelight.getDistance() || 
-    //       i.intValue() + 1 == (int)limelight.getDistance() ||   
-    //       i.intValue() - 1 == (int)limelight.getDistance()) {
-    //     keyValue = i;
-    //   }
-    // }
+    for (Integer i : dataTable.keySet()) {
+      if (i.intValue() == (int)limelight.getDistance() || 
+          i.intValue() + 2 == (int)limelight.getDistance() ||   
+          i.intValue() - 2 == (int)limelight.getDistance()) {
+        keyValue = i;
+      }
+    }
 
-    // if (keyValue.intValue() != -1) {
-    //   shooter.spin(dataTable.get(keyValue).doubleValue());
-    // } else {
-    //   shooter.setRPM(stupidEquationThatWeCameUpWith);
-    // }
+    if (keyValue.intValue() != -1) {
+      shooter.spin(dataTable.get(keyValue).doubleValue());
+    } else {
+      shooter.setVelocity(4849.002 + (-1537478000 - 1537478000 - 4849.002)/(1 + Math.pow((limelight.getDistance()/1.336557),3.67092)));
+    }
 
-    // RPM RANGES FROM 0 <---> 6380 !!!
-    // int rpm = 5000;
-    // System.out.println("Distance    RPM");
-    // System.out.println(limelight.getDistance() + " " + rpm);
-    // shooter.setRPM(rpm);
-
-    // FALLBACK CODE!!!
-    shooter.spin(.75);
+    // shooter.spin(.75);
   }
 
   @Override
