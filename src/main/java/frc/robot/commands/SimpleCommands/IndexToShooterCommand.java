@@ -16,7 +16,7 @@ public class IndexToShooterCommand extends CommandBase {
 
   @Override
   public void execute() {
-    inShooter.power(power);
+    inShooter.power(.7);
   }
 
   @Override

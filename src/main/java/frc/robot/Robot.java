@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.util.net.PortForwarder;
 
@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
     PortForwarder.add(5803, "limelight-b.local", 5803);
     PortForwarder.add(5804, "limelight-b.local", 5804);
     PortForwarder.add(5805, "limelight-b.local", 5805);
-  
+    CameraServer.startAutomaticCapture();
 
 
 

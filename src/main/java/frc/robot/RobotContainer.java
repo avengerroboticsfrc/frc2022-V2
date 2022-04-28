@@ -26,6 +26,7 @@ import frc.robot.commands.ComplexCommands.WrongBallCommandGroup;
 import frc.robot.commands.SimpleCommands.IntakeCommand;
 import frc.robot.commands.SimpleCommands.IntakeToIndexCommand;
 import frc.robot.commands.SimpleCommands.LiftCommand;
+import frc.robot.commands.SimpleCommands.TogglePneumaticsCommand;
 import frc.robot.constants.ButtonConstants;
 import frc.robot.constants.ButtonConstants.ControllerType;
 import frc.robot.subsystems.DriveTrain;
@@ -112,7 +113,7 @@ public class RobotContainer {
 
     raiseLift.whenHeld(new LiftCommand(lift, -1));
     lowerLift.whenHeld(new LiftCommand(lift, 1));
-    extendIntake.whenPressed(intake::extend, intake);
+    extendIntake.whenPressed(new TogglePneumaticsCommand(intake));
     retractIntake.whenPressed(intake::retract, intake);
     runIntakeOut.whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index, indexToShooter));
     runIntakeIn.whenHeld(new IntakeToIndexCommandGroup(intake, intakeToIndex, index, indexToShooter));

@@ -19,7 +19,7 @@ public class DirectFlywheelCommand extends CommandBase {
 
   @Override
   public void execute() {
-    shooter.spin(shooterPower);
+    shooter.spin(.3);
   }
 
   @Override

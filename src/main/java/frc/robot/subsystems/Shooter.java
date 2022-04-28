@@ -135,8 +135,8 @@ public class Shooter extends SubsystemBase {
     kD = 1;
     kIz = 0;
     kFF = 0;
-    kMaxOutput = .5;
-    kMinOutput = -.5;
+    kMaxOutput = .8;
+    kMinOutput = -.8;
 
     turretTurnMotor.restoreFactoryDefaults();
     // set PID coefficients

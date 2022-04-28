@@ -12,9 +12,11 @@ public class LucaDrive extends CommandBase {
   private final DoubleSupplier rotation;
   private final BooleanSupplier turn;
   private final DoubleSupplier reverse;
-  // private final BooleanSupplier turbo;
+  private final BooleanSupplier turbo;
   private final SlewRateLimiter speedFilter;
   private final SlewRateLimiter turnFilter;
+  private final SlewRateLimiter turboFilter;
+  private final SlewRateLimiter  turnMultFilter;
 
   /**
    * Creates a new DefaultDrive.
@@ -31,26 +33,28 @@ public class LucaDrive extends CommandBase {
     this.forward = forward;
     this.rotation = rotation;
     this.turn = turn;
-    // this.turbo = turbo;
-    speedFilter = new SlewRateLimiter(1);
-    turnFilter = new SlewRateLimiter(2);
+    this.turbo = turbo;
+    speedFilter = new SlewRateLimiter(1.5);
+    turnFilter = new SlewRateLimiter(3);
+    turnMultFilter = new SlewRateLimiter(3);
+    turboFilter = new SlewRateLimiter(2);
     addRequirements(drive);
   }
 
   @Override
   public void execute() {
-    double speed = speedFilter.calculate(((reverse.getAsDouble() * -1) + forward.getAsDouble()) * .35);
+    double speed = speedFilter.calculate(((reverse.getAsDouble() * -1) + forward.getAsDouble()) * .37);
     double turnMultiplier = turn.getAsBoolean() ? .5 : 1;
-    double rotate = turnFilter.calculate(rotation.getAsDouble() * .5);
-    System.out.println(rotate);
-    drive.curvatureDrive(speed, rotate * turnMultiplier, turn.getAsBoolean());
-
-    if (turn.getAsBoolean()) {
-      drive.curvatureDrive(speed * .6, rotation.getAsDouble() * .2, turn.getAsBoolean());
-    } else {
-      drive.curvatureDrive(speed, rotate * turnMultiplier, turn.getAsBoolean());
-    }
+    double rotate = turnFilter.calculate(rotation.getAsDouble() * .75);
+    double turboNumber = turboFilter.calculate(turbo.getAsBoolean() ? 10 : 1);
+    drive.curvatureDrive(speed*turboNumber, rotate*turnMultiplier, turn.getAsBoolean());
+    // if (turn.getAsBoolean()) {
+    //   drive.curvatureDrive(speed*turboNumber, rotate, turn.getAsBoolean());
+    // } else {
+    //   drive.curvatureDrive(speed*turboNumber, rotate * turnMultiplier, turn.getAsBoolean());
+    // }
   }
+   
 }
 
 // @Override

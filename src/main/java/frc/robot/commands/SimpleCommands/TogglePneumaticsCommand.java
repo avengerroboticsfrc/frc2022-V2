@@ -5,6 +5,7 @@ import frc.robot.subsystems.Intake;
 
 public class TogglePneumaticsCommand extends CommandBase {
     private final Intake intake;
+    private int toggle;
 
   public TogglePneumaticsCommand(Intake intake) {
     this.intake = intake;
@@ -17,12 +18,18 @@ public class TogglePneumaticsCommand extends CommandBase {
 
   @Override
   public void execute() {
+    if(toggle == 1){
     intake.extend();
+    toggle = 0;
+    }else
+    {
+      intake.retract();
+      toggle = 1;
+    }
   }
 
   @Override
   public void end(boolean interrupted) {
-      intake.retract();
   }
 
   // Returns true when the command should end.
