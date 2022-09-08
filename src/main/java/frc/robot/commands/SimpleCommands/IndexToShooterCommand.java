@@ -5,11 +5,9 @@ import frc.robot.subsystems.IndexToShooter;
 
 public class IndexToShooterCommand extends CommandBase {
 
-  private final double power;
   private final IndexToShooter inShooter;
 
   public IndexToShooterCommand(IndexToShooter inShooter, double power) {
-    this.power = power;
     this.inShooter = inShooter;
     addRequirements(inShooter);
   }

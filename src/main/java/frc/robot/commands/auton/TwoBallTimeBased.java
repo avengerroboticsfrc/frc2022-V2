@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.ComplexCommands.DataTestingCommandGroup;
 import frc.robot.commands.ComplexCommands.PickUpBallCommandGroup;
-import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
 import frc.robot.commands.SimpleCommands.IntakeExtendCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Index;

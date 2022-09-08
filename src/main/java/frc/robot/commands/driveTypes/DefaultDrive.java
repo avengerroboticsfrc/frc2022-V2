@@ -1,5 +1,6 @@
 package frc.robot.commands.driveTypes;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 
@@ -39,5 +40,6 @@ public class DefaultDrive extends CommandBase {
   public void execute() {
     double scalar = turbo.getAsBoolean() ? 0.7 : 0.4;
     drive.tankDrive(left.getAsDouble() * -scalar, right.getAsDouble() * -scalar);
+    SmartDashboard.putNumber("DriveTrain Power", left.getAsDouble());
   }
 }

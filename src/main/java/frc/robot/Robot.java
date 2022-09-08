@@ -24,7 +24,7 @@ public class Robot extends TimedRobot {
   private Command autonomousCommand;
   private Command teleCommand;
   private RobotContainer robotContainer;
-  String trajectoryJSON = "src/main/deply/pathweaver";
+  String trajectoryJSON = "src/main/deploy/pathweaver";
   Trajectory trajectory = new Trajectory();
 
 
