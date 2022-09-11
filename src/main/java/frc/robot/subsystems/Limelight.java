@@ -3,10 +3,11 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
-  public final NetworkTable table;
+  public static NetworkTable table;
   // how many degrees back is your limelight rotated from perfectly vertical?
   private static final double LIMELIGHT_MOUNT_ANGLE_DEGREES = 35.00;
   // distance from the center of the Limelight lens to the floor
@@ -49,7 +50,18 @@ public class Limelight extends SubsystemBase {
   /**
    * Calculates the distance to the hub using the targetYOffset.
    */
-  public double getDistance() {
+  public static boolean getDistance() {
+    double targetOffsetAngle_Vertical = table.getEntry("ty").getDouble(0);
+
+    double angle = LIMELIGHT_MOUNT_ANGLE_DEGREES + targetOffsetAngle_Vertical;
+    double height = GOAL_HEIGHT_METERS - LIMELIGHT_LENS_HEIGHT_METERS;
+
+    // tan = opp / hypot; divide opp to get adj.
+    double distance = height / Math.tan(Math.toRadians(angle));
+    return SmartDashboard.putNumber("Distance To Hub", Units.metersToInches(distance));
+  }
+
+  public static double getDistanceDouble() {
     double targetOffsetAngle_Vertical = table.getEntry("ty").getDouble(0);
 
     double angle = LIMELIGHT_MOUNT_ANGLE_DEGREES + targetOffsetAngle_Vertical;
@@ -59,6 +71,7 @@ public class Limelight extends SubsystemBase {
     double distance = height / Math.tan(Math.toRadians(angle));
     return Units.metersToInches(distance);
   }
+
 
   public void disableLights() {
     // Disables LEDs

@@ -36,7 +36,7 @@ public class MoveAndTargetCommand extends CommandBase {
 
   @Override
   public void execute() {
-    double distanceM = limelight.getDistance();
+    double distanceM = Limelight.getDistanceDouble();
 
     // find the closest distance in our map to the distance from the hub.
     Double[] distances = (Double[]) distanceValues.keySet().toArray();

@@ -14,7 +14,6 @@ import frc.robot.commands.ComplexCommands.AllIndexCommand;
 import frc.robot.commands.ComplexCommands.DataTestingCommandGroup;
 import frc.robot.commands.ComplexCommands.IntakeToIndexCommandGroup;
 import frc.robot.commands.ComplexCommands.ShootBallCommandGroup;
-import frc.robot.commands.ComplexCommands.WrongBallCommandGroup;
 import frc.robot.commands.SimpleCommands.LiftCommand;
 import frc.robot.commands.SimpleCommands.TogglePneumaticsCommand;
 import frc.robot.constants.ButtonConstants;
@@ -94,7 +93,6 @@ public class RobotContainer {
     JoystickButton indexUp = new JoystickButton(buttonPanel, ButtonConstants.INDEX_UP);
     JoystickButton indexOut = new JoystickButton(buttonPanel, ButtonConstants.INDEX_OUT);
     JoystickButton shootButton = new JoystickButton(buttonPanel, 9);
-    JoystickButton shootWrongBall = new JoystickButton(buttonPanel, 10);
     JoystickButton shootFallback = new JoystickButton(buttonPanel, 11);
 
     raiseLift.whenHeld(new LiftCommand(lift, -1));
@@ -107,7 +105,6 @@ public class RobotContainer {
     indexOut.whenHeld(new AllIndexCommand(intakeToIndex, index, -0.5, -0.5));
     shootButton.whenHeld(
         new ShootBallCommandGroup(shooter, index, indexToShooter, limelight, 0.5, 0.5));
-    shootWrongBall.whenHeld(new WrongBallCommandGroup(shooter, index, indexToShooter, limelight, .5, .5, .3));
     shootFallback.whenHeld(new DataTestingCommandGroup(shooter, index, indexToShooter, limelight, .5, .5, .75));
   }
 
